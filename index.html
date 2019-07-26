@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+			mui.plusReady(function() {
+				var data = []
+				var obj = {
+					img: 'img/one.jpg',
+					title: '空间帆球',
+					content: '“北理工1号”卫星的总体研制机构北京理工大学介绍说，这颗科学技术验证卫星的个头很小，直径为500毫米，质量只有3公斤。但它将对创新性的“帆球技术”进行科研验证。？'
+				}
+				for (var i = 0; i < 10; i++) {
+					data.push(obj)
+				}
+				notifiULList(data)
+			});
+
+			function notifiULList(data) {
+				plus.nativeUI.closeWaiting();
+				var doc = document,
+					fragment = doc.createDocumentFragment(),
+					container = doc.getElementById("ul");
+				mui.each(data, function(i, item) {
+					notifiAndSetLiDetail(fragment, item);
+				});
+				container.appendChild(fragment);
+			}
+
+			function notifiAndSetLiDetail(fragment, item) {
+				var doc = document,
+					li = doc.createElement("li"),
+					a = doc.createElement("a"),
+					img = doc.createElement("img"),
+					div = doc.createElement("div"),
+					p = doc.createElement("p");
+				li.setAttribute("class", "mui-table-view-cell mui-media");
+				img.setAttribute("class", "mui-media-object mui-pull-left");
+				img.setAttribute("src", item.img);
+				div.setAttribute("class", "mui-media-body");
+				p.setAttribute("class", "mui-ellipsis");
+				p.setAttribute("style", "white-space: normal;")
+				div.innerText = item.title;
+				p.innerHTML = item.content;
+				li.appendChild(a);
+				a.appendChild(img);
+				a.appendChild(div);
+				div.appendChild(p);
+				fragment.appendChild(li);
+			}
+
+			function toLogin() {
+				mui.openWindow({
+					url: 'html/login/login.html',
+					id: 'login.html'
+				});
+			}
+
+
+			
+		</script>
+	</head>
+	<body style="background-color: #fff;">
+
+		<header class="mui-bar mui-bar-nav" style="background-color: red;">
+			<span class="mui-icon mui-icon mui-icon-gear" style="color: #242424;"></span>
+			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;">WingOn Reward</h1>
+			<!-- <button type="button" class="mui-btn" style="background-color: #ECEEEE;border: 0;">setting</button> -->
+
+		</header>
+
+		<div class="mui-content" style="display: flex;flex-direction: column;justify-content: flex-start;align-items: center;background-color:#FFFFFF;">
+			<div style="display: flex;flex-direction: row;justify-content: space-around;margin-top: 7%;width: 75%;">
+				<button type="button" class="mui-btn-blue" style="width: 42%;">Member<br />Registration</button>
+				<button type="button" class="mui-btn-blue" style="width: 42%;" onclick="toLogin()" id="loginBtn">Member<br />Login</button>
+			</div>
+			<span style="text-align: center;display: block;margin-top: 3%;font-size: 14px;">Need Help?</span>
+			<div style="margin-top: 5%;width: 90%;">
+				<h4 style="margin-bottom: 3%;">News / Lastest Offers</h4>
+				<ul class="mui-table-view" id="ul" style="margin-bottom: 5%;box-shadow: 0px 0px 5px #6D6D72;">
+				</ul>
+			</div>
+		</div>
+
+
+
+		<!-- <nav class="mui-bar mui-bar-tab" id="nav-tabbar">
+			<a class="mui-tab-item mui-active" id="home">
+				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item" id="phone">
+				<span class="mui-icon mui-icon-phone"></span>
+				<span class="mui-tab-label">电话</span>
+			</a>
+			<a class="mui-tab-item" id="email">
+				<span class="mui-icon mui-icon-email"></span>
+				<span class="mui-tab-label">邮件</span>
+			</a>
+			<a class="mui-tab-item" id="gear">
+				<span class="mui-icon mui-icon-gear"></span>
+				<span class="mui-tab-label">设置</span>
+			</a>
+		</nav>
+
+		<script>
+			var defaultpage = "html/home.html"; // 定义默认选项卡子页面
+			// 定义所有子页面
+			var subpages = ['html/home.html', 'html/phone.html', 'html/email.html', 'html/gear.html'];
+
+			// 页面加载完成后加载子页面
+			mui.plusReady(function() {
+				var current = plus.webview.currentWebview(); //获取当前页面的窗口对象
+
+				// 加载所有子页面
+				for (var i = 0; i < 5; i++) {
+					var sub = plus.webview.create(
+						subpages[i],
+						subpages[i], {
+							top: '0px',
+							bottom: '51px'
+						}
+					);
+					// 除默认页面外，其他子页面隐藏
+					if (subpages[i] != defaultpage) {
+						sub.hide();
+					}
+					current.append(sub); // 子页面加入窗口对象
+				}
+			});
+
+			// 创建点击事件
+			mui("#nav-tabbar").on("tap", "a", function(e) {
+				plus.webview.hide(defaultpage); // 隐藏上一个子页面
+				plus.webview.show("html/" + this.id + ".html") // 显示当前点击页面
+				defaultpage = "html/" + this.id + ".html"; // 记录当前点击页面
+			})
+		</script>
+
+ -->
+	</body>
+</html>

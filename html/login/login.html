@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.css" rel="stylesheet" />
+	</head>
+
+	<body style="background-color: #fff;">
+		<script src="../../js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			var picker = new mui.PopPicker();
+			picker.setData([{
+				value: "first",
+				text: "第一项"
+			}, {
+				value: "second",
+				text: "第一项"
+			}, {
+				value: "third",
+				text: "第三项"
+			}, {
+				value: "fourth",
+				text: "第四项"
+			}, {
+				value: "fifth",
+				text: "第五项"
+			}])
+			var clickSelect = document.getElementById('select');
+			clickSelect.addEventListener('tap', function(event) {
+				picker.pickers[0].setSelectedValue('fourth', 2000);
+				picker.show(function(SelectedItem) {
+					console.log(SelectedItem);
+				})
+			})
+		</script>
+		<header class="mui-bar mui-bar-nav" style="background-color: red;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;">WingOn Reward</h1>
+		</header>
+		<div class="mui-content" style="display: flex;flex-direction: column;justify-content: flex-start;align-items: center;background-color: #fff;">
+			<span style="text-align: center;display: block;margin-top: 5%;font-weight: 300;">Member Login</span>
+			<form class="mui-input-group">
+				<!-- <div style="width: 90%;"> -->
+				快速删除
+				<input type="text" class="mui-input-clear" placeholder="请选择" id="select">
+				<!-- </div> -->
+			</form>
+
+		</div>
+	</body>
+
+</html>
