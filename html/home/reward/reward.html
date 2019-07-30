@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../../css/mui.css" rel="stylesheet" />
+		
+		<style>
+			#barNav{
+				background-color: red;
+			}
+			#segmented a{
+				line-height: 25px;
+				width: 30%;
+				text-align: center;
+      		}
+			#item2,#item3{
+				margin-top: 20px;
+			}
+            .mui-table-view-cell:after {
+                height: 1px;
+                left: 0px;
+                right: 0px;
+                background: #080505;
+            }
+            #ul:before,#historyUl:before,#ul:after,#historyUl:after{
+	            background: #080505;
+            }
+		</style>
+	</head>
+
+	<body style="background-color: #FFFFFF;">
+		<script src="../../../js/mui.js"></script>
+		<script src="../../../js/echarts.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui.plusReady(function() {
+				//模拟Coupons列表数据
+				var data = []
+				var obj = {
+					title: 'Cash Coupon',
+					money: 25
+				}
+				for (var i = 1; i < 3; i++) {
+					data.push(obj)
+				}
+				notifiULList(data, 'ul')
+
+
+				//模拟History列表数据
+				var list = []
+				var obj2 = {
+					date: '28/8/2019',
+					money: '3,888.00',
+					nums: 2,
+					pt: '+3,888pt'
+				}
+				for (var i = 1; i < 3; i++) {
+					list.push(obj2)
+				}
+				notifiULList(list, 'historyUl')
+
+				// var pieChart = echarts.init(byId('pieChart'));
+				// pieChart.setOption(getOption('pie'));
+
+				var myChart = echarts.init(document.getElementById('pieChart'));
+				myChart.setOption({
+					series: [{
+						name: '访问来源',
+						type: 'pie',
+						radius: '55%',
+						data: [{
+								value: 235,
+								name: '视频广告'
+							},
+							{
+								value: 274,
+								name: '联盟广告'
+							},
+							{
+								value: 310,
+								name: '邮件营销'
+							},
+							{
+								value: 335,
+								name: '直接访问'
+							},
+							{
+								value: 400,
+								name: '搜索引擎'
+							}
+						]
+					}]
+				})
+
+			});
+			//遍历数组
+			function notifiULList(data, elm) {
+				plus.nativeUI.closeWaiting();
+				var doc = document,
+					fragment = doc.createDocumentFragment(),
+					container = doc.getElementById(elm);
+				mui.each(data, function(i, item) {
+					notifiAndSetLiDetail(fragment, item, elm);
+				});
+				container.appendChild(fragment);
+			}
+
+
+			function notifiAndSetLiDetail(fragment, item, elm) {
+				//My Coupons列表
+				var doc = document,
+					li = doc.createElement("li"),
+					a = doc.createElement("a");
+				li.setAttribute("class", "mui-table-view-cell mui-media");
+				a.setAttribute("class", "mui-navigate-right")
+				a.setAttribute("style",
+					"text-align: center;font-weight: bold;font-size: 20px;padding-right: 35px;white-space: normal;")
+				li.setAttribute("style",
+					"height: 150px;width: 100%;display: flex;flex-direction: column;justify-content: center;")
+				a.innerText = '$' + item.money + '  ' + item.title
+				li.appendChild(a);
+				fragment.appendChild(li);
+
+				//Transaction History列表
+				if (elm === 'historyUl') {
+					li.setAttribute("style", "height: 80px;;display: flex;flex-direction: column;justify-content: center;");
+					a.setAttribute("style", "text-align: center;font-size: 18px;padding-right: 35px;white-space: normal;")
+					if (item.nums) {
+						a.innerText = item.date + '  ' + '$' + item.money + '×' + item.nums + '  ' + item.pt
+					} else {
+						a.innerText = item.date + '  ' + '$' + item.money + '  ' + item.pt
+					}
+
+				}
+
+			}
+		</script>
+		<header class="mui-bar mui-bar-nav" id="barNav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title" style="color: #FFFFFF;">Rewards Wallet</h1>
+		</header>
+		<div class="mui-content" style="background-color: #FFFFFF;">
+
+
+			<div class="mui-content-padded" style="margin: 0;padding: 0;">
+				<div class="mui-segmented-control" id="segmented">
+					<a class="mui-control-item mui-active" href="#item1">Points<br />Balance</a>
+					<a class="mui-control-item" href="#item2">My<br />Coupons</a>
+					<a class="mui-control-item" href="#item3">Transaction<br />History</a>
+				</div>
+			</div>
+			<div id="item1" class="mui-control-content mui-active">
+				<div class="mui-content-padded" >
+					<div class="chart" id="pieChart" style="width:250px;height:250px;"></div>
+				</div>
+			</div>
+			<div id="item2" class="mui-control-content">
+				<ul class="mui-table-view" id="ul"></ul>
+			</div>
+
+			<div id="item3" class="mui-control-content">
+				<ul class="mui-table-view" id="historyUl"></ul>
+			</div>
+		</div>
+	</body>
+
+</html>

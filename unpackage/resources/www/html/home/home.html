@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.css" rel="stylesheet" />
+
+		<style>
+			html,body {
+				height: 100%;
+				width: 100%;
+				padding: 0px;
+				margin: 0px;
+			}
+			#btns{
+				display: flex;
+				flex-direction: row;
+				justify-content: space-around;
+				align-items: center;
+				height: 100px;
+				margin-bottom: 10px;
+				width: 100%;
+			}
+			.mui-content{
+				display: flex;
+				flex-direction: column;
+				justify-content: space-around;
+				align-items: center;
+				background-color: #fff;
+				width: 100%;
+			}
+			
+			#btns button{
+				width: 27%;height: 60%;
+			}
+			#topContent{
+			height: 70px;
+				width: 90%;
+				margin-top: 20px;
+			}
+			header img{
+				width: 45px;
+				height: 45px;
+			}
+		</style>
+
+
+	</head>
+
+	<body style="background-color: #fff;">
+		<script src="../../js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui.plusReady(function() {
+				var userName = document.getElementById('userName');
+				userName.innerHTML = 'Hi, David'
+
+				var points = document.getElementById('points');
+				points.innerHTML = '338,800'
+
+				//模拟列表数据
+				var data = []
+				var obj = {
+					img: '../../img/one.jpg',
+					title: '空间帆球',
+					content: '“北理工1号”卫星的总体研制机构北京理工大学介绍说，这颗科学技术验证卫星的个头很小，直径为500毫米，质量只有3公斤。但它将对创新性的“帆球技术”进行科研验证。？'
+				}
+				for (var i = 0; i < 10; i++) {
+					data.push(obj)
+				}
+				notifiULList(data)
+			})
+
+			function notifiULList(data) {
+				plus.nativeUI.closeWaiting();
+				var doc = document,
+					fragment = doc.createDocumentFragment(),
+					container = doc.getElementById("ul");
+				//遍历数组
+				mui.each(data, function(i, item) {
+					notifiAndSetLiDetail(fragment, item);
+				});
+				container.appendChild(fragment);
+			}
+
+			function notifiAndSetLiDetail(fragment, item) {
+				var doc = document,
+					li = doc.createElement("li"),
+					a = doc.createElement("a"),
+					img = doc.createElement("img"),
+					div = doc.createElement("div"),
+					p = doc.createElement("p");
+				li.setAttribute("class", "mui-table-view-cell mui-media");
+				img.setAttribute("class", "mui-media-object mui-pull-left");
+				img.setAttribute("src", item.img);
+				div.setAttribute("class", "mui-media-body");
+				p.setAttribute("class", "mui-ellipsis");
+				p.setAttribute("style", "white-space: normal;")
+				div.innerText = item.title;
+				p.innerHTML = item.content;
+				li.appendChild(a);
+				a.appendChild(img);
+				a.appendChild(div);
+				div.appendChild(p);
+				fragment.appendChild(li);
+			}
+		</script>
+
+		<header class="mui-bar mui-bar-nav" style="background-color: red;">
+			<span class="mui-icon  mui-icon-bars" style="color:#fff;"></span>
+			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;">WingOn Reward</h1>
+			<img  src="../../img/code1.png" class="mui-pull-right mui-icon mui-icon-bars"/>
+		</header>
+
+		<div class="mui-content">
+			<div id="topContent">
+				<div>
+					<a style="font-size: 22px;color: #000000;font-weight: bold;" id="userName"></a>
+					<span class="mui-icon mui-icon-forward" style="color: #6D6D72;"></span>
+				</div>
+
+				<div style="margin-top:10px;">
+					<a style="font-size: 18px;color: #000000;">Reward Points :</a>
+					<a style="font-size: 20px;color: #000000;font-weight: bold;" id="points"></a>
+					<span class="mui-icon mui-icon-forward" style="color: #6D6D72;"></span>
+				</div>
+			</div>
+
+			<div id="btns">
+				<button type="button" class="mui-btn-blue">Rewards<br />Wallet</button>
+				<button type="button" class="mui-btn-blue">Transaction<br />History</button>
+				<button type="button" class="mui-btn-blue">Lucky Draw</button>
+			</div>
+
+			<div style="width: 90%;">
+				<h4 style="margin-bottom: 3%;">News / Lastest Offers</h4>
+				<ul class="mui-table-view" id="ul" style="margin-bottom: 5%;box-shadow: 0px 0px 5px #6D6D72;">
+				</ul>
+			</div>
+
+		</div>
+
+	</body>
+
+</html>
