@@ -59,38 +59,13 @@
         }]
       })
 
-      function test() {
-        console.log('id222');
-      }
-
-
-
-
-
       mui.plusReady(function() {
 
-
-        var userName = document.getElementById('userName');
-        userName.innerHTML = 'Hi, David'
-
-        var points = document.getElementById('points');
-        points.innerHTML = '338,800'
-
-        //模拟列表数据
-        var data = []
-
-        for (var i = 0; i < 10; i++) {
-          var obj = {
-            id: i,
-            img: '../../img/one.jpg',
-            title: '空间帆球' + i,
-            content: '“北理工1号”卫星的总体研制机构北京理工大学介绍说，这颗科学技术验证卫星的个头很小，直径为500毫米，质量只有3公斤。但它将对创新性的“帆球技术”进行科研验证。？'
-          }
-          data.push(obj);
-        }
-        notifiULList(data)
-
-
+		var customerId = plus.storage.getItem('customerId');
+		getCustomerInfo(customerId);
+		getNewsInfo();
+		
+   
         var detailPage = null;
         //添加列表项的点击事件
         mui(".mui-table-view").on('tap', 'li', function() {
@@ -113,41 +88,164 @@
 
 
       })
+	  
+	  	  function getCustomerInfo(customerId) {
+				
+	  		  var url = 'http://172.30.20.134:8080/api/v1/customer/info/'+ customerId;
+	  		  mui.ajax(url,{
+	  		  	data:{
+	  		  		
+	  		  	},
+	  		  	headers:{
+	  		  		'Accept-Language' : "en",
+	  				'Authentication' : plus.storage.getItem('Authentication'),
+	  		  	},
+	  		  	dataType:'json',
+	  		  	type:'get',
+	  		  	timeout:10000,
+	  		  	success:function(result){
+	  					if(result.code == 200){
+	  						var data = result.data;
 
-      function notifiULList(data) {
+							var accessToken = data.accessToken;
+							if(accessToken.bearerToken == plus.storage.getItem('Authentication')){
+								var customer = data.customer;
+								var address = data.address;
+								var balanceVo = data.balanceVo;
+								notifiUL(customer,address,balanceVo);
+							}else{
+								mui.toast("accessToken not match,login again");
+								mui.openWindow({
+								  url: '../login/login.html',
+								  id: 'login.html'
+								});
+							}
+
+	  
+	  						
+	  					}else{
+							mui.toast(result.msg);
+						}
+	  				
+	  		  	},
+	  		  	error:function(xhr,type,errorThrown){
+	  		  		mui.toast("error, type="+type+" "+xhr);
+	  		  	} 
+	  		  });
+	  }
+	  function getNewsInfo() {
+		  mui.ajax('http://172.30.20.134:8080/api/v1/promotion/list/'+ 1 +"/"+2,{
+		  	data:{
+		  		
+		  	},
+		  	headers:{
+		  		lang : "en"
+		  	},
+		  	dataType:'json',
+		  	type:'get',
+		  	success:function(result){
+				if(result.code == 200){
+					var data = result.data;
+					notifiPromotionList(data.list);
+					}else{
+							mui.toast(result.msg);
+						}
+		  		
+		  	}
+		  });
+		  mui.ajax('http://172.30.20.134:8080/api/v1/inbox/list/'+ 1 +"/"+2,{
+		  	data:{
+		  		
+		  	},
+		  	headers:{
+		  		lang : "en"
+		  	},
+		  	dataType:'json',
+		  	type:'get',
+		  	success:function(result){
+		  				if(result.code == 200){
+		  					var data = result.data;
+		  					notifiInboxList(data.list);
+		  					}else{
+		  							mui.toast(result.msg);
+		  						}
+		  		
+		  	}
+		  });
+	}
+	  
+
+      function notifiUL(customer,address,balanceVo) {
         plus.nativeUI.closeWaiting();
-        var doc = document,
-          fragment = doc.createDocumentFragment(),
-          container = doc.getElementById("ul");
-        //遍历数组
-        mui.each(data, function(i, item) {
-          notifiAndSetLiDetail(fragment, item);
-        });
-        container.appendChild(fragment);
+       var userName = document.getElementById('userName');
+       userName.innerHTML = 'Hi, '+customer.firstName;
+       
+       var points = document.getElementById('points');
+       points.innerHTML = balanceVo.balance;
       }
+	  
+	  function notifiPromotionList(data) {
+	  	plus.nativeUI.closeWaiting();
+	  	var doc = document,
+	  		fragment = doc.createDocumentFragment(),
+	  		container = doc.getElementById("promotion");
+	  	//遍历数组
+	  	mui.each(data, function(i, item) {
+			var doc = document,
+			  li = doc.createElement("li"),
+			  a = doc.createElement("a"),
+			  img = doc.createElement("img"),
+			  div = doc.createElement("div"),
+			  p = doc.createElement("p");
+			li.setAttribute("class", "mui-table-view-cell mui-media");
+			//把对象的ID赋给li的属性id,以便点击每个li的时候可以获取对象的id作为参数传到详情页,然后根据id查询
+			li.setAttribute("id", item.id)
+			img.setAttribute("style", "width: 100%;height: 160px;background-size: cover;")
+			img.setAttribute("src", item.thumbnailImage);
+			div.setAttribute("class", "mui-media-body");
+			p.setAttribute("class", ".mui-ellipsis");
+			p.setAttribute("style", "white-space: normal;")
+			div.innerText = item.titleEn;
+			p.innerHTML = item.descriptionEn;
+			li.appendChild(a);
+			a.appendChild(img);
+			a.appendChild(div);
+			div.appendChild(p);
+			fragment.appendChild(li);
+	  	});
+	  	container.appendChild(fragment);
+	  }
 
-      function notifiAndSetLiDetail(fragment, item) {
-        var doc = document,
-          li = doc.createElement("li"),
-          a = doc.createElement("a"),
-          img = doc.createElement("img"),
-          div = doc.createElement("div"),
-          p = doc.createElement("p");
-        li.setAttribute("class", "mui-table-view-cell mui-media");
-        //把对象的ID赋给li的属性id,以便点击每个li的时候可以获取对象的id作为参数传到详情页,然后根据id查询
-        li.setAttribute("id", item.id)
-        img.setAttribute("class", "mui-media-object mui-pull-left");
-        img.setAttribute("src", item.img);
-        div.setAttribute("class", "mui-media-body");
-        p.setAttribute("class", "mui-ellipsis");
-        p.setAttribute("style", "white-space: normal;")
-        div.innerText = item.title;
-        p.innerHTML = item.content;
-        li.appendChild(a);
-        a.appendChild(img);
-        a.appendChild(div);
-        div.appendChild(p);
-        fragment.appendChild(li);
+      function notifiInboxList(data) {
+      	plus.nativeUI.closeWaiting();
+      	var doc = document,
+      		fragment = doc.createDocumentFragment(),
+      		container = doc.getElementById("inbox");
+      	//遍历数组
+      	mui.each(data, function(i, item) {
+      			var doc = document,
+      			  li = doc.createElement("li"),
+      			  a = doc.createElement("a"),
+      			  img = doc.createElement("img"),
+      			  div = doc.createElement("div"),
+      			  p = doc.createElement("p");
+      			li.setAttribute("class", "mui-table-view-cell mui-media");
+      			//把对象的ID赋给li的属性id,以便点击每个li的时候可以获取对象的id作为参数传到详情页,然后根据id查询
+      			li.setAttribute("id", item.id)
+      			img.setAttribute("style", "width: 100%;height: 160px;background-size: cover;")
+      			img.setAttribute("src", item.image);
+      			div.setAttribute("class", "mui-media-body");
+      			p.setAttribute("class", ".mui-ellipsis");
+      			p.setAttribute("style", "white-space: normal;")
+      			div.innerText = item.titleEn;
+      			p.innerHTML = item.subtitleEn;
+      			li.appendChild(a);
+      			a.appendChild(img);
+      			a.appendChild(div);
+      			div.appendChild(p);
+      			fragment.appendChild(li);
+      	});
+      	container.appendChild(fragment);
       }
 
       function toSetting() {
@@ -191,43 +289,15 @@
         <button type="button" class="mui-btn-blue">Lucky Draw</button>
       </div>
 
-      <div style="width: 90%;">
-        <h4 style="margin-bottom: 3%;">News / Lastest Offers</h4>
-        <ul class="mui-table-view" id="ul" style="margin-bottom: 5%;box-shadow: 0px 0px 5px #6D6D72;">
-        </ul>
-        <!--  <ul class="mui-table-view">
-          <li class="mui-table-view-cell mui-media" onclick="test(this)">
-            <a href="javascript:;">
-              <img class="mui-media-object mui-pull-left" src="">
-              <div class="mui-media-body">
-                幸福
-                <p class="mui-ellipsis">能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
-              </div>
-            </a>
-          </li>
-          <li class="mui-table-view-cell mui-media">
-            <a href="javascript:;">
-              <img class="mui-media-object mui-pull-left" src="">
-              <div class="mui-media-body">
-                木屋
-                <p class="mui-ellipsis">想要这样一间小木屋，夏天挫冰吃瓜，冬天围炉取暖.</p>
-              </div>
-            </a>
-          </li>
-          <li class="mui-table-view-cell mui-media">
-            <a href="javascript:;">
-              <img class="mui-media-object mui-pull-left" src="">
-              <div class="mui-media-body">
-                CBD
-                <p class="mui-ellipsis">烤炉模式的城，到黄昏，如同打翻的调色盘一般.</p>
-              </div>
-            </a>
-          </li>
-        </ul> -->
+      <div style="margin-top: 5%;width: 90%;">
+      	<h4 style="margin-bottom: 3%;">News / Lastest Offers</h4>
+      	<ul class="mui-table-view" id="promotion" style="margin-bottom: 5%;box-shadow: 0px 0px 5px #6D6D72;">
+      	</ul>
+		<ul class="mui-table-view" id="inbox" style="margin-bottom: 5%;box-shadow: 0px 0px 5px #6D6D72;">
+		</ul>
       </div>
 
     </div>
 
   </body>
-
 </html>
