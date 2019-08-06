@@ -7,21 +7,58 @@
 		<script src="js/mui.min.js"></script>
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<script type="text/javascript" charset="utf-8">
+			(function($) {
+				$.init({
+					swipeBack:true //启用右滑关闭功能
+				});
+			})(mui);
 			mui.init();
 			mui.plusReady(function() {
-				//模拟列表数据
-				var data = []
-				var obj = {
-					img: 'img/one.jpg',
-					title: '空间帆球',
-					content: '“北理工1号”卫星的总体研制机构北京理工大学介绍说，这颗科学技术验证卫星的个头很小，直径为500毫米，质量只有3公斤。但它将对创新性的“帆球技术”进行科研验证。？'
-				}
-				for (var i = 0; i < 10; i++) {
-					data.push(obj)
-				}
-				notifiULList(data)
-			});
+-				//妯℃嫙鍒楄〃鏁版嵁
+-				var data = []
+-				var obj = {
+-					img: 'img/one.jpg',
+-					title: '绌洪棿甯嗙悆',
+-					content: '鈥滃寳鐞嗗伐1鍙封€濆崼鏄熺殑鎬讳綋鐮斿埗鏈烘瀯鍖椾含鐞嗗伐澶у­︿粙缁嶈¯达紝杩欓¢楃§戝­︽妧鏈¯楠岃瘉鍗«鏄熺殑涓ª澶村緢灏忥紝鐩村緞涓º500姣«绫筹紝璐ㄩ噺鍙ª鏈3鍏¬鏂ゃ€備絾瀹冨皢瀵瑰垱鏂版€х殑鈥滃竼鐞冩妧鏈¯鈥濊繘琛岀§戠爺楠岃瘉銆傦紵'
+-				}
+-				for (var i = 0; i < 10; i++) {
+-					data.push(obj)
+-				}
+-				notifiULList(data)
++
++				
++				
++			});
 
+			mui.plusReady(function() {
+
+				
+				
+			});
+			// mui.get('http://localhost:8080/api/v1/promotion/list/{en}/{1}/{1}',{
+			// 	},function(data){
+			// 		
+			// 	},'json'
+			// );
+			
+			mui.ajax('http://localhost:8080/api/v1/promotion/list/'+ 1 +"/"+10,{
+				data:{
+					
+				},
+				headers:{
+					lang : "en"
+				},
+				dataType:'json',
+				type:'get',
+				timeout:10000,
+				success:function(data){
+					mui.toast(data.code);
+					notifiULList(data.data.list);
+				},
+				error:function(xhr,type,errorThrown){
+					
+				}
+			});
 			function notifiULList(data) {
 				plus.nativeUI.closeWaiting();
 				var doc = document,
@@ -29,7 +66,7 @@
 					container = doc.getElementById("ul");
 				//遍历数组
 				mui.each(data, function(i, item) {
-					notifiAndSetLiDetail(fragment, item);
+					notifiAndSetLiDetail(fragment, item); 
 				});
 				container.appendChild(fragment);
 			}
@@ -93,7 +130,7 @@
 
 
 
-		<!-- <nav class="mui-bar mui-bar-tab" id="nav-tabbar">
+		<nav class="mui-bar mui-bar-tab" id="nav-tabbar">
 			<a class="mui-tab-item mui-active" id="home">
 				<span class="mui-icon mui-icon-home"></span>
 				<span class="mui-tab-label">首页</span>
@@ -146,6 +183,6 @@
 			})
 		</script>
 
- -->
+
 	</body>
 </html>
