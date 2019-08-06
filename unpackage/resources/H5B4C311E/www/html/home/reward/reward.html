@@ -114,6 +114,35 @@
         rewardPoint.innerText = Points
 
       });
+	  function getCustomerRewardCoupon(customerId,pageNum,pageSize) {
+	  				
+	  		  var url = 'http://172.30.20.134:8080/api/v1/customer/couponList/'+ customerId +"/"+ pageNum +"/"+ pageSize;
+	  		  mui.ajax(url,{
+	  		  	data:{
+	  		  		
+	  		  	},
+	  		  	headers:{
+	  		  		'Accept-Language' : "en",
+	  				'Authentication' : plus.storage.getItem('Authentication'),
+	  		  	},
+	  		  	dataType:'json',
+	  		  	type:'get',
+	  		  	timeout:10000,
+	  		  	success:function(result){
+	  					if(result.code == 200){
+	  						var data = result.data;
+							notifiULList(data.list, 'coupon');
+
+	  					}else{
+	  							mui.toast(result.msg);
+	  						}
+	  				
+	  		  	},
+	  		  	error:function(xhr,type,errorThrown){
+	  		  		mui.toast("error, type="+type+" "+xhr);
+	  		  	} 
+	  		  });
+	  }
       //遍历数组
       function notifiULList(data, elm) {
         plus.nativeUI.closeWaiting();
@@ -126,39 +155,44 @@
         container.appendChild(fragment);
       }
 
-
       function notifiAndSetLiDetail(fragment, item, elm) {
-        //My Coupons列表
-        var doc = document,
-          li = doc.createElement("li"),
-          a = doc.createElement("a");
-        li.setAttribute("class", "mui-table-view-cell mui-media");
-        a.setAttribute("class", "mui-navigate-right")
-        a.setAttribute("style",
-          "text-align: center;font-weight: bold;font-size: 20px;padding-right: 35px;white-space: normal;")
-        li.setAttribute("style",
-          "height: 150px;width: 100%;display: flex;flex-direction: column;justify-content: center;")
-        a.innerText = '$' + item.money + '  ' + item.title
+		  var doc = document,
+		    li = doc.createElement("li"),
+		    a = doc.createElement("a");
+		  li.setAttribute("class", "mui-table-view-cell mui-media");
+		  a.setAttribute("class", "mui-navigate-right")
+		  a.setAttribute("style",
+		    "text-align: center;font-weight: bold;font-size: 20px;padding-right: 35px;white-space: normal;")
+		  li.setAttribute("style",
+		    "height: 150px;width: 100%;display: flex;flex-direction: column;justify-content: center;")
+			
+		  if (elm === 'coupon'){
+			  //My Coupons列表
+			  a.innerText = '$' + item.money + '  ' + item.title
+		  }else if (elm === 'historyUl'){
+			  //Transaction History列表
+			  li.setAttribute("style", "height: 80px;;display: flex;flex-direction: column;justify-content: center;");
+			  a.setAttribute("style", "text-align: center;font-size: 18px;padding-right: 35px;white-space: normal;")
+			  if (item.nums) {
+			    a.innerText = item.date + '  ' + '$' + item.money + '×' + item.nums + '  ' + item.pt
+			  } else {
+			    a.innerText = item.date + '  ' + '$' + item.money + '  ' + item.pt
+			  }
+		  }
+        
         li.appendChild(a);
         fragment.appendChild(li);
 
-        //Transaction History列表
-        if (elm === 'historyUl') {
-          li.setAttribute("style", "height: 80px;;display: flex;flex-direction: column;justify-content: center;");
-          a.setAttribute("style", "text-align: center;font-size: 18px;padding-right: 35px;white-space: normal;")
-          if (item.nums) {
-            a.innerText = item.date + '  ' + '$' + item.money + '×' + item.nums + '  ' + item.pt
-          } else {
-            a.innerText = item.date + '  ' + '$' + item.money + '  ' + item.pt
-          }
-
-        }
-
       }
+	  
+	  function toCoupons(){
+		  mui.openWindow('./coupons.html','coupons.html')
+	  }
+	  
     </script>
     <header class="mui-bar mui-bar-nav" id="barNav">
       <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
-      <h1 class="mui-title" style="color: #FFFFFF;">Rewards Wallet</h1>
+      <h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">Rewards Wallet</h1>
     </header>
     <div class="mui-content" style="background-color: #FFFFFF;height: 100%;">
 
@@ -179,7 +213,7 @@
           </div>
           <div id="bottomBtns">
             <button type="button" class="mui-btn-blue" >Get More<br />Points</button>
-            <button type="button" class="mui-btn-blue">Redeem<br />Cash Coupons</button>
+            <button type="button" class="mui-btn-blue" onclick="toCoupons()">Redeem<br />Cash Coupons</button>
             <button type="button" class="mui-btn-blue" >Referral<br />Program</button>
           </div>
         </div>

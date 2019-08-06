@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.css" rel="stylesheet" />
+		<style>
+			#qrcode{
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: center;
+				background-color: #FFFFFF;
+				width:70%;
+				height:45%;
+			}
+			.mui-content{
+			    display: flex;
+				flex-direction: column;
+				justify-content: space-around;
+				align-items: center;
+				height: 100%;
+			}
+			body,html{
+				height: 100%;
+				width: 100%;
+			}
+			#number{
+				text-align: center;
+				display: block;
+				margin-top: 20px;
+				font-weight: bold;
+				font-size: 18px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<script src="../../js/mui.js"></script>
+		<script src="../../js/qrcode.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui.plusReady(function() {
+				var qrcode = new QRCode(document.getElementById("qrcode"), {
+					text: "http://www.runoob.com",
+					width: 165,
+					height: 165,
+					colorDark: "#000000",
+					colorLight: "#ffffff",
+					correctLevel: QRCode.CorrectLevel.H
+				});
+			})
+		</script>
+		<header class="mui-bar mui-bar-nav" style="background-color: red;">
+			<a class="mui-icon mui-icon-bars mui-pull-left" style="color:#fff;"></a>
+			<h1 class="mui-title mui-action-back" style="color: #FFFFFF;font-weight: bold; font-size: 20px;">My Passport</h1>
+		</header>
+		<div class="mui-content">
+			<h4>Scan to Pay and Redeem ePoint</h4>
+			<div id="qrcode"></div>
+			<div>
+				<span style="display: block;">My MemberShip Number</span>
+				<span id="number">17724242785</span>
+			</div>
+		</div>
+	</body>
+
+</html>

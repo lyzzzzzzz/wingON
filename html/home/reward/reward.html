@@ -184,6 +184,11 @@
         fragment.appendChild(li);
 
       }
+	  
+	  function toCoupons(){
+		  mui.openWindow('./coupons.html','coupons.html')
+	  }
+	  
     </script>
     <header class="mui-bar mui-bar-nav" id="barNav">
       <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
@@ -208,7 +213,7 @@
           </div>
           <div id="bottomBtns">
             <button type="button" class="mui-btn-blue" >Get More<br />Points</button>
-            <button type="button" class="mui-btn-blue">Redeem<br />Cash Coupons</button>
+            <button type="button" class="mui-btn-blue" onclick="toCoupons()">Redeem<br />Cash Coupons</button>
             <button type="button" class="mui-btn-blue" >Referral<br />Program</button>
           </div>
         </div>

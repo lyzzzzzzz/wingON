@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../../css/mui.css" rel="stylesheet" />
+		<style>
+			html,body{
+				height: 100%;
+				width: 100%;
+				margin: 0px;
+				padding: 0px;
+			}
+		.mui-content{
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			align-items: center;
+			height: 100%;
+		}
+		#ePointDiv{
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+			font-size: 18px;
+			background-color: #FFFFFF;
+			height:14% ;
+			width: 100%;
+			/* margin-bottom: 20px; */
+		}
+		</style>
+	</head>
+
+	<body>
+		<script src="../../../js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui.plusReady(function() {
+				
+				var ePoint = document.getElementById('ePoint')
+				ePoint.innerHTML = '2,500'
+
+				var couponPoint = document.getElementById('couponPoint')
+				couponPoint.innerHTML = '5,000' + ' Points'
+
+				var content = document.getElementById('content')
+				content.innerHTML = '规格已个我很后悔规格已个我很后悔规格已个我很后悔规格已个我很后悔规格已个我很后悔规格已个我很后悔规格已个我很后悔规格已个我很后悔规格已个我很后悔'
+
+				var tips = document.getElementById('tips')
+				tips.innerHTML = '*规格已个我很后悔规格已个我很后悔规格已个我很后悔规格已个我很后悔规格已个我很后悔规格已个我很后悔规格已个我很后悔规格已个我很后悔规格已个我很后悔'
+				//mui('#bottomNum').numbox().getValue()
+		      
+			  
+		
+		
+			})
+			
+			
+			//  var bottomNum=document.getElementById('bottomNum')
+			// bottomNum.innerText= mui('.mui-numbox').numbox().getValue()
+			
+		</script>
+		<header class="mui-bar mui-bar-nav" style="background-color: red;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title" style="font-size: 20px;font-weight: bold;color: #FFFFFF;">Rewards</h1>
+		</header>
+		<div class="mui-content">
+			<div id="ePointDiv">
+				<span style="padding-right: 7px;">My ePoint</span>
+				<span id="ePoint" style="color: #9C1414;font-weight: bold;font-size: 20px;"></span>
+				<span style="padding-left: 7px;">ePoints</span>
+			</div>
+			<div style="width: 90%;">
+				<div style="font-size: 15px;">
+					<span style="font-weight: bold;color: #333333;">HK$25 Wing On e-Cash CouPon</span>
+					<span id="couponPoint" style="color: #6D6D72;font-weight: bold;"></span>
+				</div>
+
+				<div style="margin-top: 20px;">
+					<span style="font-weight: bold;text-decoration: underline;">CouPon will be expired in 14 days</span>
+				</div>
+
+				<div style="margin-top: 20px;">
+					<p id="content" style="word-wrap: break-word;font-size: 16px;color: #000000;color: #333333;"></p>
+				</div>
+
+				<div style="margin-top: 20px;">
+					<p id="tips" style="word-wrap: break-word;font-size: 16px;color: #000000;color: #333333;"></p>
+				</div>
+			</div>
+			<!-- <div style="width: 90%;">
+				<hr style="color: #8F8F94;"/>
+				<span>Number of coupons</span>
+				<span id="bottomNum" class="mui-numbox-input"></span>
+				<div class="mui-numbox" data-numbox-step='1' data-numbox-min='0' data-numbox-max='100' style="border-width: 0px;">
+					
+					<button class="mui-btn mui-numbox-btn-minus" type="button">-</button>
+					<button class="mui-btn mui-numbox-btn-plus" type="button">+</button>
+				 </div> 
+			</div>
+			 -->
+
+		</div>
+	</body>
+
+</html>
