@@ -31,6 +31,42 @@
 			width: 100%;
 			/* margin-bottom: 20px; */
 		}
+		#footer{
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+			align-items: center;
+			width: 90%;
+			height: 20%;
+		}
+		
+		#numberBox{
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+			width: 100%;
+		}
+		.mui-numbox-btn-minus{
+			border-bottom-left-radius: 25px;
+			border-top-left-radius: 25px;
+			width: 40px;
+			background-color: #FAC3C3;
+		}
+		
+		.mui-numbox-btn-plus{
+			border-bottom-right-radius: 25px;
+			border-top-right-radius: 25px;
+			width: 40px;
+			background-color: #FAC3C3;
+		}
+		.mui-btn{
+			color: #FFFFFF;
+			border-color: pink;
+			font-weight: bold;
+			font-size: 16px;
+		}
+		
 		</style>
 	</head>
 
@@ -39,7 +75,7 @@
 		<script type="text/javascript">
 			mui.init()
 			mui.plusReady(function() {
-				
+
 				var ePoint = document.getElementById('ePoint')
 				ePoint.innerHTML = '2,500'
 
@@ -52,16 +88,23 @@
 				var tips = document.getElementById('tips')
 				tips.innerHTML = '*规格已个我很后悔规格已个我很后悔规格已个我很后悔规格已个我很后悔规格已个我很后悔规格已个我很后悔规格已个我很后悔规格已个我很后悔规格已个我很后悔'
 				//mui('#bottomNum').numbox().getValue()
-		      
-			  
-		
-		
-			})
-			
-			
-			//  var bottomNum=document.getElementById('bottomNum')
-			// bottomNum.innerText= mui('.mui-numbox').numbox().getValue()
-			
+
+				var bottomNum = document.getElementById('bottomNum')
+				bottomNum.innerText = 0
+
+				mui('#numberBox').on('tap', '.mui-numbox-btn-minus', function() {
+					if (parseInt(bottomNum.innerText) == 0) {
+						bottomNum.setAttribute('disabled', 'disabled')
+					} else {
+						bottomNum.innerText = parseInt(bottomNum.innerText) - 1
+					}
+
+				})
+
+				mui('#numberBox').on('tap', '.mui-numbox-btn-plus', function() {
+					bottomNum.innerText = parseInt(bottomNum.innerText) + 1
+				});
+			});
 		</script>
 		<header class="mui-bar mui-bar-nav" style="background-color: red;">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
@@ -70,7 +113,7 @@
 		<div class="mui-content">
 			<div id="ePointDiv">
 				<span style="padding-right: 7px;">My ePoint</span>
-				<span id="ePoint" style="color: #9C1414;font-weight: bold;font-size: 20px;"></span>
+				<span id="ePoint" style="color: #9C1414;font-weight: 900;font-size: 20px;"></span>
 				<span style="padding-left: 7px;">ePoints</span>
 			</div>
 			<div style="width: 90%;">
@@ -91,17 +134,26 @@
 					<p id="tips" style="word-wrap: break-word;font-size: 16px;color: #000000;color: #333333;"></p>
 				</div>
 			</div>
-			<!-- <div style="width: 90%;">
-				<hr style="color: #8F8F94;"/>
-				<span>Number of coupons</span>
-				<span id="bottomNum" class="mui-numbox-input"></span>
-				<div class="mui-numbox" data-numbox-step='1' data-numbox-min='0' data-numbox-max='100' style="border-width: 0px;">
-					
-					<button class="mui-btn mui-numbox-btn-minus" type="button">-</button>
-					<button class="mui-btn mui-numbox-btn-plus" type="button">+</button>
-				 </div> 
+			<div id="footer">
+				<div style="width: 100%;">
+					<hr style="color: #8F8F94;" style="width: 100%;" />
+				</div>
+
+				<div>
+					<span>Number of coupons</span>
+					<span id="bottomNum" style="font-weight: bold;font-size: 20px;"></span>
+				</div>
+
+				<div id="numberBox">
+					<div>
+						<button class="mui-btn mui-numbox-btn-minus" type="button">-</button>
+						<button class="mui-btn mui-numbox-btn-plus" type="button">+</button>
+					</div>
+					<button class="mui-btn" type="button" style="background-color:#E8ADAD ;height: 45px;width: 50%;font-size: 18px;text-align: center;">Redeem</button>
+				</div>
+
 			</div>
-			 -->
+
 
 		</div>
 	</body>
