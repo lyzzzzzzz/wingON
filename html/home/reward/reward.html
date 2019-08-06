@@ -51,30 +51,14 @@
     <script type="text/javascript">
       mui.init()
       mui.plusReady(function() {
-        //模拟Coupons列表数据
-        var data = []
-        var obj = {
-          title: 'Cash Coupon',
-          money: 25
-        }
-        for (var i = 1; i < 3; i++) {
-          data.push(obj)
-        }
-        notifiULList(data, 'ul')
+		  
+		var customerId = plus.storage.getItem('customerId');
+        //Coupons列表数据
+        getCustomerRewardCoupon(customerId,1,20);
 
 
         //模拟History列表数据
-        var list = []
-        var obj2 = {
-          date: '28/8/2019',
-          money: '3,888.00',
-          nums: 2,
-          pt: '+3,888pt'
-        }
-        for (var i = 1; i < 3; i++) {
-          list.push(obj2)
-        }
-        notifiULList(list, 'historyUl')
+        getCustomerTransaction(customerId,1,20);
 
 
         //饼图
@@ -132,7 +116,35 @@
 	  					if(result.code == 200){
 	  						var data = result.data;
 							notifiULList(data.list, 'coupon');
-
+	  					}else{
+	  							mui.toast(result.msg);
+	  						}
+	  				
+	  		  	},
+	  		  	error:function(xhr,type,errorThrown){
+	  		  		mui.toast("error, type="+type+" "+xhr);
+	  		  	} 
+	  		  });
+	  }
+	  function getCustomerTransaction(customerId,pageNum,pageSize) {
+	  				
+	  		  var url = 'http://172.30.20.134:8080/api/v1/customer/transactionList/'+ customerId +"/"+ pageNum +"/"+ pageSize;
+	  		  mui.ajax(url,{
+	  		  	data:{
+	  		  		
+	  		  	},
+	  		  	headers:{
+	  		  		'Accept-Language' : "en",
+	  				'Authentication' : plus.storage.getItem('Authentication'),
+	  		  	},
+	  		  	dataType:'json',
+	  		  	type:'get',
+	  		  	timeout:10000,
+	  		  	success:function(result){
+	  					if(result.code == 200){
+	  						var data = result.data;
+	  							notifiULList(data.list, 'transaction');
+	  
 	  					}else{
 	  							mui.toast(result.msg);
 	  						}
@@ -159,24 +171,34 @@
 		  var doc = document,
 		    li = doc.createElement("li"),
 		    a = doc.createElement("a");
-		  li.setAttribute("class", "mui-table-view-cell mui-media");
-		  a.setAttribute("class", "mui-navigate-right")
-		  a.setAttribute("style",
-		    "text-align: center;font-weight: bold;font-size: 20px;padding-right: 35px;white-space: normal;")
-		  li.setAttribute("style",
-		    "height: 150px;width: 100%;display: flex;flex-direction: column;justify-content: center;")
 			
 		  if (elm === 'coupon'){
+			  
 			  //My Coupons列表
-			  a.innerText = '$' + item.money + '  ' + item.title
-		  }else if (elm === 'historyUl'){
+			  	img = doc.createElement("img"),
+			  	div = doc.createElement("div"),
+			  	p = doc.createElement("p");
+			  li.setAttribute("class", "mui-table-view-cell mui-media");
+			  img.setAttribute("class", "mui-media-object mui-pull-left");
+			  img.setAttribute("src", item.thumbnailImage);
+			  div.setAttribute("class", "mui-media-body");
+			  p.setAttribute("class", "mui-ellipsis");
+			  p.setAttribute("style", "white-space: normal;")
+			  div.innerText = item.title;
+			  p.innerHTML = item.description;
+			  li.appendChild(a);
+			  a.appendChild(img);
+			  a.appendChild(div);
+			  div.appendChild(p);
+
+		  }else if (elm === 'transaction'){
 			  //Transaction History列表
 			  li.setAttribute("style", "height: 80px;;display: flex;flex-direction: column;justify-content: center;");
 			  a.setAttribute("style", "text-align: center;font-size: 18px;padding-right: 35px;white-space: normal;")
-			  if (item.nums) {
-			    a.innerText = item.date + '  ' + '$' + item.money + '×' + item.nums + '  ' + item.pt
+			  if (item.shoppingAmount) {
+			    a.innerText = item.transactionDate + '  ' + '$' + item.shoppingAmount + '×' + item.shoppingAmount + '  ' + item.pointAdjustment
 			  } else {
-			    a.innerText = item.date + '  ' + '$' + item.money + '  ' + item.pt
+			    a.innerText = item.transactionDate + '  ' + '$' + item.shoppingAmount + '  ' + item.pointAdjustment
 			  }
 		  }
         
@@ -214,11 +236,11 @@
         </div>
       </div>
       <div id="item2" class="mui-control-content">
-        <ul class="mui-table-view" id="ul"></ul>
+        <ul class="mui-table-view" id="coupon"></ul>
       </div>
 
       <div id="item3" class="mui-control-content">
-        <ul class="mui-table-view" id="historyUl"></ul>
+        <ul class="mui-table-view" id="transaction"></ul>
       </div>
     </div>
   </body>
