@@ -261,12 +261,19 @@
           id: 'reward.html'
         });
       }
+	  
+	  function toQRCode(){
+		    mui.openWindow({
+		    url: './qrCode.html',
+		    id: 'qrCode.html'
+		  });
+	  }
     </script>
 
     <header class="mui-bar mui-bar-nav" style="background-color: red;">
       <span class="mui-icon  mui-icon-bars" style="color:#fff;" onclick="toSetting()"></span>
-      <h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;">WingOn Reward</h1>
-      <img src="../../img/code1.png" class="mui-pull-right mui-icon mui-icon-bars" />
+      <h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">WingOn Reward</h1>
+      <img src="../../img/code1.png" class="mui-pull-right mui-icon mui-icon-bars" onclick="toQRCode()"/>
     </header>
 
     <div class="mui-content">
@@ -289,12 +296,14 @@
         <button type="button" class="mui-btn-blue">Lucky Draw</button>
       </div>
 
+
       <div style="margin-top: 5%;width: 90%;">
       	<h4 style="margin-bottom: 3%;">News / Lastest Offers</h4>
       	<ul class="mui-table-view" id="promotion" style="margin-bottom: 5%;box-shadow: 0px 0px 5px #6D6D72;">
       	</ul>
 		<ul class="mui-table-view" id="inbox" style="margin-bottom: 5%;box-shadow: 0px 0px 5px #6D6D72;">
 		</ul>
+
       </div>
 
     </div>

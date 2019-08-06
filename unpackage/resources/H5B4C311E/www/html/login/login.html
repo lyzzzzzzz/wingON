@@ -1,13 +1,13 @@
 <!doctype html>
 <html>
 
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <link href="../../css/mui.css" rel="stylesheet" />
-    <style>
-      html,body {
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.css" rel="stylesheet" />
+		<style>
+			html,body {
 				height: 100%;
 				width: 100%;
 				padding: 0px;
@@ -19,131 +19,245 @@
 				justify-content: space-around;
 				align-items: center;
 				background-color: #fff;
-				height: 100%;
+				/* height: 100%; */
 			}
 			#selectDiv{
 				border-width: 1px;border-style: solid;border-color: #D7D7D7;height: 45px;margin-top: 2%;
 			}
+			#image{
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				background: url('../../img/image_login.png') no-repeat 0px 0px;
+				width: 100%;
+				height: 120px;
+				background-size: cover;
+			}
 		</style>
-  </head>
+	</head>
 
-  <body style="background-color: #fff;">
-    <script src="../../js/mui.js"></script>
-    <script type="text/javascript">
-      mui.init()
-      //下拉列表
-      mui.plusReady(function() {
-        var select = document.getElementById("select");
-        var texts = new Array("one", "two", "three", "four");
-        var values = new Array("one", "two", "three", "four");
-        for (var i = 0; i < texts.length; i++) {
-          var objOption = document.createElement("option");
-          objOption.text = texts[i];
-          objOption.value = values[i];
-          select.options.add(objOption);
-        }
+	<body style="background-color: #fff;">
+		<script src="../../js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			//下拉列表
+			mui.plusReady(function() {
 
-      })
 
-      //发送验证码
-      var countdown = 60;
-      function settime(val) {
-        //判断手机号码格式是否正确
-        var phone = document.getElementById('phone').value;
-        if (!phone || phone == '') {
-          mui.toast('手机号码不能为空！')
-          return false;
-        }
-        var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
-        if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(phone))) {
-          mui.toast('手机号码不正确！')
-          return false;
-        } else {
-          if (countdown == 0) {
-            val.removeAttribute("disabled");
-            val.innerText = "Send OTP Again";
-            countdown = 60;
-            //verifyCode()
-          } else {
-            val.setAttribute("disabled", true);
-            val.innerText = "wait..." + countdown + "s...";
-            countdown--;
-            setTimeout(function() {
-              settime(val)
-            }, 1000)
-          }
-        }
-      }
+			})
+			loadTelCode();
 
-      //监听验证码输入框是否为空,,为空login按钮为disabled
-      function setCode(data) {
-        var login = document.getElementById("loginBtn");
-        if (!data || data.value == "") {
-          login.setAttribute("disabled", 'disabled');
-        } else {
-          login.removeAttribute("disabled")
-        }
-      }
+			function loadTelCode() {
+				var url = 'http://172.30.20.134:8080/api/v1/config/list/telCountryCode/all';
+				mui.ajax(url, {
+					data: {
 
-      function toHome() {
-        mui.openWindow({
-          url: '../home/home.html',
-          id: 'home.html'
-        });
-      }
+					},
+					headers: {
+						'Accept-Language': "en"
+					},
+					dataType: 'json',
+					type: 'get',
+					timeout: 10000,
+					success: function(data) {
+						var select = document.getElementById("select");
+						mui.each(data.data.telCountryCode, function(i, item) {
+							var objOption = document.createElement("option");
+							objOption.text = item.code;
+							objOption.value = item.nameEn;
+							select.options.add(objOption);
+						});
 
-      /**
-       * 解決弹出键盘之后会内容往上移动的問題
-       */
-      //获取原始窗口的高度
-      var originalHeight = document.documentElement.clientHeight || document.body.clientHeight;
-      window.onresize = function() {
-        //软键盘弹起与隐藏  都会引起窗口的高度发生变化
-        var resizeHeight = document.documentElement.clientHeight || document.body.clientHeight;
-        if (resizeHeight * 1 < originalHeight * 1) { //resizeHeight<originalHeight证明窗口被挤压了
-          plus.webview.currentWebview().setStyle({
-            height: originalHeight
-          });
-        }
-      }
-    </script>
-    <header class="mui-bar mui-bar-nav" style="background-color: red;">
-      <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
-      <h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;">WingOn Reward</h1>
-    </header>
-    <div class="mui-content" id="content">
-      <div>
-        <span style="text-align: center;display: block;font-weight: 300;">Member Login</span>
-      </div>
 
-      <form style="width: 90%;">
-        Country code:
-        <div class="mui-input-row mui-select" id="selectDiv">
-          <select id="select">
-            <option value="">请选择</option>
-          </select>
-        </div>
+					},
+					error: function(xhr, type, errorThrown) {
 
-        <div style="margin-top: 5%;">
-          Phone Number:
-          <input type="text" class="mui-input-clear" id="phone" style="margin-top: 2%;height: 60px;">
-        </div>
+					}
+				});
+			}
 
-        <div style="margin-top: 5%;" id="code">
-          <div style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;">
-            OTP verify code:
-            <button type="button" class="mui-btn-blue" style="border-radius: 10px;" id="sendMsg" onclick="settime(this)">Send
-              OTP</button>
-          </div>
-          <input type="text" class="mui-input-clear" style="margin-top: 2%;height: 60px;" oninput="setCode(this)">
-        </div>
-      </form>
-      <div style="height: 20%;width: 50%;text-align: center;">
-        <button type="button" class="mui-btn-blue" style="height:50%;width: 90%;border-radius: 20px;" disabled="disabled"
-          id="loginBtn" onclick="toHome()">Login</button>
-      </div>
+			function toLoginWithPwd(telCountryCode, tel, password) {
+				var osName = plus.os.name.toLocaleLowerCase();
+				var uuid = plus.device.uuid;
 
-    </div>
-  </body>
+				var url = 'http://172.30.20.134:8080/api/v1/security/login/' + telCountryCode + "/" + tel + "/" + password;
+				mui.ajax(url, {
+					data: {
+
+					},
+					headers: {
+						'Accept-Language': "en",
+						'deviceOS': osName,
+						'deviceToken': uuid
+					},
+					dataType: 'json',
+					type: 'post',
+					timeout: 10000,
+					success: function(result) {
+						if (result.code == 200) {
+							var data = result.data;
+
+							var customer = data.customer;
+							// alert(customer.id);
+							// var customerJson = JSON.stringify(customer);
+							// alert(customerJson);
+							plus.storage.setItem('customerId', customer.id.toString());
+
+							var bearerToken = data.bearerToken;
+							plus.storage.setItem('Authentication', bearerToken);
+
+							mui.openWindow({
+								url: '../home/home.html',
+								id: 'home.html'
+							});
+						}
+						mui.toast(result.msg);
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast("error, type=" + type + " " + xhr);
+					}
+				});
+			}
+
+			//发送验证码
+			var countdown = 60;
+
+			function settime(val) {
+				//判断手机号码格式是否正确
+				var phone = document.getElementById('phone').value;
+				if (!phone || phone == '') {
+					mui.toast('手机号码不能为空！')
+					return false;
+				}
+				var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+				if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(phone))) {
+					mui.toast('手机号码不正确！')
+					return false;
+				} else {
+					if (countdown == 0) {
+						val.removeAttribute("disabled");
+						val.innerText = "Send OTP Again";
+						countdown = 60;
+						//verifyCode()
+					} else {
+						val.setAttribute("disabled", true);
+						val.innerText = "wait..." + countdown + "s...";
+						countdown--;
+						setTimeout(function() {
+							settime(val)
+						}, 1000)
+					}
+				}
+			}
+
+			//监听验证码输入框是否为空,,为空login按钮为disabled
+			function setCode(data) {
+				var login = document.getElementById("loginBtn");
+				if (!data || data.value == "") {
+					login.setAttribute("disabled", 'disabled');
+				} else {
+					login.removeAttribute("disabled")
+				}
+			}
+
+			function toHome() {
+				var telCode = document.getElementById('select').value;
+				var password = document.getElementById('password').value;
+				//判断手机号码格式是否正确
+				var phone = document.getElementById('phone').value;
+				if (!phone || phone == '') {
+					mui.toast('手机号码不能为空！')
+					return false;
+				}
+				var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+				if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(phone))) {
+					mui.toast('手机号码不正确！')
+					return false;
+				} else {
+					toLoginWithPwd(telCode, phone, password);
+				}
+
+			}
+
+			/**
+			 * 解決弹出键盘之后会内容往上移动的問題
+			 */
+			//获取原始窗口的高度
+			var originalHeight = document.documentElement.clientHeight || document.body.clientHeight;
+			window.onresize = function() {
+				//软键盘弹起与隐藏  都会引起窗口的高度发生变化
+				var resizeHeight = document.documentElement.clientHeight || document.body.clientHeight;
+				if (resizeHeight * 1 < originalHeight * 1) { //resizeHeight<originalHeight证明窗口被挤压了
+					plus.webview.currentWebview().setStyle({
+						height: originalHeight
+					});
+				}
+			}
+		</script>
+		<header class="mui-bar mui-bar-nav" style="background-color: red;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">WingOn Reward</h1>
+		</header>
+
+		<div class="mui-content">
+			<div id='image'>
+				<span style="color: #FFFFFF;font-size: 30px;font-weight: bold;">
+					Welcome to WingOn
+				</span>
+				<span style="color: #FFFFFF;font-size: 30px;font-weight: bold;margin-top: 10px;">
+					Rewards
+				</span>
+			</div>
+
+			<div id="content">
+				<div style="padding: 10px 10px;">
+					<div id="segmentedControl" class="mui-segmented-control">
+						<a class="mui-control-item mui-active" href="#item1">
+							SMS Login
+						</a>
+						<a class="mui-control-item" href="#item2">
+							Password Login
+						</a>
+					</div>
+				</div>
+				<form style="width: 90%;align-items: center;margin-top: 5%;">
+					Country code:
+					<div class="mui-input-row mui-select" id="selectDiv">
+						<select id="select">
+							<option value="86">请选择</option>
+						</select>
+					</div>
+
+					<div style="margin-top: 20px;">
+						Phone Number:
+						<input type="text" class="mui-input-clear" id="phone" style="margin-top: 2%;" value="13798187132">
+					</div>
+					<div id="item1" class="mui-control-content mui-active">
+						<div style="margin-top: 10px;" id="code">
+							<div style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;">
+								OTP verify code:
+								<button type="button" class="mui-btn-red" style="border-radius: 10px;" id="sendMsg" onclick="settime(this)">Send
+									OTP</button>
+							</div>
+							<input type="text" class="mui-input-clear" style="margin-top: 2%;" oninput="setCode(this)">
+						</div>
+					</div>
+					<div id="item2" class="mui-control-content">
+
+						<div style="margin-top: 10px;">
+							Password:
+							<input type="text" class="mui-input-clear" id="password" style="margin-top: 2%;" value="123456">
+						</div>
+					</div>
+				</form>
+				<div style="width: 90%;text-align: center;margin-top:10px;">
+					<button type="button" class="mui-btn-red" style="height:40px;width: 100%;border-radius: 5px;" id="loginBtn"
+					 onclick="toHome()">Login</button>
+				</div>
+
+			</div>
+		</div>
+	</body>
 
 </html>
