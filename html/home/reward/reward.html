@@ -1,14 +1,14 @@
 <!doctype html>
 <html style="height: 88%;">
 
-	<head>
-		<meta charset="utf-8">
-		<title></title>
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<link href="../../../css/mui.css" rel="stylesheet" />
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="../../../css/mui.css" rel="stylesheet" />
 
-		<style>
-			#barNav{
+    <style>
+      #barNav{
 				background-color: red;
 			}
 			#segmented a{
@@ -34,6 +34,177 @@
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
+      }
+      #itemContent{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        height: 100%;
+        /* background-color: #0062CC; */
+      }
+		</style>
+  </head>
+
+  <body style="background-color: #FFFFFF;height: 100%;">
+    <script src="../../../js/mui.js"></script>
+	<script src="../../../js/environment.js"></script>
+    <script src="../../../js/echarts.min.js"></script>
+    <script type="text/javascript">
+      mui.init()
+      mui.plusReady(function() {
+		  
+		var customerId = plus.storage.getItem('customerId');
+        //Coupons列表数据
+        getCustomerRewardCoupon(customerId,1,20);
+
+
+        //模拟History列表数据
+        getCustomerTransaction(customerId,1,20);
+
+
+        //饼图
+        var myChart = echarts.init(document.getElementById('pieChart'));
+        myChart.setOption({
+          series: [{
+            name: '访问来源',
+            type: 'pie',
+            radius: '55%',
+            data: [{
+                value: 235,
+                name: '视频广告'
+              },
+              {
+                value: 274,
+                name: '联盟广告'
+              },
+              {
+                value: 310,
+                name: '邮件营销'
+              },
+              {
+                value: 335,
+                name: '直接访问'
+              },
+              {
+                value: 400,
+                name: '搜索引擎'
+              }
+            ]
+          }]
+        })
+
+        //Reward Points
+        var rewardPoint = document.getElementById('rewardPoint');
+        var Points = '338,800';
+        rewardPoint.innerText = Points
+
+      });
+	  function getCustomerRewardCoupon(customerId,pageNum,pageSize) {
+	  				
+	  		  var url = baseUrl + '/customer/couponList/'+ customerId +"/"+ pageNum +"/"+ pageSize;
+	  		  mui.ajax(url,{
+	  		  	data:{
+	  		  		
+	  		  	},
+	  		  	headers:{
+	  		  		'Accept-Language' : "en",
+	  				'Authentication' : plus.storage.getItem('Authentication'),
+	  		  	},
+	  		  	dataType:'json',
+	  		  	type:'get',
+	  		  	timeout:10000,
+	  		  	success:function(result){
+	  					if(result.code == 200){
+	  						var data = result.data;
+							notifiULList(data.list, 'coupon');
+	  					}else{
+	  							mui.toast(result.msg);
+	  						}
+	  				
+	  		  	},
+	  		  	error:function(xhr,type,errorThrown){
+	  		  		mui.toast("error, type="+type+" "+xhr);
+	  		  	} 
+	  		  });
+	  }
+	  function getCustomerTransaction(customerId,pageNum,pageSize) {
+	  				
+	  		  var url = baseUrl + '/customer/transactionList/'+ customerId +"/"+ pageNum +"/"+ pageSize;
+	  		  mui.ajax(url,{
+	  		  	data:{
+	  		  		
+	  		  	},
+	  		  	headers:{
+	  		  		'Accept-Language' : "en",
+	  				'Authentication' : plus.storage.getItem('Authentication'),
+	  		  	},
+	  		  	dataType:'json',
+	  		  	type:'get',
+	  		  	timeout:10000,
+	  		  	success:function(result){
+	  					if(result.code == 200){
+	  						var data = result.data;
+	  							notifiULList(data.list, 'transaction');
+	  
+	  					}else{
+	  							mui.toast(result.msg);
+	  						}
+	  				
+	  		  	},
+	  		  	error:function(xhr,type,errorThrown){
+	  		  		mui.toast("error, type="+type+" "+xhr);
+	  		  	} 
+	  		  });
+	  }
+      //遍历数组
+      function notifiULList(data, elm) {
+        plus.nativeUI.closeWaiting();
+        var doc = document,
+          fragment = doc.createDocumentFragment(),
+          container = doc.getElementById(elm);
+        mui.each(data, function(i, item) {
+          notifiAndSetLiDetail(fragment, item, elm);
+        });
+        container.appendChild(fragment);
+      }
+
+      function notifiAndSetLiDetail(fragment, item, elm) {
+		  var doc = document,
+		    li = doc.createElement("li"),
+		    a = doc.createElement("a");
+			
+		  if (elm === 'coupon'){
+			  
+			  //My Coupons列表
+			  	img = doc.createElement("img"),
+			  	div = doc.createElement("div"),
+			  	p = doc.createElement("p");
+			  li.setAttribute("class", "mui-table-view-cell mui-media");
+			  img.setAttribute("class", "mui-media-object mui-pull-left");
+			  img.setAttribute("src", item.thumbnailImage);
+			  div.setAttribute("class", "mui-media-body");
+			  p.setAttribute("class", "mui-ellipsis");
+			  p.setAttribute("style", "white-space: normal;")
+			  div.innerText = item.title;
+			  p.innerHTML = item.description;
+			  li.appendChild(a);
+			  a.appendChild(img);
+			  a.appendChild(div);
+			  div.appendChild(p);
+
+		  }else if (elm === 'transaction'){
+			  //Transaction History列表
+			  li.setAttribute("style", "height: 80px;;display: flex;flex-direction: column;justify-content: center;");
+			  a.setAttribute("style", "text-align: center;font-size: 18px;padding-right: 35px;white-space: normal;")
+			  if (item.shoppingAmount) {
+			    a.innerText = item.transactionDate + '  ' + '$' + item.shoppingAmount + '×' + item.shoppingAmount + '  ' + item.pointAdjustment
+			  } else {
+			    a.innerText = item.transactionDate + '  ' + '$' + item.shoppingAmount + '  ' + item.pointAdjustment
+			  }
+		  }
+        
+        li.appendChild(a);
+        fragment.appendChild(li);
       }
       #itemContent{
         display: flex;

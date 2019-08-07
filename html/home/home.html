@@ -51,6 +51,7 @@
 
   <body style="background-color: #fff;">
     <script src="../../js/mui.js"></script>
+	<script src="../../js/environment.js"></script>
     <script type="text/javascript">
       mui.init({
         preloadPages: [{
@@ -91,7 +92,7 @@
 	  
 	  	  function getCustomerInfo(customerId) {
 				
-	  		  var url = 'http://172.30.20.134:8080/api/v1/customer/info/'+ customerId;
+	  		  var url = baseUrl + '/customer/info/'+ customerId;
 	  		  mui.ajax(url,{
 	  		  	data:{
 	  		  		
@@ -134,7 +135,7 @@
 	  		  });
 	  }
 	  function getNewsInfo() {
-		  mui.ajax('http://172.30.20.134:8080/api/v1/promotion/list/'+ 1 +"/"+2,{
+		  mui.ajax(baseUrl + '/promotion/list/'+ 1 +"/"+2,{
 		  	data:{
 		  		
 		  	},
@@ -153,7 +154,7 @@
 		  		
 		  	}
 		  });
-		  mui.ajax('http://172.30.20.134:8080/api/v1/inbox/list/'+ 1 +"/"+2,{
+		  mui.ajax(baseUrl + '/inbox/list/'+ 1 +"/"+2,{
 		  	data:{
 		  		
 		  	},
