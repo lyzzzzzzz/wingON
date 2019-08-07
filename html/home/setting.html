@@ -12,6 +12,9 @@
 		<script src="../../js/mui.js"></script>
 		<script type="text/javascript">
 			mui.init()
+			function toNewPw(){
+				mui.openWindow('./newPassword.html','newPassword.html')
+			}
 		</script>
 		<header class="mui-bar mui-bar-nav" style="background-color: #fff;box-shadow: 0px 0px 0px #FFFFFF;">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="font-size:21px;line-height: 30px;">back</a>
@@ -50,6 +53,9 @@
 				</li>
 				<li class="mui-table-view-cell">
 					<a class="mui-navigate-right">Privacy Policy</a>
+				</li>
+				<li class="mui-table-view-cell" onclick="toNewPw()">
+					<a class="mui-navigate-right">Modify Password</a>
 				</li>
 			</ul>
 		</div>
