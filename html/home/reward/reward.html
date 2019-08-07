@@ -47,6 +47,7 @@
 
   <body style="background-color: #FFFFFF;height: 100%;">
     <script src="../../../js/mui.js"></script>
+	<script src="../../../js/environment.js"></script>
     <script src="../../../js/echarts.min.js"></script>
     <script type="text/javascript">
       mui.init()
@@ -100,7 +101,7 @@
       });
 	  function getCustomerRewardCoupon(customerId,pageNum,pageSize) {
 	  				
-	  		  var url = 'http://172.30.20.134:8080/api/v1/customer/couponList/'+ customerId +"/"+ pageNum +"/"+ pageSize;
+	  		  var url = baseUrl + '/customer/couponList/'+ customerId +"/"+ pageNum +"/"+ pageSize;
 	  		  mui.ajax(url,{
 	  		  	data:{
 	  		  		
@@ -128,7 +129,7 @@
 	  }
 	  function getCustomerTransaction(customerId,pageNum,pageSize) {
 	  				
-	  		  var url = 'http://172.30.20.134:8080/api/v1/customer/transactionList/'+ customerId +"/"+ pageNum +"/"+ pageSize;
+	  		  var url = baseUrl + '/customer/transactionList/'+ customerId +"/"+ pageNum +"/"+ pageSize;
 	  		  mui.ajax(url,{
 	  		  	data:{
 	  		  		

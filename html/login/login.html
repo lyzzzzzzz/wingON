@@ -39,6 +39,7 @@
 
 	<body style="background-color: #fff;">
 		<script src="../../js/mui.js"></script>
+		<script src="../../js/environment.js"></script>
 		<script type="text/javascript">
 			mui.init()
 			//下拉列表
@@ -49,7 +50,7 @@
 			loadTelCode();
 
 			function loadTelCode() {
-				var url = 'http://172.30.20.134:8080/api/v1/config/list/telCountryCode/all';
+				var url = baseUrl + '/config/list/telCountryCode/all';
 				mui.ajax(url, {
 					data: {
 
@@ -81,7 +82,7 @@
 				var osName = plus.os.name.toLocaleLowerCase();
 				var uuid = plus.device.uuid;
 
-				var url = 'http://172.30.20.134:8080/api/v1/security/login/' + telCountryCode + "/" + tel + "/" + password;
+				var url = baseUrl + '/security/login/' + telCountryCode + "/" + tel + "/" + password;
 				mui.ajax(url, {
 					data: {
 
