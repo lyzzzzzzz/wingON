@@ -6,6 +6,7 @@
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../../css/mui.css" rel="stylesheet" />
+		<link href="../../css/mui.picker.min.css" rel="stylesheet" />
 		<style>
 			html,body {
 				height: 100%;
@@ -21,9 +22,9 @@
 				background-color: #fff;
 				/* height: 100%; */
 			}
-			#selectDiv{
+			/* #selectDiv{
 				border-width: 1px;border-style: solid;border-color: #D7D7D7;height: 45px;margin-top: 2%;
-			}
+			} */
 			#image{
 				display: flex;
 				flex-direction: column;
@@ -34,18 +35,58 @@
 				height: 120px;
 				background-size: cover;
 			}
+			#selectDiv{
+				display: flex;
+				flex-direction: row;
+				/* justify-content: center; */
+				/* align-items: center; */
+				height: 40px;
+				border-style: solid;
+				border-width: 1px;
+				border-color: #C1C1C3;		
+			    border-radius: 3px;
+				}
 		</style>
 	</head>
 
 	<body style="background-color: #fff;">
-		<script src="../../js/mui.js"></script>
 		<script src="../../js/environment.js"></script>
+		<script src="../../js/mui.js"></script>
+		<script src="../../js/mui.picker.min.js"></script>
 		<script type="text/javascript">
 			mui.init()
-			//下拉列表
 			mui.plusReady(function() {
 
-
+				//下拉列表
+				var picker = new mui.PopPicker({
+					layer: 1,
+					buttons: ['cancle', 'ok']
+				});
+				picker.setData([{
+					value: "first",
+					text: "第一项"
+				}, {
+					value: "second",
+					text: "第二项"
+				}, {
+					value: "third",
+					text: "第三项"
+				}, {
+					value: "fourth",
+					text: "第四项"
+				}, {
+					value: "fifth",
+					text: "第五项"
+				}]);
+				document.getElementById("showUserPicker1").addEventListener('tap', function(event) {
+					var result=document.getElementById('result')
+					// 默认显示第1项
+					picker.pickers[0].setSelectedIndex(0, 2000);
+					picker.show(function(selectItems) {
+						result.setAttribute('value',selectItems[0].text)
+					});
+				});
+				
 			})
 			loadTelCode();
 
@@ -181,6 +222,9 @@
 
 			}
 
+
+
+
 			/**
 			 * 解決弹出键盘之后会内容往上移动的問題
 			 */
@@ -224,11 +268,16 @@
 				</div>
 				<form style="width: 90%;align-items: center;margin-top: 5%;">
 					Country code:
+					<div id="selectDiv">
+						<input type="text" class="mui-input-clear" style="border: none;flex: 1;height: 38px;" id="result">
+						<button id='showUserPicker1' class="mui-btn" type='button' style="border: none;flex: 0 0 3.75rem;background-color: #C7C7CC;border-radius: 0px;">请选择</button>
+					</div>
+
 					<div class="mui-input-row mui-select" id="selectDiv">
 						<select id="select">
 							<option value="86">请选择</option>
 						</select>
-					</div>
+					</div> 
 
 					<div style="margin-top: 20px;">
 						Phone Number:
