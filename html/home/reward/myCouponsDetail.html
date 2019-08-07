@@ -39,14 +39,30 @@
 				var id = event.detail.id;
 				console.log(id);
 			});
+
+
+			mui.plusReady(function() {
+				var offerContent = document.getElementById('offerContent')
+				offerContent.innerText='把把饭卡部分科技奥德赛不放卡就不放卡级别付款吧时代峰峻把数据放八角'
+			})
 		</script>
 		<header class="mui-bar mui-bar-nav" style="background-color: red;">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
 			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">e-Coupon</h1>
 		</header>
 		<div class="mui-content">
-            <img src='../../../img/one.jpg' style="width: 100%;"/>
-			<span style="font-weight: bold;">Special Discount on Seclected Regular-priced Items</span>
+			<div>
+				<img src='../../../img/one.jpg' style="width: 100%;" />
+				<div>
+					<span style="font-weight: bold;">Special Discount on Seclected Regular-priced Items</span>
+				</div>
+				<div>
+					<span>Member Offer:</span>
+					<!-- <p ></p> -->
+					<p id="offerContent" ></p>
+				</div>
+			</div>
+
 		</div>
 	</body>
 
