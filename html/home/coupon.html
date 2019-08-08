@@ -6,6 +6,51 @@
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../../css/mui.css" rel="stylesheet" />
+		<style>
+			header{
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: center;
+				background-color: red;
+				height: 70px;
+			}
+				#segmented a{
+					line-height: 25px;
+					width: 30%;
+					text-align: center;
+			/* touch-action: none; */
+				}
+				.mui-segmented-control{
+					border: none;
+				}
+					/** 设置 选项卡颜色，字体颜色 **/
+			
+			.mui-segmented-control .mui-control-item.mui-active {
+				color: white;
+				background-color: #5f75e0;
+			}
+			/** 设置 选项卡 高度（默认38px） **/
+			
+			.mui-segmented-control .mui-control-item {
+				line-height: 38px;
+				text-align: center;
+				color: #007aff;
+				border-color: #007aff;
+				border-left: 1px solid #007aff;
+			}
+			
+			
+			#card{
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+				width: 100%;
+			}
+			
+		
+		</style>
 	</head>
 
 	<body>
@@ -13,9 +58,28 @@
 		<script type="text/javascript">
 			mui.init()
 		</script>
-		<header class="mui-bar mui-bar-nav">
-			<h1 class="mui-title">coupon</h1>
+		<header>
+			<h1 style="color: #FFFFFF;font-weight: bold;font-size: 20px;">Coupons</h1>
 		</header>
+		<div class="mui-content">
+
+
+			<div class="mui-content-padded">
+				<div class="mui-segmented-control">
+					<a class="mui-control-item mui-active" href="#item1">My Rewards</a>
+					<a class="mui-control-item" href="#item2">e-Coupons</a>
+				</div>
+			</div>
+
+			<div id="item1" class="mui-control-content mui-active" style="width: 100%;background-color: #FFFFFF;padding: 10px;">
+				<div id="card">
+					<img src="../../img/one.jpg" style="width: 90px;height: 70px;margin-right: 6px;" />
+					<span style="color: #D04431;font-weight: bold;">special Discount on selected mui-control-item</span>
+				</div>
+			</div>
+			<div id="item2" class="mui-control-content">item2</div>
+
+		</div>
 	</body>
 
 </html>
