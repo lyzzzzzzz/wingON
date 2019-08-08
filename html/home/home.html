@@ -1,20 +1,20 @@
 <!doctype html>
 <html>
 
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <link href="../../css/mui.css" rel="stylesheet" />
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.css" rel="stylesheet" />
 
-    <style>
-      html,body {
+		<style>
+			html,body {
 				height: 100%;
 				width: 100%;
 				padding: 0px;
 				margin: 0px;
 			}
-			#btns{
+			/* #btns{
 				display: flex;
 				flex-direction: row;
 				justify-content: space-around;
@@ -22,23 +22,26 @@
 				height: 100px;
 				margin-bottom: 10px;
 				width: 100%;
-			}
+			} */
 			.mui-content{
 				display: flex;
 				flex-direction: column;
 				justify-content: space-around;
 				align-items: center;
-				background-color: #fff;
 				width: 100%;
 			}
-			
+		/* 	
 			#btns button{
 				width: 27%;height: 60%;
-			}
+			} */
 			#topContent{
-			height: 70px;
-				width: 90%;
-				margin-top: 20px;
+				/* position: sticky; */
+			    height: 100px;
+				width: 100%;
+				padding-top: 20px;
+				background-color: red;
+				padding-left: 10px;
+				color: #FFFFFF;
 			}
 			header img{
 				width: 45px;
@@ -47,267 +50,277 @@
 		</style>
 
 
-  </head>
+	</head>
 
-  <body style="background-color: #fff;">
-    <script src="../../js/mui.js"></script>
-	<script src="../../js/environment.js"></script>
-    <script type="text/javascript">
-      mui.init({
-        preloadPages: [{
-          id: 'detail.html',
-          url: './detail.html'
-        }]
-      })
+	<body>
+		<script src="../../js/mui.js"></script>
+		<script src="../../js/environment.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				preloadPages: [{
+					id: 'detail.html',
+					url: './detail.html'
+				}]
+			})
 
-      mui.plusReady(function() {
 
-		var customerId = plus.storage.getItem('customerId');
-		getCustomerInfo(customerId);
-		getNewsInfo();
 		
-   
-        var detailPage = null;
-        //添加列表项的点击事件
-        mui(".mui-table-view").on('tap', 'li', function() {
-          //获取id
-          var id = this.getAttribute("id")
-          // 获得详情页面
-          if (!detailPage) {
-            detailPage = plus.webview.getWebviewById('detail.html');
-          }
-          //触发详情页面的newsId事件
-          mui.fire(detailPage, 'newsId', {
-            id: id
-          });
-          //打开详情页面          
-          mui.openWindow({
-            id: 'detail.html',
-            url: './detail.html'
-          });
-        });
+
+			mui.plusReady(function() {
+
+				var customerId = plus.storage.getItem('customerId');
+				getCustomerInfo(customerId);
+				getNewsInfo();
+
+				var detailPage = null;
+				//添加列表项的点击事件
+				mui(".mui-table-view").on('tap', 'li', function() {
+					//获取id
+					var id = this.getAttribute("id")
+					// 获得详情页面
+					if (!detailPage) {
+						detailPage = plus.webview.getWebviewById('detail.html');
+					}
+					//触发详情页面的newsId事件
+					mui.fire(detailPage, 'newsId', {
+						id: id
+					});
+					//打开详情页面          
+					mui.openWindow({
+						id: 'detail.html',
+						url: './detail.html'
+					});
+				});
 
 
-      })
-	  
-	  	  function getCustomerInfo(customerId) {
-				
-	  		  var url = baseUrl + '/customer/info/'+ customerId;
-	  		  mui.ajax(url,{
-	  		  	data:{
-	  		  		
-	  		  	},
-	  		  	headers:{
-	  		  		'Accept-Language' : "en",
-	  				'Authentication' : plus.storage.getItem('Authentication'),
-	  		  	},
-	  		  	dataType:'json',
-	  		  	type:'get',
-	  		  	timeout:10000,
-	  		  	success:function(result){
-	  					if(result.code == 200){
-	  						var data = result.data;
+			})
+
+
+
+			function getCustomerInfo(customerId) {
+
+				var url = baseUrl + '/customer/info/' + customerId;
+				mui.ajax(url, {
+					data: {
+
+					},
+					headers: {
+						'Accept-Language': "en",
+						'Authentication': plus.storage.getItem('Authentication'),
+					},
+					dataType: 'json',
+					type: 'get',
+					timeout: 10000,
+					success: function(result) {
+						if (result.code == 200) {
+							var data = result.data;
 
 							var accessToken = data.accessToken;
-							if(accessToken.bearerToken == plus.storage.getItem('Authentication')){
+							if (accessToken.bearerToken == plus.storage.getItem('Authentication')) {
 								var customer = data.customer;
 								var address = data.address;
 								var balanceVo = data.balanceVo;
-								notifiUL(customer,address,balanceVo);
-							}else{
+								notifiUL(customer, address, balanceVo);
+							} else {
 								mui.toast("accessToken not match,login again");
 								mui.openWindow({
-								  url: '../login/login.html',
-								  id: 'login.html'
+									url: '../login/login.html',
+									id: 'login.html'
 								});
 							}
 
-	  
-	  						
-	  					}else{
+
+
+						} else {
 							mui.toast(result.msg);
 						}
-	  				
-	  		  	},
-	  		  	error:function(xhr,type,errorThrown){
-	  		  		mui.toast("error, type="+type+" "+xhr);
-	  		  	} 
-	  		  });
-	  }
-	  function getNewsInfo() {
-		  mui.ajax(baseUrl + '/promotion/list/'+ 1 +"/"+2,{
-		  	data:{
-		  		
-		  	},
-		  	headers:{
-		  		lang : "en"
-		  	},
-		  	dataType:'json',
-		  	type:'get',
-		  	success:function(result){
-				if(result.code == 200){
-					var data = result.data;
-					notifiPromotionList(data.list);
-					}else{
+
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast("error, type=" + type + " " + xhr);
+					}
+				});
+			}
+
+			function getNewsInfo() {
+				mui.ajax(baseUrl + '/promotion/list/' + 1 + "/" + 2, {
+					data: {
+
+					},
+					headers: {
+						lang: "en"
+					},
+					dataType: 'json',
+					type: 'get',
+					success: function(result) {
+						if (result.code == 200) {
+							var data = result.data;
+							notifiPromotionList(data.list);
+						} else {
 							mui.toast(result.msg);
 						}
-		  		
-		  	}
-		  });
-		  mui.ajax(baseUrl + '/inbox/list/'+ 1 +"/"+2,{
-		  	data:{
-		  		
-		  	},
-		  	headers:{
-		  		lang : "en"
-		  	},
-		  	dataType:'json',
-		  	type:'get',
-		  	success:function(result){
-		  				if(result.code == 200){
-		  					var data = result.data;
-		  					notifiInboxList(data.list);
-		  					}else{
-		  							mui.toast(result.msg);
-		  						}
-		  		
-		  	}
-		  });
-	}
-	  
 
-      function notifiUL(customer,address,balanceVo) {
-        plus.nativeUI.closeWaiting();
-       var userName = document.getElementById('userName');
-       userName.innerHTML = 'Hi, '+customer.firstName;
-       
-       var points = document.getElementById('points');
-       points.innerHTML = balanceVo.balance;
-      }
-	  
-	  function notifiPromotionList(data) {
-	  	plus.nativeUI.closeWaiting();
-	  	var doc = document,
-	  		fragment = doc.createDocumentFragment(),
-	  		container = doc.getElementById("promotion");
-	  	//遍历数组
-	  	mui.each(data, function(i, item) {
-			var doc = document,
-			  li = doc.createElement("li"),
-			  a = doc.createElement("a"),
-			  img = doc.createElement("img"),
-			  div = doc.createElement("div"),
-			  p = doc.createElement("p");
-			li.setAttribute("class", "mui-table-view-cell mui-media");
-			//把对象的ID赋给li的属性id,以便点击每个li的时候可以获取对象的id作为参数传到详情页,然后根据id查询
-			li.setAttribute("id", item.id)
-			img.setAttribute("style", "width: 100%;height: 160px;background-size: cover;")
-			img.setAttribute("src", item.thumbnailImage);
-			div.setAttribute("class", "mui-media-body");
-			p.setAttribute("class", ".mui-ellipsis");
-			p.setAttribute("style", "white-space: normal;")
-			div.innerText = item.titleEn;
-			p.innerHTML = item.descriptionEn;
-			li.appendChild(a);
-			a.appendChild(img);
-			a.appendChild(div);
-			div.appendChild(p);
-			fragment.appendChild(li);
-	  	});
-	  	container.appendChild(fragment);
-	  }
+					}
+				});
+				mui.ajax(baseUrl + '/inbox/list/' + 1 + "/" + 2, {
+					data: {
 
-      function notifiInboxList(data) {
-      	plus.nativeUI.closeWaiting();
-      	var doc = document,
-      		fragment = doc.createDocumentFragment(),
-      		container = doc.getElementById("inbox");
-      	//遍历数组
-      	mui.each(data, function(i, item) {
-      			var doc = document,
-      			  li = doc.createElement("li"),
-      			  a = doc.createElement("a"),
-      			  img = doc.createElement("img"),
-      			  div = doc.createElement("div"),
-      			  p = doc.createElement("p");
-      			li.setAttribute("class", "mui-table-view-cell mui-media");
-      			//把对象的ID赋给li的属性id,以便点击每个li的时候可以获取对象的id作为参数传到详情页,然后根据id查询
-      			li.setAttribute("id", item.id)
-      			img.setAttribute("style", "width: 100%;height: 160px;background-size: cover;")
-      			img.setAttribute("src", item.image);
-      			div.setAttribute("class", "mui-media-body");
-      			p.setAttribute("class", ".mui-ellipsis");
-      			p.setAttribute("style", "white-space: normal;")
-      			div.innerText = item.titleEn;
-      			p.innerHTML = item.subtitleEn;
-      			li.appendChild(a);
-      			a.appendChild(img);
-      			a.appendChild(div);
-      			div.appendChild(p);
-      			fragment.appendChild(li);
-      	});
-      	container.appendChild(fragment);
-      }
+					},
+					headers: {
+						lang: "en"
+					},
+					dataType: 'json',
+					type: 'get',
+					success: function(result) {
+						if (result.code == 200) {
+							var data = result.data;
+							notifiInboxList(data.list);
+						} else {
+							mui.toast(result.msg);
+						}
 
-      function toSetting() {
-        mui.openWindow({
-          url: './setting.html',
-          id: 'setting.html'
-        });
-      }
+					}
+				});
+			}
 
-      function toReward() {
-        mui.openWindow({
-          url: './reward/reward.html',
-          id: 'reward.html'
-        });
-      }
-	  
-	  function toQRCode(){
-		    mui.openWindow({
-		    url: './qrCode.html',
-		    id: 'qrCode.html'
-		  });
-	  }
-    </script>
 
-    <header class="mui-bar mui-bar-nav" style="background-color: red;">
-      <span class="mui-icon  mui-icon-bars" style="color:#fff;" onclick="toSetting()"></span>
-      <h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">WingOn Reward</h1>
-      <img src="../../img/code1.png" class="mui-pull-right mui-icon mui-icon-bars" onclick="toQRCode()"/>
-    </header>
+			function notifiUL(customer, address, balanceVo) {
+				plus.nativeUI.closeWaiting();
+				var userName = document.getElementById('userName');
+				userName.innerHTML = 'Hi, ' + customer.firstName;
 
-    <div class="mui-content">
-      <div id="topContent">
-        <div>
-          <a style="font-size: 22px;color: #000000;font-weight: bold;" id="userName"></a>
-          <span class="mui-icon mui-icon-forward" style="color: #6D6D72;"></span>
-        </div>
+				var points = document.getElementById('points');
+				points.innerHTML = balanceVo.balance;
+			}
 
-        <div style="margin-top:10px;">
-          <a style="font-size: 18px;color: #000000;">Reward Points :</a>
-          <a style="font-size: 20px;color: #000000;font-weight: bold;" id="points"></a>
-          <span class="mui-icon mui-icon-forward" style="color: #6D6D72;"></span>
-        </div>
-      </div>
+			function notifiPromotionList(data) {
+				plus.nativeUI.closeWaiting();
+				var doc = document,
+					fragment = doc.createDocumentFragment(),
+					container = doc.getElementById("promotion");
+				//遍历数组
+				mui.each(data, function(i, item) {
+					var doc = document,
+						li = doc.createElement("li"),
+						a = doc.createElement("a"),
+						img = doc.createElement("img"),
+						div = doc.createElement("div"),
+						p = doc.createElement("p");
+					li.setAttribute("class", "mui-table-view-cell mui-media");
+					//把对象的ID赋给li的属性id,以便点击每个li的时候可以获取对象的id作为参数传到详情页,然后根据id查询
+					li.setAttribute("id", item.id)
+					img.setAttribute("style", "width: 100%;height: 160px;background-size: cover;")
+					img.setAttribute("src", item.thumbnailImage);
+					div.setAttribute("class", "mui-media-body");
+					p.setAttribute("class", ".mui-ellipsis");
+					p.setAttribute("style", "white-space: normal;")
+					div.innerText = item.titleEn;
+					p.innerHTML = item.descriptionEn;
+					li.appendChild(a);
+					a.appendChild(img);
+					a.appendChild(div);
+					div.appendChild(p);
+					fragment.appendChild(li);
+				});
+				container.appendChild(fragment);
+			}
 
-      <div id="btns">
+			function notifiInboxList(data) {
+				plus.nativeUI.closeWaiting();
+				var doc = document,
+					fragment = doc.createDocumentFragment(),
+					container = doc.getElementById("inbox");
+				//遍历数组
+				mui.each(data, function(i, item) {
+					var doc = document,
+						li = doc.createElement("li"),
+						a = doc.createElement("a"),
+						img = doc.createElement("img"),
+						div = doc.createElement("div"),
+						p = doc.createElement("p");
+					li.setAttribute("class", "mui-table-view-cell mui-media");
+					//把对象的ID赋给li的属性id,以便点击每个li的时候可以获取对象的id作为参数传到详情页,然后根据id查询
+					li.setAttribute("id", item.id)
+					img.setAttribute("style", "width: 100%;height: 160px;background-size: cover;")
+					img.setAttribute("src", item.image);
+					div.setAttribute("class", "mui-media-body");
+					p.setAttribute("class", ".mui-ellipsis");
+					p.setAttribute("style", "white-space: normal;")
+					div.innerText = item.titleEn;
+					p.innerHTML = item.subtitleEn;
+					li.appendChild(a);
+					a.appendChild(img);
+					a.appendChild(div);
+					div.appendChild(p);
+					fragment.appendChild(li);
+				});
+				container.appendChild(fragment);
+			}
+
+			function toSetting() {
+				mui.openWindow({
+					url: './setting.html',
+					id: 'setting.html'
+				});
+			}
+
+			// function toReward() {
+			//   mui.openWindow({
+			//     url: './reward/reward.html',
+			//     id: 'reward.html'
+			//   });
+			// }
+
+			function toQRCode() {
+				mui.openWindow({
+					url: './qrCode.html',
+					id: 'qrCode.html'
+				});
+			}
+		</script>
+
+		<header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow: 0px 0px 0px #413D4A;">
+			<span class="mui-icon  mui-icon-bars" style="color:#fff;" onclick="toSetting()"></span>
+			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">WingOn Reward</h1>
+			<img src="../../img/code1.png" class="mui-pull-right mui-icon mui-icon-bars" onclick="toQRCode()" />
+		</header>
+
+		<div class="mui-content">
+			<div id="topContent">
+				<div>
+					<a style="font-size: 18px;color: #FFFFFF;" id="userName"></a>
+					<!-- <span class="mui-icon mui-icon-forward" ></span> -->
+				</div>
+
+				<div style="margin-top:20px;">
+					<a style="font-size: 20px;font-weight: bold;color: #FFFFFF;" id="points"></a>
+					<a style="font-size: 20px;color: #FFFFFF;font-weight: bold;">ePoints </a>
+					<span class="mui-icon mui-icon-forward"></span>
+				</div>
+			</div>
+
+			<!--  <div id="btns">
         <button type="button" class="mui-btn-blue" onclick="toReward()">Rewards<br />Wallet</button>
         <button type="button" class="mui-btn-blue">Transaction<br />History</button>
         <button type="button" class="mui-btn-blue">Lucky Draw</button>
       </div>
+ -->
+
+			<div style="margin-top: 5%;width: 100%;background-color: #FFFFFF;">
+				<h4 style="margin-bottom: 3%;">News / Lastest Offers</h4>
+				<ul class="mui-table-view" id="promotion" style="margin-bottom: 5%;">
+				</ul>
+				<ul class="mui-table-view" id="inbox" style="margin-bottom: 5%;box-shadow: 0px 0px 5px #6D6D72;">
+				</ul>
+
+			</div>
 
 
-      <div style="margin-top: 5%;width: 90%;">
-      	<h4 style="margin-bottom: 3%;">News / Lastest Offers</h4>
-      	<ul class="mui-table-view" id="promotion" style="margin-bottom: 5%;box-shadow: 0px 0px 5px #6D6D72;">
-      	</ul>
-		<ul class="mui-table-view" id="inbox" style="margin-bottom: 5%;box-shadow: 0px 0px 5px #6D6D72;">
-		</ul>
 
-      </div>
 
-    </div>
 
-  </body>
+		</div>
+
+
+	</body>
 </html>
