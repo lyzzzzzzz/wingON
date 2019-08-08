@@ -25,7 +25,7 @@
 
 			var defaultpage = "./home/home.html"; // 定义默认选项卡子页面
 			// 定义所有子页面
-			var subpages = ['./home/home.html', './home/coupon.html', './home/passport.html', './home/promotion.html',
+			var subpages = ['./home/home.html', './home/coupon.html', './home/qrCode.html', './home/promotion.html',
 				'./home/my.html'
 			];
 
@@ -54,7 +54,14 @@
 				// 创建点击事件
 				mui("#nav-tabbar").on("tap", "a", function(e) {
 					plus.webview.hide(defaultpage); // 隐藏上一个子页面
-					plus.webview.show("./home/" + this.id + ".html") // 显示当前点击页面
+					if(this.id==='qrCode'){
+							mui.openWindow({
+							url: './home/qrCode.html',
+							id: 'qrCode.html'
+						});
+					}else{
+					plus.webview.show("./home/" + this.id + ".html") // 显示当前点击页面	
+					}
 					defaultpage = "./home/" + this.id + ".html"; // 记录当前点击页面
 				})
 
@@ -74,7 +81,7 @@
 				<span class="mui-icon mui-icon-phone"></span>
 				<span class="mui-tab-label">Coupon</span>
 			</a>
-			<a class="mui-tab-item" id="passport">
+			<a class="mui-tab-item" id="qrCode">
 				<span class="mui-icon mui-icon-email"></span>
 				<span class="mui-tab-label">Passport</span>
 			</a>

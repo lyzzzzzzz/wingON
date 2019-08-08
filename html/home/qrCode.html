@@ -13,26 +13,41 @@
 				justify-content: center;
 				align-items: center;
 				background-color: #FFFFFF;
-				width:70%;
-				height:45%;
+				padding: 2px;
+				/* width:56%;
+				height:50%; */
+				box-shadow: 0px 0px 5px #9B9B9B;
 			}
 			.mui-content{
 			    display: flex;
 				flex-direction: column;
-				justify-content: space-around;
+				justify-content: flex-start;
 				align-items: center;
 				height: 100%;
+				background-color: #EE5B5B;
 			}
 			body,html{
 				height: 100%;
 				width: 100%;
 			}
-			#number{
+			/* #number{
 				text-align: center;
 				display: block;
 				margin-top: 20px;
 				font-weight: bold;
 				font-size: 18px;
+			} */
+			#codeDiv{
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				align-items: center;
+				width: 90%;
+				height: 53%;
+				background-color: #FFFFFF;
+				border-radius: 25px;
+				padding-top: 30px;
+				padding-bottom: 30px;
 			}
 		</style>
 	</head>
@@ -53,17 +68,24 @@
 				});
 			})
 		</script>
-		<header class="mui-bar mui-bar-nav" style="background-color: red;">
+		<!-- <header class="mui-bar mui-bar-nav" style="background-color: red;">
 			<a class="mui-icon mui-icon-bars mui-pull-left" style="color:#fff;"></a>
 			<h1 class="mui-title mui-action-back" style="color: #FFFFFF;font-weight: bold; font-size: 20px;">My Passport</h1>
-		</header>
+		</header> -->
 		<div class="mui-content">
-			<h4>Scan to Pay and Redeem ePoint</h4>
-			<div id="qrcode"></div>
-			<div>
+			<h4 style="margin-top: 30px;margin-bottom: 30px;color: #FFFFFF;font-size: 20px;">My Passport</h4>
+			<div id="codeDiv">
+				<div id="qrcode"></div>
+				<div style="text-align: center;">
+					<span style="color: #BBBBBB;font-weight: bold;">My MemberShip Number</span>
+					<span style="margin-top: 20px;display: block;font-weight: bold;">17724242785</span>
+				</div>
+			</div>
+			<span style="margin-top: 30px;margin-bottom: 30px;color: #FFFFFF;">Scan to Pay and Redeem epoint</span>
+			<!-- 	<div>
 				<span style="display: block;">My MemberShip Number</span>
 				<span id="number">17724242785</span>
-			</div>
+			</div> -->
 		</div>
 	</body>
 
