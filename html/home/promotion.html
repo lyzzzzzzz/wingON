@@ -6,16 +6,95 @@
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../../css/mui.css" rel="stylesheet" />
+		<style type="text/css">
+			html,body{
+				margin: 0px;
+				padding: 0px;
+			}
+			.mui-content{
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+			#ul{
+				margin-top: 10px;
+				margin-bottom: 10px;
+			}
+		</style>
 	</head>
 
 	<body>
 		<script src="../../js/mui.js"></script>
 		<script type="text/javascript">
 			mui.init()
+			mui.plusReady(function() {
+				//模拟列表数据
+				var data = []
+				var obj = {
+					img: '../../img/one.jpg',
+					title: '空间帆球',
+					content: '“北理工1号”卫星的总体研制机构北京理工大学介绍说，这颗科学技术验证卫星的个头很小，直径为500毫米，质量只有3公斤。但它将对创新性的“帆球技术”进行科研验证。？'
+				}
+				for (var i = 0; i < 10; i++) {
+					data.push(obj)
+				}
+				notifiULList(data)
+			})
+
+			function notifiULList(data) {
+				//plus.nativeUI.closeWaiting();
+				var doc = document,
+					fragment = doc.createDocumentFragment(),
+					container = doc.getElementById("ul");
+				//遍历数组
+				mui.each(data, function(i, item) {
+					notifiAndSetLiDetail(fragment, item);
+				});
+				container.appendChild(fragment);
+			}
+			
+			
+				function notifiAndSetLiDetail(fragment, item) {
+				var doc = document,
+					li = doc.createElement("li"),
+					a = doc.createElement("a"),
+					img = doc.createElement("img"),
+					div = doc.createElement("div"),
+					p = doc.createElement("p");
+				li.setAttribute("class", "mui-table-view-cell mui-media");
+				img.setAttribute("style", "width: 100%;height: 200px;");
+				img.setAttribute("src", item.img);
+				div.setAttribute("class", "mui-media-body");
+				p.setAttribute("class", "mui-ellipsis");
+				p.setAttribute("style", "white-space: normal;")
+				div.innerText = item.title;
+				p.innerHTML = item.content;
+				li.appendChild(a);
+				a.appendChild(img);
+				a.appendChild(div);
+				div.appendChild(p);
+				fragment.appendChild(li);
+			}
+			
 		</script>
-		<header class="mui-bar mui-bar-nav">
-			<h1 class="mui-title">promotion</h1>
+		<header class="mui-bar mui-bar-nav" style="background-color: red;">
+			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">Promotion</h1>
 		</header>
+
+		<div class="mui-content">
+			<ul class="mui-table-view" id="ul" style="width: 95%;">
+				<!-- <li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<img  src="../../img/one.jpg" style="width: 100%;height: 200px;">
+						<div class="mui-media-body">
+							幸福
+							<p class="mui-ellipsis">能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
+						</div>
+					</a>
+				</li> -->
+			</ul>
+		</div>
+
 	</body>
 
 </html>
