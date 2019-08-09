@@ -66,6 +66,23 @@
           deceleration: 0.0006, //阻尼系数,系数越小滑动越灵敏
           // bounce: true //是否启用回弹
         });
+		
+		var obj = {
+		  // id: i,
+		  img: '../../img/tmp_logo1.jpg',
+		  title: 'Meriton Jacq.Curtain Waffle 180x180cm',
+		  content: 'Create uniform curly noodles from a variety of vegetables and fruits,includes coarse and fine spiralizer blades plus rotary grating blade.Measure: Body Weight, % Body Fat, % Total Body Water, Muscle Mass/Physique Rating, Bone Mass, BMR/Metabolic Age, Visceral Fat, BMI',
+		  rules: 'Measure: Body Weight, % Body Fat, % Total Body Water, Muscle Mass/Physique Rating, Bone Mass, BMR/Metabolic Age, Visceral Fat, BMI,Measure: Body Weight, % Body Fat, % Total Body Water, Muscle Mass/Physique Rating, Bone Mass, BMR/Metabolic Age, Visceral Fat, BMI'
+		}
+		
+		var img = document.getElementById("img")
+		var title = document.getElementById('title')
+		var content = document.getElementById("p")
+		var rules = document.getElementById("rule")
+		img.setAttribute("src", obj.img)
+		title.innerText = obj.title
+		content.innerText = obj.content
+		rules.innerText = obj.content
       })
 
       //添加newId自定义事件监听
@@ -95,7 +112,7 @@
 
     <header class="mui-bar mui-bar-nav" style="background-color: red;">
       <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="touch-action: none;color: #FFFFFF;"></a>
-      <h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">最新推广</h1>
+      <h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">Promotion</h1>
     </header>
 
     <div class="mui-scroll-wrapper">
@@ -107,12 +124,12 @@
           <div style="margin-top: 5px;">
             <span id="title" style="font-weight: bold;"></span>
             <p id="p" style="margin-bottom: 40px;margin-top: 5px;"></p>
-            <span style="font-weight: bold;">條款及細則</span>
+            <span style="font-weight: bold;">Terms & Conditions</span>
             <p id="rule" style="margin-top: 5px;"></p>
           </div>
         </div>
         <footer>
-          <span style="text-align: center;display: block;font-weight: bold;margin-bottom: 3px;">與好友分享</span>
+          <span style="text-align: center;display: block;font-weight: bold;margin-bottom: 3px;">Share the offer to you friend</span>
           <table  width="100%" style="text-align: center;">
             <tr>
               <td style="border-left-width: 0;">
@@ -124,7 +141,7 @@
               <td style="border-right-width: 0;">
                 <div id="bottomContent">
                   <img src="../../img/copy.png" style="width: 30px;height: 30px;" />
-                  <span>複製並分享</span>
+                  <span>Copy link for share</span>
                 </div>
               </td>
             </tr>

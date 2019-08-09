@@ -85,8 +85,33 @@
 				});
 
 				var customerId = plus.storage.getItem('customerId');
-				getCustomerInfo(customerId);
-				getNewsInfo();
+				//getCustomerInfo(customerId);
+				//getNewsInfo();
+				
+				var userName = document.getElementById('userName');
+				userName.innerHTML = 'Hi, ' + 'Stan';
+				
+				var points = document.getElementById('points');
+				points.innerHTML = '2,500';
+				
+				notifiPromotionList([{
+					thumbnailImage: "../../img/tmp_logo1.jpg",
+					titleEn: "Meriton Jacq.Curtain Waffle 180x180cm",
+					descriptionEn: "Measure: Body Weight, % Body Fat, % Total Body Water, Muscle Mass/Physique Rating, Bone Mass, BMR/Metabolic Age, Visceral Fat, BMI"
+				}, {
+					thumbnailImage: "../../img/tmp_logo2.jpg",
+					titleEn: "TANITA Body Fat Scale BC-313 (red)",
+					descriptionEn: "Create uniform curly noodles from a variety of vegetables and fruits, includes coarse and fine spiralizer blades plus rotary grating blade."
+				}]);
+				notifiInboxList([{
+					image: "../../img/tmp_logo3.jpg",
+					titleEn: "Meriton Jacq.Curtain Waffle 180x180cm",
+					subtitleEn: "Measure: Body Weight, % Body Fat, % Total Body Water, Muscle Mass/Physique Rating, Bone Mass, BMR/Metabolic Age, Visceral Fat, BMI"
+				}, {
+					image: "../../img/tmp_logo4.png",
+					titleEn: "Meriton Jacq.Curtain Waffle 180x180cm",
+					subtitleEn: "Measure: Body Weight, % Body Fat, % Total Body Water, Muscle Mass/Physique Rating, Bone Mass, BMR/Metabolic Age, Visceral Fat, BMI"
+				}]);
 
 				var detailPage = null;
 				//添加列表项的点击事件
