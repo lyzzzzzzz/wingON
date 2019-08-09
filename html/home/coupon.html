@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.css" rel="stylesheet" />
+		<style>
+			header{
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: center;
+				background-color: red;
+				height: 70px;
+			}
+				#segmented a{
+					line-height: 25px;
+					width: 30%;
+					text-align: center;
+			/* touch-action: none; */
+				}
+				.mui-segmented-control{
+					border: none;
+				}
+					/** 设置 选项卡颜色，字体颜色 **/
+			
+			.mui-segmented-control .mui-control-item.mui-active {
+				color: white;
+				background-color: #5f75e0;
+				font-weight: bold;
+			}
+			/** 设置 选项卡 高度（默认38px） **/
+			
+			.mui-segmented-control .mui-control-item {
+				line-height: 38px;
+				text-align: center;
+				color: #007aff;
+				border-color: #007aff;
+				border-left: 1px solid #007aff;
+				font-weight: bold;
+			}
+			
+			
+			#card{
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+				width: 100%;
+			}
+			#ss{
+				display: flex;
+				flex-direction: column;
+				justify-content: space-around;
+				align-items: center;
+			}
+		
+		</style>
+	</head>
+
+	<body>
+		<script src="../../js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui.plusReady(function() {
+				//不显示滚动条
+				plus.webview.currentWebview().setStyle({
+					scrollIndicator: 'none'
+				});
+				
+				//模拟列表数据
+				var data1 = []
+				var obj1 = {
+					img: '../../img/one.jpg',
+					title: 'special Discount on selected mui-control-item',
+					content: 'special Discount on selected mui-control-itemspecial Discount on selected mui-control-itemspecial Discount on selected mui-control-itemspecial Discount',
+					date: '31/05/2019'
+				}
+				var data2 = []
+				var obj2 = {
+					img: '../../img/image_login.png',
+					title: 'gfg ewrgwreg ewgtwergye ryherhet rhyer',
+					content: 'gfg ewrgwreg ewgtwergye ryherhet rhyerspecial Discgfg ewrgwreg ewgtwergye ryherhet rhyeron segfg ewrgwreg ewgtwergye ryherhet rhyer-itemspecial Discount',
+					date: '11/06/2016'
+				}
+
+				for (var i = 0; i < 10; i++) {
+					data1.push(obj1)
+					data2.push(obj2)
+				}
+
+				notifiULList(data1, 'item1')
+				notifiULList(data2, 'item2')
+			})
+
+			function notifiULList(data, elm) {
+				//plus.nativeUI.closeWaiting();
+				var doc = document,
+					fragment = doc.createDocumentFragment(),
+					container = doc.getElementById(elm);
+				//遍历数组
+				mui.each(data, function(i, item) {
+					notifiAndSetLiDetail(fragment, item);
+				});
+				container.appendChild(fragment);
+			}
+
+
+			function notifiAndSetLiDetail(fragment, item) {
+				var div1 = document.createElement('div')
+				var div2 = document.createElement('div')
+				var p = document.createElement('p')
+				var span1 = document.createElement('span')
+				var span2 = document.createElement('span')
+				var img = document.createElement('img')
+				div2.setAttribute('id', 'card');
+				div1.setAttribute('style', 'margin-bottom: 10px;background-color: #FFFFFF;padding: 5px;')
+				img.setAttribute('src', item.img);
+				img.setAttribute('style', 'width: 100px;height: 70px;margin-right: 6px;');
+				span1.setAttribute('style', 'color: #D04431;font-weight: bold;');
+				span1.innerText = item.title
+				p.setAttribute('style', 'margin-top: 10px;font-size: 16px;color: #242424;margin-bottom: 20px;');
+				p.innerHTML = 'Member Offer: ' + item.content;
+				span2.setAttribute('style', 'color: #888888;');
+				span2.innerText = 'Expired date:' + item.date
+				div1.appendChild(div2)
+				div1.appendChild(p)
+				div1.appendChild(span2)
+				div2.appendChild(img)
+				div2.appendChild(span1)
+				fragment.appendChild(div1)
+			}
+		</script>
+		<header>
+			<h1 style="color: #FFFFFF;font-weight: bold;font-size: 20px;">Coupons</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded">
+				<div class="mui-segmented-control">
+					<a class="mui-control-item mui-active" href="#item1">My Rewards</a>
+					<a class="mui-control-item" href="#item2">e-Coupons</a>
+				</div>
+			</div>
+
+			<div id="item1" class="mui-control-content mui-active" style="width: 100%;"></div>
+			<div id="item2" class="mui-control-content"></div>
+
+		</div>
+	</body>
+
+</html>

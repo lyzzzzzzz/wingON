@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+		<style>
+		.mui-bar-tab .mui-tab-item.mui-active {
+	       color: #FCEC64;
+		}
+		.mui-bar-tab .mui-tab-item {
+		   color: #FFFFFF;
+		}
+
+</style>
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+
+
+			var defaultpage = "./home/home.html"; // 定义默认选项卡子页面
+			// 定义所有子页面
+			var subpages = ['./home/home.html', './home/coupon.html', './home/qrCode.html', './home/promotion.html',
+				'./home/my.html'
+			];
+
+			// 页面加载完成后加载子页面
+			mui.plusReady(function() {
+				var current = plus.webview.currentWebview(); //获取当前页面的窗口对象
+
+				// 加载所有子页面
+				for (var i = 0; i < subpages.length; i++) {
+					var sub = plus.webview.create(
+						subpages[i],
+						subpages[i], {
+							top: '0px',
+							bottom: '51px'
+						}
+					);
+					// 除默认页面外，其他子页面隐藏
+					if (subpages[i] != defaultpage) {
+						sub.hide();
+					}
+					current.append(sub); // 子页面加入窗口对象
+				}
+
+
+
+				// 创建点击事件
+				mui("#nav-tabbar").on("tap", "a", function(e) {
+					plus.webview.hide(defaultpage); // 隐藏上一个子页面
+					if(this.id==='qrCode'){
+							mui.openWindow({
+							url: './home/qrCode.html',
+							id: 'qrCode.html'
+						});
+					}else{
+					plus.webview.show("./home/" + this.id + ".html") // 显示当前点击页面	
+					}
+					defaultpage = "./home/" + this.id + ".html"; // 记录当前点击页面
+				})
+
+			});
+		</script>
+		<!-- 底部导航栏 -->
+		<nav class="mui-bar mui-bar-tab" id="nav-tabbar" style="background-color: #EE5B5B;">
+			<!-- <a class="mui-tab-item mui-active">
+				<span id="myBtn">点我</span>
+				<span id="demo"></span>
+			</a> -->
+			<a class="mui-tab-item mui-active" id="home">
+				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-tab-label">WingOn</span>
+			</a>
+			<a class="mui-tab-item" id="coupon">
+				<span class="mui-icon mui-icon-phone"></span>
+				<span class="mui-tab-label">Coupon</span>
+			</a>
+			<a class="mui-tab-item" id="qrCode">
+				<span class="mui-icon mui-icon-email"></span>
+				<span class="mui-tab-label">Passport</span>
+			</a>
+			<a class="mui-tab-item" id="promotion">
+				<span class="mui-icon mui-icon-gear"></span>
+				<span class="mui-tab-label">Promotion</span>
+			</a>
+			<a class="mui-tab-item" id="my">
+				<span class="mui-icon mui-icon-gear"></span>
+				<span class="mui-tab-label">My</span>
+			</a>
+		</nav>
+
+
+
+	</body>
+
+</html>
