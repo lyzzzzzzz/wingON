@@ -7,22 +7,59 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../css/mui.css" rel="stylesheet" />
 		<style>
-		.mui-bar-tab .mui-tab-item.mui-active {
-	       color: #FCEC64;
-		}
-		.mui-bar-tab .mui-tab-item {
-		   color: #FFFFFF;
-		}
-
-</style>
+			#footer{
+				display: flex;
+				flex-direction: row;
+				justify-content: space-around;
+				align-items: center;
+				width: 100%;
+				height: 55px;
+				background-color: #EE5B5B;
+				bottom: 0px;
+				position: absolute;
+			
+			}
+			
+			img{
+				width: 25px;
+				height: 25px;
+			}
+			.item{
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				color: #FFFFFF;
+				font-size: 15px;
+			}
+			.homeItem{
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				color: #FCEC64;
+				font-size: 15px;
+			}
+		</style>
 	</head>
 
 	<body>
 		<script src="../js/mui.js"></script>
 		<script type="text/javascript">
-			mui.init()
-
-
+			mui.init(
+				// subpages:[{  
+				//                              url:'./index.html',  
+				//                              id:'index.html',  
+				//                              styles:{  
+				//                                zindex:"90",  
+				//                                width:"100%",  
+				//                                height:"70px",  
+				//                                bottom:"0px",//默认为0px，可不定义；  
+				//                                background:"transparent"  
+				//                              }  
+				//                        }]  
+			)
+			// 
 			var defaultpage = "./home/home.html"; // 定义默认选项卡子页面
 			// 定义所有子页面
 			var subpages = ['./home/home.html', './home/coupon.html', './home/qrCode.html', './home/promotion.html',
@@ -39,7 +76,8 @@
 						subpages[i],
 						subpages[i], {
 							top: '0px',
-							bottom: '51px'
+							bottom: '75px',
+							zindex: 1
 						}
 					);
 					// 除默认页面外，其他子页面隐藏
@@ -50,53 +88,157 @@
 				}
 
 
+				var home = document.getElementById('home')
+				var coupon = document.getElementById('coupon')
+				var promotion = document.getElementById('promotion')
+				var my = document.getElementById('my')
+				var qrCode = document.getElementById('qrCode')
+
+				document.getElementById('home').addEventListener("click", function() {
+					this.children[0].setAttribute('src', '../img/toolbar_wingon_b.png')
+					this.setAttribute('style', 'color: #FCEC64;')
+					coupon.setAttribute('style', 'color: #FFFFFF;')
+					coupon.children[0].setAttribute('src', '../img/toolbar_coupon.png')
+					promotion.setAttribute('style', 'color: #FFFFFF;')
+					promotion.children[0].setAttribute('src', '../img/toolbar_promotion.png')
+					my.setAttribute('style', 'color: #FFFFFF;')
+					my.children[0].setAttribute('src', '../img/toolbar_my.png')
+					qrCode.setAttribute('style', 'color: #FFFFFF;')
+					qrCode.children[0].setAttribute('src', '../img/toolbar_passport.png')
+					plus.webview.hide(defaultpage);
+					plus.webview.show("./home/home.html")
+					defaultpage = "./home/home.html";
+				})
+
+				document.getElementById('promotion').addEventListener("click", function() {
+					home.children[0].setAttribute('src', '../img/home1.png')
+					this.children[0].setAttribute('src', '../img/toolbar_promotion_b.png')
+					this.setAttribute('style', 'color:#FCEC64;')
+					home.setAttribute('style', 'color: #FFFFFF;')
+					coupon.setAttribute('style', 'color: #FFFFFF;')
+					coupon.children[0].setAttribute('src', '../img/toolbar_coupon.png')
+					my.setAttribute('style', 'color: #FFFFFF;')
+					my.children[0].setAttribute('src', '../img/toolbar_my.png')
+					qrCode.setAttribute('style', 'color: #FFFFFF;')
+					qrCode.children[0].setAttribute('src', '../img/toolbar_passport.png')
+					plus.webview.hide(defaultpage);
+					plus.webview.show("./home/promotion.html")
+					defaultpage = "./home/promotion.html";
+				})
+
+				document.getElementById('coupon').addEventListener("click", function() {
+					this.children[0].setAttribute('src', '../img/toolbar_coupon_b2.png')
+					this.setAttribute('style', 'color: #FCEC64;')
+					home.setAttribute('style', 'color: #FFFFFF;')
+					home.children[0].setAttribute('src', '../img/home1.png')
+					promotion.setAttribute('style', 'color: #FFFFFF;')
+					promotion.children[0].setAttribute('src', '../img/toolbar_promotion.png')
+					my.setAttribute('style', 'color: #FFFFFF;')
+					my.children[0].setAttribute('src', '../img/toolbar_my.png')
+					qrCode.setAttribute('style', 'color: #FFFFFF;')
+					qrCode.children[0].setAttribute('src', '../img/toolbar_passport.png')
+					plus.webview.hide(defaultpage);
+					plus.webview.show("./home/coupon.html")
+					defaultpage = "./home/coupon.html";
+				})
+
+
+				document.getElementById('my').addEventListener("click", function() {
+					this.children[0].setAttribute('src', '../img/toolbar_my_b.png')
+					this.setAttribute('style', 'color:#FCEC64;')
+					home.setAttribute('style', 'color: #FFFFFF;')
+					home.children[0].setAttribute('src', '../img/home1.png')
+					promotion.setAttribute('style', 'color: #FFFFFF;')
+					promotion.children[0].setAttribute('src', '../img/toolbar_promotion.png')
+					coupon.setAttribute('style', 'color: #FFFFFF;')
+					coupon.children[0].setAttribute('src', '../img/toolbar_coupon.png')
+					qrCode.setAttribute('style', 'color: #FFFFFF;')
+					qrCode.children[0].setAttribute('src', '../img/toolbar_passport.png')
+					plus.webview.hide(defaultpage);
+					plus.webview.show("./home/my.html")
+					defaultpage = "./home/my.html";
+				})
+
+
+				document.getElementById('qrCode').addEventListener("click", function() {
+					this.children[0].setAttribute('src', '../img/toolbar_passport_b2.png')
+					this.setAttribute('style', 'color: #FCEC64;')
+					home.setAttribute('style', 'color: #FFFFFF;')
+					home.children[0].setAttribute('src', '../img/home1.png')
+					promotion.setAttribute('style', 'color: #FFFFFF;')
+					promotion.children[0].setAttribute('src', '../img/toolbar_promotion.png')
+					coupon.setAttribute('style', 'color: #FFFFFF;')
+					coupon.children[0].setAttribute('src', '../img/toolbar_coupon.png')
+					my.setAttribute('style', 'color: #FFFFFF;')
+					my.children[0].setAttribute('src', '../img/toolbar_my.png')
+					plus.webview.hide(defaultpage);
+					mui.openWindow({
+								url: './home/qrCode.html',
+								id: 'qrCode.html'
+							});
+					// plus.webview.show("./home/qrCode.html")
+					defaultpage = "./home/qrCode.html";
+				})
 
 				// 创建点击事件
-				mui("#nav-tabbar").on("tap", "a", function(e) {
-					plus.webview.hide(defaultpage); // 隐藏上一个子页面
-					if(this.id==='qrCode'){
-							mui.openWindow({
-							url: './home/qrCode.html',
-							id: 'qrCode.html'
-						});
-					}else{
-					plus.webview.show("./home/" + this.id + ".html") // 显示当前点击页面	
-					}
-					defaultpage = "./home/" + this.id + ".html"; // 记录当前点击页面
-				})
+				// mui("#footer").on("tap", "div", function(e) {
+				// 	// var home=document.getElementById('home')
+				// 	// var home=document.getElementById('coupon')
+				// 	// 	var home=document.getElementById('qrCode
+				// 	// 	var home=document.getElementById('qrCode')
+				// 	plus.webview.hide(defaultpage); // 隐藏上一个子页面
+				// 	if (this.id === 'qrCode') {
+				// 		// console.log('dddd'+this.childNodes[0])
+				// 	// this.childNodes[0].src
+				// 		mui.openWindow({
+				// 			url: './home/qrCode.html',
+				// 			id: 'qrCode.html'
+				// 		});
+				// 		
+				// 	} else {
+				// 		this.setAttribute('style','color: #007AFF;')
+				// 		plus.webview.show("./home/" + this.id + ".html") // 显示当前点击页面	
+				// 		// plus.webview.show("./" +  + "index.html") // 显示当前点击页面	
+				// 	}
+				// 	defaultpage = "./home/" + this.id + ".html"; // 记录当前点击页面
+				// })
 
 			});
 		</script>
-		<!-- 底部导航栏 -->
-		<nav class="mui-bar mui-bar-tab" id="nav-tabbar" style="background-color: #EE5B5B;">
-			<!-- <a class="mui-tab-item mui-active">
-				<span id="myBtn">点我</span>
-				<span id="demo"></span>
-			</a> -->
-			<a class="mui-tab-item mui-active" id="home">
-				<span class="mui-icon mui-icon-home"></span>
-				<span class="mui-tab-label">WingOn</span>
-			</a>
-			<a class="mui-tab-item" id="coupon">
-				<span class="mui-icon mui-icon-phone"></span>
-				<span class="mui-tab-label">Coupon</span>
-			</a>
-			<a class="mui-tab-item" id="qrCode">
-				<span class="mui-icon mui-icon-email"></span>
-				<span class="mui-tab-label">Passport</span>
-			</a>
-			<a class="mui-tab-item" id="promotion">
-				<span class="mui-icon mui-icon-gear"></span>
-				<span class="mui-tab-label">Promotion</span>
-			</a>
-			<a class="mui-tab-item" id="my">
-				<span class="mui-icon mui-icon-gear"></span>
-				<span class="mui-tab-label">My</span>
-			</a>
-		</nav>
+		<!-- <div class="mui-content"> -->
+		<div id="footer">
+			<div class="homeItem" id="home">
+				<img src="../img/toolbar_wingon_b.png" />
+				<span>WingOn</span>
+			</div>
+			<div class="item" id="coupon">
+				<img src="../img/toolbar_coupon.png" />
+				<span>Coupon</span>
+			</div>
+			<!-- <div style="position: relative;flex: 1;">
+				<div class="item" style="border-radius: 30px;position: absolute;bottom: -20px;   background: #EE5B5B;z-index: 100;"
+				 id="qrCode">
+					<img src="../img/toolbar_passport.png" style="width: 35px;height: 35px;margin-top: 10px;" />
+					<span>Passport</span>
+				</div>
+			</div> -->
+
+			<div class="item" id="qrCode">
+				<img src="../img/toolbar_passport.png" />
+				<span>Passport</span>
+			</div>
 
 
-
+			<div class="item" id="promotion">
+				<img src="../img/toolbar_promotion.png" />
+				<span>Promotion</span>
+			</div>
+			<div class="item" id="my">
+				<img src="../img/toolbar_my.png" />
+				<span>My</span>
+			</div>
+		</div>
+		<!-- </div> -->
 	</body>
 
 </html>
