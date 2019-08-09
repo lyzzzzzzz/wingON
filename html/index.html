@@ -61,8 +61,8 @@
 			)
 			// 
 			var defaultpage = "./home/home.html"; // 定义默认选项卡子页面
-			// 定义所有子页面
-			var subpages = ['./home/home.html', './home/coupon.html', './home/qrCode.html', './home/promotion.html',
+			// 定义所有子页面   './home/qrCode.html'
+			var subpages = ['./home/home.html', './home/coupon.html', './home/promotion.html',
 				'./home/my.html'
 			];
 
@@ -161,22 +161,22 @@
 
 
 				document.getElementById('qrCode').addEventListener("click", function() {
-					this.children[0].setAttribute('src', '../img/toolbar_passport_b2.png')
-					this.setAttribute('style', 'color: #FCEC64;')
-					home.setAttribute('style', 'color: #FFFFFF;')
-					home.children[0].setAttribute('src', '../img/home1.png')
-					promotion.setAttribute('style', 'color: #FFFFFF;')
-					promotion.children[0].setAttribute('src', '../img/toolbar_promotion.png')
-					coupon.setAttribute('style', 'color: #FFFFFF;')
-					coupon.children[0].setAttribute('src', '../img/toolbar_coupon.png')
-					my.setAttribute('style', 'color: #FFFFFF;')
-					my.children[0].setAttribute('src', '../img/toolbar_my.png')
+					// this.children[0].setAttribute('src', '../img/toolbar_passport_b2.png')
+					// this.setAttribute('style', 'color: #FCEC64;')
+					// home.setAttribute('style', 'color: #FFFFFF;')
+					// home.children[0].setAttribute('src', '../img/home1.png')
+					// promotion.setAttribute('style', 'color: #FFFFFF;')
+					// promotion.children[0].setAttribute('src', '../img/toolbar_promotion.png')
+					// coupon.setAttribute('style', 'color: #FFFFFF;')
+					// coupon.children[0].setAttribute('src', '../img/toolbar_coupon.png')
+					// my.setAttribute('style', 'color: #FFFFFF;')
+					// my.children[0].setAttribute('src', '../img/toolbar_my.png')
 					plus.webview.hide(defaultpage);
 					mui.openWindow({
 								url: './home/qrCode.html',
 								id: 'qrCode.html'
 							});
-					// plus.webview.show("./home/qrCode.html")
+				//	plus.webview.show("./home/qrCode.html")
 					defaultpage = "./home/qrCode.html";
 				})
 

@@ -47,6 +47,15 @@
 				width: 45px;
 				height: 45px;
 			}
+			.mui-slider img{
+				width: 80%;
+				height: 200px;
+			}
+			.mui-slider-item{
+				width: 100%;
+				height: 300;
+				background-color: #FFFFFF
+			}
 		</style>
 
 
@@ -64,9 +73,16 @@
 			})
 
 
-		
+
 
 			mui.plusReady(function() {
+
+
+				//获得slider插件对象   轮播
+				var gallery = mui('.mui-slider');
+				gallery.slider({
+					interval: 3000 //自动轮播周期，若为0则不自动播放，默认为0；
+				});
 
 				var customerId = plus.storage.getItem('customerId');
 				getCustomerInfo(customerId);
@@ -277,8 +293,8 @@
 					id: 'qrCode.html'
 				});
 			}
-			
-			function toEPointBalance(){
+
+			function toEPointBalance() {
 				mui.openWindow({
 					url: './pointBalance.html',
 					id: 'pointBalance.html'
@@ -288,10 +304,10 @@
 
 		<header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow: 0px 0px 0px #413D4A;">
 			<!-- <span class="mui-icon  mui-icon-bars" style="color:#fff;" onclick="toSetting()"></span> -->
-			<img src="../../img/topbar_locator.png"  class="mui-icon  mui-icon-bars"  />
+			<img src="../../img/topbar_locator.png" class="mui-icon  mui-icon-bars" />
 			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">WingOn Reward</h1>
-			<img src="../../img/topbar_inbox.png" class="mui-pull-right mui-icon mui-icon-bars"/>
-			<img src="../../img/set.png" class="mui-pull-right mui-icon mui-icon-bars" onclick="toSetting()" style="margin-right: 5px;width: 41px;height: 41px;"/>
+			<img src="../../img/topbar_inbox.png" class="mui-pull-right mui-icon mui-icon-bars" />
+			<img src="../../img/set.png" class="mui-pull-right mui-icon mui-icon-bars" onclick="toSetting()" style="margin-right: 5px;width: 41px;height: 41px;" />
 			<!-- <img src="../../img/code1.png" class="mui-pull-right mui-icon mui-icon-bars" onclick="toQRCode()" /> -->
 		</header>
 
@@ -315,6 +331,21 @@
         <button type="button" class="mui-btn-blue">Lucky Draw</button>
       </div>
  -->
+
+			<!-- 轮播 -->
+			<div class="mui-slider">
+				<div class="mui-slider-group mui-slider-loop">
+					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="../../img/one.jpg" /></a>
+						<p class="mui-slider-title">图片1静静看这世界非官方噶覅受到广泛</p>
+					</div>
+					<div class="mui-slider-item"><a href="#"><img src="../../img/image_login.png" /></a>图片1</div>
+					<div class="mui-slider-item"><a href="#"><img src="../../img/one.jpg" /></a>图片2</div>
+					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="../../img/image_login.png" /></a>图片1</div>
+				</div>
+			</div>
+
 
 			<div style="margin-top: 5%;width: 100%;background-color: #FFFFFF;">
 				<h4 style="margin-bottom: 3%;">News / Lastest Offers</h4>
