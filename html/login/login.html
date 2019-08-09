@@ -46,6 +46,21 @@
 				border-color: #C1C1C3;		
 			    border-radius: 3px;
 				}
+				.mui-segmented-control .mui-control-item.mui-active {
+					color: white;
+					background-color: #5f75e0;
+					font-weight: bold;
+				}
+				/** 设置 选项卡 高度（默认38px） **/
+				
+				.mui-segmented-control .mui-control-item {
+					line-height: 38px;
+					text-align: center;
+					color: #007aff;
+					border-color: #007aff;
+					border-left: 1px solid #007aff;
+					font-weight: bold;
+				}
 		</style>
 	</head>
 
@@ -65,20 +80,14 @@
 					buttons: ['cancle', 'ok']
 				});
 				picker.setData([{
-					value: "first",
-					text: "第一项"
+					value: "852",
+					text: "Hong Kong SAR, China +852"
 				}, {
-					value: "second",
-					text: "第二项"
+					value: "853",
+					text: "Macau SAR, China +853"
 				}, {
-					value: "third",
-					text: "第三项"
-				}, {
-					value: "fourth",
-					text: "第四项"
-				}, {
-					value: "fifth",
-					text: "第五项"
+					value: "86",
+					text: "China +86"
 				}]);
 				document.getElementById("showUserPicker1").addEventListener('tap', function(event) {
 					var result=document.getElementById('result')
@@ -90,7 +99,7 @@
 				});
 				
 			})
-			loadTelCode();
+			//loadTelCode();
 
 			function loadTelCode() {
 				var url = baseUrl + '/config/list/telCountryCode/all';
@@ -171,12 +180,12 @@
 				//判断手机号码格式是否正确
 				var phone = document.getElementById('phone').value;
 				if (!phone || phone == '') {
-					mui.toast('手机号码不能为空！')
+					mui.toast('Phone Number is empty！')
 					return false;
 				}
 				var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
 				if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(phone))) {
-					mui.toast('手机号码不正确！')
+					mui.toast('Phone Number is worry！')
 					return false;
 				} else {
 					if (countdown == 0) {
@@ -206,25 +215,58 @@
 			}
 
 			function toHome() {
-				var telCode = document.getElementById('select').value;
-				var password = document.getElementById('password').value;
+				var telCode = document.getElementById('result').value;
+				if (!telCode || telCode == '') {
+					mui.toast('telCountryCode is empty！')
+					return false;
+				}
+				
 				//判断手机号码格式是否正确
 				var phone = document.getElementById('phone').value;
 				if (!phone || phone == '') {
-					mui.toast('手机号码不能为空！')
+					mui.toast('Phone Number is empty！')
 					return false;
 				}
 				var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
 				if (!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(phone))) {
-					mui.toast('手机号码不正确！')
+					mui.toast('Phone Number is worry！')
 					return false;
-				} else {
-					toLoginWithPwd(telCode, phone, password);
 				}
+				 var item = getActiveControl();
+				 
+				 if ( item == "#item1") {
+				 	var optCode = document.getElementById('optCode').value;
+				 	if (!optCode || optCode == '') {
+				 		mui.toast('optCode is empty！')
+				 		return false;
+				 	}
+				 } else {
+					 var password = document.getElementById('password').value;
+					 if (!password || password == '') {
+					 	mui.toast('Password is empty！')
+					 	return false;
+					 }
+				 }
+					
+				// toLoginWithPwd(telCode, phone, password);
+				
+				mui.openWindow({
+					url: '../index.html',
+					id: 'index1.html'
+				});
 
 			}
 
-
+			function getActiveControl() {  
+            var segmentedControl = document.getElementById("segmentedControl");  
+            var links = segmentedControl.getElementsByTagName('a');  
+            for (var i = 0; i < links.length; i++) {  
+                if (links[i].getAttribute('class').indexOf('mui-active') > 0) {  
+                    var id = links[i].getAttribute('href');  
+                    return id;  
+					}  
+				}  
+			}  
 
 
 			/**
@@ -271,15 +313,15 @@
 				<form style="width: 90%;align-items: center;margin-top: 5%;">
 					Country code:
 					<div id="selectDiv">
-						<input type="text" class="mui-input-clear" style="border: none;flex: 1;height: 38px;" id="result">
-						<button id='showUserPicker1' class="mui-btn" type='button' style="border: none;flex: 0 0 3.75rem;background-color: #C7C7CC;border-radius: 0px;">请选择</button>
+						<input type="text" class="mui-input-clear" style="border: none;flex: 1;height: 38px;" readonly="readonly" id="result">
+						<button id='showUserPicker1' class="mui-btn" type='button' style="border: none;flex: 0 0 3.75rem;background-color: #C7C7CC;border-radius: 0px;">▼</button>
 					</div>
 
-					<div class="mui-input-row mui-select" id="selectDiv">
+					<!-- <div class="mui-input-row mui-select" id="selectDiv">
 						<select id="select">
 							<option value="86">请选择</option>
 						</select>
-					</div> 
+					</div> -->
 
 					<div style="margin-top: 20px;">
 						Phone Number:
@@ -292,14 +334,14 @@
 								<button type="button" class="mui-btn-red" style="border-radius: 10px;" id="sendMsg" onclick="settime(this)">Send
 									OTP</button>
 							</div>
-							<input type="text" class="mui-input-clear" style="margin-top: 2%;" oninput="setCode(this)">
+							<input type="text" id="optCode" class="mui-input-clear" style="margin-top: 2%;" oninput="setCode(this)">
 						</div>
 					</div>
 					<div id="item2" class="mui-control-content">
 
 						<div style="margin-top: 10px;">
 							Password:
-							<input type="text" class="mui-input-clear" id="password" style="margin-top: 2%;" value="123456">
+							<input type="password" class="mui-input-clear" id="password" style="margin-top: 2%;" value="123456">
 						</div>
 					</div>
 				</form>
