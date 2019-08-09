@@ -16,7 +16,7 @@ mui.plusReady(function() {
 
     //绘制圆形进度条
     $progressbarCTX.beginPath()
-    $progressbarCTX.arc(105, 105, 100, $startAngle, $endAngle, false)
+    $progressbarCTX.arc(90, 90, 85, $startAngle, $endAngle, false)
     $progressbarCTX.lineWidth = 5
     $progressbarCTX.strokeStyle = "#D43030"
     $progressbarCTX.stroke()
@@ -37,10 +37,10 @@ mui.plusReady(function() {
     $progressbarCTX.font = "24px sans-serif"
     $progressbarCTX.textAlign = "center"
     $progressbarCTX.fillStyle = "#FF0000"
-    $progressbarCTX.fillText($ePoint, 100, 80);
+    $progressbarCTX.fillText($ePoint, 90, 80);
     var $text = "/" + $totalPoint + " ePoints"
     $progressbarCTX.font = "22px sans-serif"
     $progressbarCTX.fillStyle = "#9C9C9C"
-    $progressbarCTX.fillText($text, 100, 120);
+    $progressbarCTX.fillText($text, 90, 110);
   }
 })
