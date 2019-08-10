@@ -31,6 +31,7 @@
 				width: 100%;
 				margin: 0px;
 				padding: 0px;
+				touch-action: none;
 			}
 			/* #number{
 				text-align: center;
@@ -42,10 +43,10 @@
 			#codeDiv{
 				display: flex;
 				flex-direction: column;
-				justify-content: space-between;
+				justify-content: space-around;
 				align-items: center;
 				width: 90%;
-				height: 53%;
+				height: 50%;
 				background-color: #FFFFFF;
 				border-radius: 25px;
 				padding-top: 30px;
@@ -67,23 +68,24 @@
 		<script type="text/javascript">
 			mui.init()
 
-			mui.plusReady(function() {
-				var qrcode = new QRCode(document.getElementById("qrcode"), {
-					text: "测试二维码",
-					width: 165,
-					height: 165,
-					colorDark: "#000000",
-					colorLight: "#ffffff",
-					correctLevel: QRCode.CorrectLevel.H
-				});
 
-// 
-// 				document.getElementById("img").addEventListener("swipeup", function() {
-// 					mui.back()
-// 					// this.setAttribute('class','mui-action-back')
-// 				});
+					mui.plusReady(function() {
+						var qrcode = new QRCode(document.getElementById("qrcode"), {
+							text: "测试二维码",
+							width: 165,
+							height: 165,
+							colorDark: "#000000",
+							colorLight: "#ffffff",
+							correctLevel: QRCode.CorrectLevel.H
+						});
 
-			})
+
+						document.getElementById("img").addEventListener("click", function() {
+							mui.back()
+							// this.setAttribute('class','mui-action-back')
+						});
+
+					})
 		</script>
 		<div class="mui-content">
 			<h4 style="margin-top: 30px;margin-bottom: 30px;color: #FFFFFF;font-size: 20px;">My Passport</h4>
@@ -96,8 +98,8 @@
 			</div>
 			<span style="margin-top: 30px;margin-bottom: 30px;color: #FFFFFF;">Scan to Pay and Redeem epoint</span>
 			<div style="width: 100%;display: flex;flex-direction: row;justify-content: center;z-index: 10;">
-				<div style="height: 70px;width: 70px;background: #FFFFFF;position: relative;bottom: -36px;border-radius: 50px;display: flex;flex-direction: row;justify-content: center;align-items: center;">
-					<img src="../../img/passport_close.png" style="width: 55px;height: 55px;" id='img' class="mui-action-back"/>
+				<div style="height: 70px;width: 70px;background: #FFFFFF;position: absolute;bottom:15px;border-radius: 50px;display: flex;flex-direction: row;justify-content: center;align-items: center;">
+					<img src="../../img/passport_close.png" style="width: 55px;height: 55px;" id='img' />
 				</div>
 			</div>
 
