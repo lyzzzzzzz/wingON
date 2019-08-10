@@ -63,20 +63,28 @@
 
 	<body>
 		<script src="../../js/mui.js"></script>
+		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/environment.js"></script>
 		<script type="text/javascript">
 			mui.init({
 				preloadPages: [{
 					id: 'detail.html',
 					url: './detail.html'
-				}]
+				}],
+				keyEventBind: {
+					backbutton: false, //Boolean(默认true)关闭back按键监听
+					menubutton: false //Boolean(默认true)关闭menu按键监听
+				},
 			})
 
 
 
-
 			mui.plusReady(function() {
-
+				// plus.key.addEventListener('backbutton',
+				// 	function() {
+				// 		alert("ddddd")
+				// 		plus.webview.currentWebview().close();
+				// 	})
 
 				//获得slider插件对象   轮播
 				var gallery = mui('.mui-slider');
@@ -87,13 +95,13 @@
 				var customerId = plus.storage.getItem('customerId');
 				//getCustomerInfo(customerId);
 				//getNewsInfo();
-				
+
 				var userName = document.getElementById('userName');
 				userName.innerHTML = 'Hi, ' + 'Stan';
-				
+
 				var points = document.getElementById('points');
 				points.innerHTML = '2,500';
-				
+
 				notifiPromotionList([{
 					thumbnailImage: "../../img/tmp_logo1.jpg",
 					titleEn: "Meriton Jacq.Curtain Waffle 180x180cm",
@@ -361,13 +369,12 @@
 			<div class="mui-slider">
 				<div class="mui-slider-group mui-slider-loop">
 					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
-					<div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="../../img/one.jpg" /></a>
-						<p class="mui-slider-title">图片1静静看这世界非官方噶覅受到广泛</p>
+					<div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="../../img/tmp_logo3.jpg" />图片2</a>
 					</div>
-					<div class="mui-slider-item"><a href="#"><img src="../../img/image_login.png" /></a>图片1</div>
-					<div class="mui-slider-item"><a href="#"><img src="../../img/one.jpg" /></a>图片2</div>
+					<div class="mui-slider-item"><a href="#"><img src="../../img/tmp_logo1.jpg" /></a>图片1</div>
+					<div class="mui-slider-item"><a href="#"><img src="../../img/tmp_logo3.jpg" /></a>图片2</div>
 					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
-					<div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="../../img/image_login.png" /></a>图片1</div>
+					<div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="../../img/tmp_logo1.jpg" /></a>图片1</div>
 				</div>
 			</div>
 

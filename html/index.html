@@ -48,7 +48,12 @@
 	<body>
 		<script src="../js/mui.js"></script>
 		<script type="text/javascript">
-			mui.init()
+			mui.init({
+				keyEventBind: {
+					backbutton: false, //Boolean(默认true)关闭back按键监听
+					menubutton: false //Boolean(默认true)关闭menu按键监听
+				},
+			})
 			// 
 			var defaultpage = "./home/home.html"; // 定义默认选项卡子页面
 			//定义所有子页面   './home/qrCode.html'
