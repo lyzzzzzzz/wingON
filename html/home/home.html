@@ -80,11 +80,10 @@
 
 
 			mui.plusReady(function() {
-				// plus.key.addEventListener('backbutton',
-				// 	function() {
-				// 		alert("ddddd")
-				// 		plus.webview.currentWebview().close();
-				// 	})
+				//底部圆
+				var $protuberance = document.getElementById("protuberance")
+				$protuberance.style = "height: 70px;width: 70px;position: fixed;bottom: -56px;left: calc(50% - " + (35) +
+					"px);background: #EE5B5B;border-radius: 50%;"
 
 				//获得slider插件对象   轮播
 				var gallery = mui('.mui-slider');
@@ -388,9 +387,7 @@
 
 			</div>
 
-
-
-
+			<div id="protuberance"></div>
 
 		</div>
 

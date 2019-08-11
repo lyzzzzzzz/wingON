@@ -66,26 +66,38 @@
 		<script src="../../js/mui.js"></script>
 		<script src="../../js/qrcode.min.js"></script>
 		<script type="text/javascript">
-			mui.init()
+			mui.init({
+				keyEventBind: {
+					backbutton: false, //Boolean(默认true)关闭back按键监听
+					menubutton: false //Boolean(默认true)关闭menu按键监听
+				},
+			})
 
 
-					mui.plusReady(function() {
-						var qrcode = new QRCode(document.getElementById("qrcode"), {
-							text: "测试二维码",
-							width: 165,
-							height: 165,
-							colorDark: "#000000",
-							colorLight: "#ffffff",
-							correctLevel: QRCode.CorrectLevel.H
-						});
+			mui.plusReady(function() {
+// 				plus.key.addEventListener('backbutton',
+// 					function() {
+// 						plus.webview.currentWebview().opener();
+// 					})
+// 
+// 
+
+				var qrcode = new QRCode(document.getElementById("qrcode"), {
+					text: "测试二维码",
+					width: 165,
+					height: 165,
+					colorDark: "#000000",
+					colorLight: "#ffffff",
+					correctLevel: QRCode.CorrectLevel.H
+				});
 
 
-						document.getElementById("img").addEventListener("click", function() {
-							mui.back()
-							// this.setAttribute('class','mui-action-back')
-						});
+				document.getElementById("img").addEventListener("click", function() {
+					mui.back()
+					// this.setAttribute('class','mui-action-back')
+				});
 
-					})
+			})
 		</script>
 		<div class="mui-content">
 			<h4 style="margin-top: 30px;margin-bottom: 30px;color: #FFFFFF;font-size: 20px;">My Passport</h4>
