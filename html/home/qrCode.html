@@ -45,12 +45,13 @@
 				flex-direction: column;
 				justify-content: space-around;
 				align-items: center;
-				width: 90%;
-				height: 50%;
+        width: 90%;
+				/* 	height: 50%; */
+        flex: 1;
 				background-color: #FFFFFF;
 				border-radius: 25px;
-				padding-top: 30px;
-				padding-bottom: 30px; 
+				/* padding-top: 30px;
+				padding-bottom: 30px; */
 			}
 			#footer{
 				width: 100%;
@@ -80,11 +81,14 @@
 // 					})
 // 
 // 
+        var $width = document.body.clientWidth * 0.6
+        var $height = document.body.clientHeight * 0.3
+        
 
 				var qrcode = new QRCode(document.getElementById("qrcode"), {
 					text: "测试二维码",
-					width: 165,
-					height: 165,
+					width: $width,
+					height: $height,
 					colorDark: "#000000",
 					colorLight: "#ffffff",
 					correctLevel: QRCode.CorrectLevel.H
@@ -98,7 +102,7 @@
 
 			})
 		</script>
-		<div class="mui-content">
+		<div class="mui-content" style="display: flex;flex-direction: column;">
 			<h4 style="margin-top: 30px;margin-bottom: 30px;color: #FFFFFF;font-size: 20px;">My Passport</h4>
 			<div id="codeDiv">
 				<div id="qrcode"></div>
