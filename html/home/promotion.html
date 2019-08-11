@@ -30,19 +30,13 @@
 	<body>
 		<script src="../../js/mui.js"></script>
 		<script type="text/javascript">
-				mui.init({
+			mui.init({
 				keyEventBind: {
 					backbutton: false, //Boolean(默认true)关闭back按键监听
 					menubutton: false //Boolean(默认true)关闭menu按键监听
 				},
 			})
 			mui.plusReady(function() {
-
-				//底部圆
-				var $protuberance = document.getElementById("protuberance")
-				$protuberance.style = "height: 70px;width: 70px;position: fixed;bottom: -56px;left: calc(50% - " + (35) +
-					"px);background: #EE5B5B;border-radius: 50%;"
-
 				//不显示滚动条
 				plus.webview.currentWebview().setStyle({
 					scrollIndicator: 'none'
@@ -102,7 +96,7 @@
 
 		<div class="mui-content">
 			<ul class="mui-table-view" id="ul" style="width: 95%;"></ul>
-			<div id="protuberance"></div>
+			<div style="height: 70px;width: 70px;position: fixed;bottom: -56px;left: calc(50% - 35px);background: #EE5B5B;border-radius: 50%;"></div>
 		</div>
 
 	</body>
