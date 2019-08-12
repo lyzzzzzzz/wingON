@@ -1,70 +1,82 @@
 <!doctype html>
 <html>
 
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <link href="../../css/mui.css" rel="stylesheet" />
-    <style>
-      * {
-        padding: 0;
-        margin: 0;
-      }
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.css" rel="stylesheet" />
+		<style>
+			* {
+				padding: 0;
+				margin: 0;
+			}
 
-      html,
-      body {
-        height: 100%;
-        width: 100%;
-      }
-    </style>
-    <script src="../../js/mui.js"></script>
-    <script src="../../js/pointBalance.js"></script>
-  </head>
+			html,
+			body {
+				height: 100%;
+				width: 100%;
+				touch-action: none;
+			}
+		</style>
+		<script src="../../js/mui.js"></script>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/pointBalance.js"></script>
+	</head>
 
-  <body>
-    <header class="mui-bar mui-bar-nav" style="background: red;">
-      <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
-      <h1 class="mui-title" style="color:  #FFFFFF;font-weight: bold;font-size: 20px;">ePoint Balance</h1>
-    </header>
-    <div class="mui-content" style="height: 100%;width: 100%;display: flex;flex-direction: column;justify-content: flex-start;background: #E5E5E5;">
-      <p style="font-size: 17px;text-align: center;font-weight: bold;color: #6D6D72;margin: 3px;">Latest 30 ePoint Records(Including refunded and
-        returned transactions)</p>
-      <div style="display: flex;width: 100%;flex-direction: column;align-items: center;">
-        <canvas id="progressbar" width="180" height="180"></canvas>
-        <p style="font-size: 18px;margin-top: 5px;">Last Updated at <span>15/07/2019 18:00</span></p>
-      </div>
-      <div class="mui-card" style="flex: 1;">
-        <div class="mui-card-content" style="padding: 10px;">
-          <p style="font-size: 16px; font-weight: bold;color: #6D6D72;">Translation History</p>
+	<body>
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function() {
+				plus.key.addEventListener('backbutton',
+					function() {
+						plus.webview.currentWebview().close();
+					})
+			})
+		</script>
+		<header class="mui-bar mui-bar-nav" style="background: red;box-shadow:0px 1px 5px #B6B6B6">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title" style="color:  #FFFFFF;font-weight: bold;font-size: 20px;">ePoint Balance</h1>
+		</header>
+		<div class="mui-content" style="height: 100%;width: 100%;display: flex;flex-direction: column;justify-content: flex-start;background: #E5E5E5;">
+			<p style="font-size: 17px;text-align: center;font-weight: bold;color: #6D6D72;margin: 3px;">Latest 30 ePoint
+				Records(Including refunded and
+				returned transactions)</p>
+			<div style="display: flex;width: 100%;flex-direction: column;align-items: center;">
+				<canvas id="progressbar" width="180" height="180"></canvas>
+				<p style="font-size: 18px;margin-top: 5px;">Last Updated at <span>15/07/2019 18:00</span></p>
+			</div>
+			<div class="mui-card" style="flex: 1;">
+				<div class="mui-card-content" style="padding: 10px;">
+					<p style="font-size: 16px; font-weight: bold;color: #6D6D72;">Translation History</p>
 
-          <div style="width: 100%;height: 1px;background: #CCCCCC;"></div>
+					<div style="width: 100%;height: 1px;background: #CCCCCC;"></div>
 
-          <div style="display: flex;flex-direction: row;height: 80px;width: 100%;">
-            <div style="display: flex;flex-direction: column;justify-content: space-around;flex: 1;">
-              <p>15/07/2019 17:50</p>
-              <p>Customer Service Adjustment</p>
-            </div>
-            <div style="flex: 0 0 120px;display: flex;justify-content: center;align-items: center;">
-              <p style="font-size: 16px;color: red;">+ 2,500 Points</p>
-            </div>
-          </div>
-          <div style="width: 100%;height: 1px;background: #CCCCCC;"></div>
+					<div style="display: flex;flex-direction: row;height: 80px;width: 100%;">
+						<div style="display: flex;flex-direction: column;justify-content: space-around;flex: 1;">
+							<p>15/07/2019 17:50</p>
+							<p>Customer Service Adjustment</p>
+						</div>
+						<div style="flex: 0 0 120px;display: flex;justify-content: center;align-items: center;">
+							<p style="font-size: 16px;color: red;">+ 2,500 Points</p>
+						</div>
+					</div>
+					<div style="width: 100%;height: 1px;background: #CCCCCC;"></div>
 
-          <div style="display: flex;flex-direction: row;height: 80px;width: 100%;">
-            <div style="display: flex;flex-direction: column;justify-content: space-around;flex: 1;font-size: 16px;">
-              <p>15/07/2019 17:50</p>
-              <p>Customer Service Adjustment</p>
-            </div>
-            <div style="flex: 0 0 120px;display: flex;justify-content: center;align-items: center;">
-              <p style="font-size: 16px;color: red;">+ 2,500 Points</p>
-            </div>
-          </div>
-          <div style="width: 100%;height: 1px;background: #CCCCCC;"></div>
+					<div style="display: flex;flex-direction: row;height: 80px;width: 100%;">
+						<div style="display: flex;flex-direction: column;justify-content: space-around;flex: 1;font-size: 16px;">
+							<p>15/07/2019 17:50</p>
+							<p>Customer Service Adjustment</p>
+						</div>
+						<div style="flex: 0 0 120px;display: flex;justify-content: center;align-items: center;">
+							<p style="font-size: 16px;color: red;">+ 2,500 Points</p>
+						</div>
+					</div>
+					<div style="width: 100%;height: 1px;background: #CCCCCC;"></div>
 
-        </div>
-      </div>
-    </div>
-  </body>
+				</div>
+			</div>
+		</div>
+	</body>
 
 </html>

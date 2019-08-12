@@ -31,6 +31,7 @@
 				width: 100%;
 				margin: 0px;
 				padding: 0px;
+				touch-action: none;
 			}
 			/* #number{
 				text-align: center;
@@ -42,21 +43,21 @@
 			#codeDiv{
 				display: flex;
 				flex-direction: column;
-				justify-content: space-between;
+				justify-content: space-around;
 				align-items: center;
-				width: 90%;
-				height: 53%;
+        width: 90%;
+				/* 	height: 50%; */
+        flex: 1;
 				background-color: #FFFFFF;
 				border-radius: 25px;
-				padding-top: 30px;
-				padding-bottom: 30px; 
+				/* padding-top: 30px;
+				padding-bottom: 30px; */
 			}
 			#footer{
 				width: 100%;
 				height: 45px;
 				background-color: #FFFFFF;
 				/* bottom: 0px; */
-				position: relative;
 			}
 		</style>
 	</head>
@@ -65,27 +66,43 @@
 		<script src="../../js/mui.js"></script>
 		<script src="../../js/qrcode.min.js"></script>
 		<script type="text/javascript">
-			mui.init()
+			mui.init({
+				keyEventBind: {
+					backbutton: false, //Boolean(默认true)关闭back按键监听
+					menubutton: false //Boolean(默认true)关闭menu按键监听
+				},
+			})
+
 
 			mui.plusReady(function() {
+// 				plus.key.addEventListener('backbutton',
+// 					function() {
+// 						plus.webview.currentWebview().opener();
+// 					})
+// 
+// 
+        var $width = document.body.clientWidth * 0.6
+        var $height = document.body.clientHeight * 0.3
+        
+
 				var qrcode = new QRCode(document.getElementById("qrcode"), {
 					text: "测试二维码",
-					width: 165,
-					height: 165,
+					width: $width,
+					height: $height,
 					colorDark: "#000000",
 					colorLight: "#ffffff",
 					correctLevel: QRCode.CorrectLevel.H
 				});
 
-// 
-// 				document.getElementById("img").addEventListener("swipeup", function() {
-// 					mui.back()
-// 					// this.setAttribute('class','mui-action-back')
-// 				});
+
+				document.getElementById("img").addEventListener("click", function() {
+					mui.back()
+					// this.setAttribute('class','mui-action-back')
+				});
 
 			})
 		</script>
-		<div class="mui-content">
+		<div class="mui-content" style="display: flex;flex-direction: column;">
 			<h4 style="margin-top: 30px;margin-bottom: 30px;color: #FFFFFF;font-size: 20px;">My Passport</h4>
 			<div id="codeDiv">
 				<div id="qrcode"></div>
@@ -95,9 +112,9 @@
 				</div>
 			</div>
 			<span style="margin-top: 30px;margin-bottom: 30px;color: #FFFFFF;">Scan to Pay and Redeem epoint</span>
-			<div style="width: 100%;display: flex;flex-direction: row;justify-content: center;z-index: 10;">
-				<div style="height: 70px;width: 70px;background: #FFFFFF;position: relative;bottom: -36px;border-radius: 50px;display: flex;flex-direction: row;justify-content: center;align-items: center;">
-					<img src="../../img/passport_close.png" style="width: 55px;height: 55px;" id='img' class="mui-action-back"/>
+			<div style="width: 100%;height: 70px;position: relative;">
+				<div style="position: absolute;bottom:-35px;left: calc(50% - 35px); height: 70px;width: 70px;background: #FFFFFF;border-radius: 50px;display: flex;flex-direction: row;justify-content: center;align-items: center;">
+					<img src="../../img/passport_close.png" style="width: 55px;height: 55px;" id='img' />
 				</div>
 			</div>
 

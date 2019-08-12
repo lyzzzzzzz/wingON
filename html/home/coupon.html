@@ -7,6 +7,10 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../../css/mui.css" rel="stylesheet" />
 		<style>
+			html,body{
+				touch-action: none;
+				background-color: #EFF0F5;
+			}
 			header{
 				display: flex;
 				flex-direction: row;
@@ -14,6 +18,7 @@
 				align-items: center;
 				background-color: red;
 				height: 70px;
+				box-shadow:0px 1px 5px #B6B6B6;
 			}
 				#segmented a{
 					line-height: 25px;
@@ -63,13 +68,30 @@
 	<body>
 		<script src="../../js/mui.js"></script>
 		<script type="text/javascript">
-			mui.init()
+			mui.init({
+				keyEventBind: {
+					backbutton: false, //Boolean(默认true)关闭back按键监听
+					menubutton: false //Boolean(默认true)关闭menu按键监听
+				},
+			})
 			mui.plusReady(function() {
+
+				mui('.mui-scroll-wrapper').scroll({
+					scrollY: true, //是否竖向滚动
+					scrollX: false, //是否横向滚动
+					startX: 0, //初始化时滚动至x
+					startY: 0, //初始化时滚动至y
+					indicators: false, //是否显示滚动条
+					deceleration: 0.0006, //阻尼系数,系数越小滑动越灵敏
+					bounce: false //是否启用回弹
+				});
+
+
 				//不显示滚动条
 				plus.webview.currentWebview().setStyle({
 					scrollIndicator: 'none'
 				});
-				
+
 				//模拟列表数据
 				var data1 = []
 				var obj1 = {
@@ -136,17 +158,31 @@
 		<header>
 			<h1 style="color: #FFFFFF;font-weight: bold;font-size: 20px;">Coupons</h1>
 		</header>
-		<div class="mui-content">
-			<div class="mui-content-padded">
+		<div class="mui-content" style="background-color: #EFF0F5;">
+			<div class="mui-content-padded" style="background-color: #EFF0F5;">
 				<div class="mui-segmented-control">
 					<a class="mui-control-item mui-active" href="#item1">My Rewards</a>
 					<a class="mui-control-item" href="#item2">e-Coupons</a>
 				</div>
 			</div>
 
-			<div id="item1" class="mui-control-content mui-active" style="width: 100%;"></div>
-			<div id="item2" class="mui-control-content"></div>
+<!-- 
+			<div class="mui-scroll-wrapper" style="margin-top: 130px;z-index: 1;background-color: #EFF0F5;" >
+				<div class="mui-scroll">
+					
+				</div>
+			</div>
 
+ -->
+			<div class="mui-scroll-wrapper" style="margin-top: 130px;z-index: -1;background-color: #EFF0F5;">
+				<div class="mui-scroll">
+					<div id="item1" class="mui-control-content mui-active" style="width: 100%;"></div>
+					<div id="item2" class="mui-control-content"></div>
+				</div>
+			</div>
+
+
+			<div style="height: 70px;width: 70px;position: fixed;bottom: -56px;left: calc(50% - 35px);background: #EE5B5B;border-radius: 50%;z-index: 20;"></div>
 		</div>
 	</body>
 

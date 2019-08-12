@@ -30,7 +30,12 @@
 	<body>
 		<script src="../../js/mui.js"></script>
 		<script type="text/javascript">
-			mui.init()
+			mui.init({
+				keyEventBind: {
+					backbutton: false, //Boolean(默认true)关闭back按键监听
+					menubutton: false //Boolean(默认true)关闭menu按键监听
+				},
+			})
 			mui.plusReady(function() {
 				//不显示滚动条
 				plus.webview.currentWebview().setStyle({
@@ -85,12 +90,13 @@
 				fragment.appendChild(li);
 			}
 		</script>
-		<header class="mui-bar mui-bar-nav" style="background-color: red;">
+		<header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow:0px 1px 5px #B6B6B6">
 			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">Promotion</h1>
 		</header>
 
 		<div class="mui-content">
 			<ul class="mui-table-view" id="ul" style="width: 95%;"></ul>
+			<div style="height: 70px;width: 70px;position: fixed;bottom: -56px;left: calc(50% - 35px);background: #EE5B5B;border-radius: 50%;"></div>
 		</div>
 
 	</body>

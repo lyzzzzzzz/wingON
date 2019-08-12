@@ -7,22 +7,27 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../../css/mui.css" rel="stylesheet" />
 		<script src="../../js/mui.js"></script>
-		<script src="../../js/my.js"></script>
 	</head>
 
 	<body>
 
 		<script type="text/javascript">
-			mui.init()
-			
-			function toSetting(){
+			mui.init({
+				keyEventBind: {
+					backbutton: false, //Boolean(默认true)关闭back按键监听
+					menubutton: false //Boolean(默认true)关闭menu按键监听
+				},
+			})
+
+
+			function toSetting() {
 				mui.openWindow({
 					url: './setting.html',
 					id: 'setting.html'
 				});
 			}
-			
-			function toCashCoupon(){
+
+			function toCashCoupon() {
 				mui.openWindow({
 					url: './reward/coupons.html',
 					id: 'coupons.html'
@@ -65,6 +70,7 @@
 					</div>
 				</div>
 			</div>
+			<div style="height: 70px;width: 70px;position: fixed;bottom: -56px;left: calc(50% - 35px);background: #EE5B5B;border-radius: 50%;"></div>
 		</div>
 	</body>
 

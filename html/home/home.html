@@ -63,37 +63,41 @@
 
 	<body>
 		<script src="../../js/mui.js"></script>
+		<!-- <script src="../../js/mui.min.js"></script> -->
 		<script src="../../js/environment.js"></script>
 		<script type="text/javascript">
 			mui.init({
 				preloadPages: [{
 					id: 'detail.html',
 					url: './detail.html'
-				}]
+				}],
+				keyEventBind: {
+					backbutton: false, //Boolean(默认true)关闭back按键监听
+					menubutton: false //Boolean(默认true)关闭menu按键监听
+				},
+				swipeBack: true
 			})
-
 
 
 
 			mui.plusReady(function() {
 
-
 				//获得slider插件对象   轮播
-				var gallery = mui('.mui-slider');
+				var gallery = mui('#slider');
 				gallery.slider({
-					interval: 3000 //自动轮播周期，若为0则不自动播放，默认为0；
+					interval: 1000 //自动轮播周期，若为0则不自动播放，默认为0；
 				});
 
 				var customerId = plus.storage.getItem('customerId');
 				//getCustomerInfo(customerId);
 				//getNewsInfo();
-				
+
 				var userName = document.getElementById('userName');
 				userName.innerHTML = 'Hi, ' + 'Stan';
-				
+
 				var points = document.getElementById('points');
 				points.innerHTML = '2,500';
-				
+
 				notifiPromotionList([{
 					thumbnailImage: "../../img/tmp_logo1.jpg",
 					titleEn: "Meriton Jacq.Curtain Waffle 180x180cm",
@@ -325,15 +329,20 @@
 					id: 'pointBalance.html'
 				});
 			}
+
+			function toLocation() {
+				mui.openWindow({
+					url: './location.html',
+					id: 'location.html'
+				});
+			}
 		</script>
 
 		<header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow: 0px 0px 0px #413D4A;">
-			<!-- <span class="mui-icon  mui-icon-bars" style="color:#fff;" onclick="toSetting()"></span> -->
-			<img src="../../img/topbar_locator.png" class="mui-icon  mui-icon-bars" />
+			<img src="../../img/topbar_locator.png" class="mui-icon  mui-icon-bars" onclick="toLocation()" />
 			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">WingOn Reward</h1>
 			<img src="../../img/topbar_inbox.png" class="mui-pull-right mui-icon mui-icon-bars" />
 			<img src="../../img/set.png" class="mui-pull-right mui-icon mui-icon-bars" onclick="toSetting()" style="margin-right: 5px;width: 41px;height: 41px;" />
-			<!-- <img src="../../img/code1.png" class="mui-pull-right mui-icon mui-icon-bars" onclick="toQRCode()" /> -->
 		</header>
 
 		<div class="mui-content">
@@ -358,32 +367,40 @@
  -->
 
 			<!-- 轮播 -->
-			<div class="mui-slider">
+			<div class="mui-slider" id="slider">
 				<div class="mui-slider-group mui-slider-loop">
 					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
-					<div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="../../img/one.jpg" /></a>
-						<p class="mui-slider-title">图片1静静看这世界非官方噶覅受到广泛</p>
+					<div class="mui-slider-item mui-slider-item-duplicate"><a href="#">
+							<img src="../../img/tmp_logo3.jpg" />
+						</a>
+						Create uniform curly noodles from a variety of vegetables and fruits, includes
+						coarse and fine spiralizer blades plus
 					</div>
-					<div class="mui-slider-item"><a href="#"><img src="../../img/image_login.png" /></a>图片1</div>
-					<div class="mui-slider-item"><a href="#"><img src="../../img/one.jpg" /></a>图片2</div>
+					<div class="mui-slider-item"><a href="#"><img src="../../img/tmp_logo1.jpg" />
+						</a>Create uniform curly noodles from a variety of vegetables and fruits, includes
+						coarse and fine spiralizer blades plus
+					</div>
+					<div class="mui-slider-item"><a href="#"><img src="../../img/tmp_logo3.jpg" />
+						</a>Create uniform curly noodles from a variety of vegetables and fruits, includes
+						coarse and fine spiralizer blades plus</div>
 					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
-					<div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="../../img/image_login.png" /></a>图片1</div>
+					<div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="../../img/tmp_logo1.jpg" />
+						</a>Create uniform curly noodles from a variety of vegetables and fruits, includes
+						coarse and fine spiralizer blades plus</div>
 				</div>
 			</div>
 
 
 			<div style="margin-top: 5%;width: 100%;background-color: #FFFFFF;">
-				<h4 style="margin-bottom: 3%;">News / Lastest Offers</h4>
+				<h4 style="margin-bottom: 3%;margin-left: 12px;">News / Lastest Offers</h4>
 				<ul class="mui-table-view" id="promotion" style="margin-bottom: 5%;">
 				</ul>
-				<ul class="mui-table-view" id="inbox" style="margin-bottom: 5%;box-shadow: 0px 0px 5px #6D6D72;">
+				<ul class="mui-table-view" id="inbox" style="margin-bottom: 5%;">
 				</ul>
 
 			</div>
 
-
-
-
+			<div style="height: 70px;width: 70px;position: fixed;bottom: -56px;left: calc(50% - 35px);background: #EE5B5B;border-radius: 50%;"></div>
 
 		</div>
 
