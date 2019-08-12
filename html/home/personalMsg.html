@@ -1,0 +1,299 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.css" rel="stylesheet" />
+		<link href="../../css/mui.picker.min.css" rel="stylesheet" />
+		<style>
+			html,body{
+				height: 100%;
+				width: 100%;
+				background-color: #FFFFFF;
+				touch-action: none;
+				margin: 0px;
+				padding: 0px;
+			}
+			.selectDiv{
+				display: flex;
+				flex-direction: row;
+				height: 40px;
+				border-style: solid;
+				border-width: 0px;
+				border-color: #C1C1C3;		
+				border-bottom-width: 1px;
+				padding: 0px;
+				}
+			.text{
+				margin: 0px;
+				font-size: 16px;
+				color: #BBBBBB;
+				padding: 0px;
+				margin-top: 15px;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<script src="../../js/mui.js"></script>
+		<script src="../../js/mui.picker.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function() {
+
+				mui('.mui-scroll-wrapper').scroll({
+					scrollY: true, //是否竖向滚动
+					scrollX: false, //是否横向滚动
+					startX: 0, //初始化时滚动至x
+					startY: 0, //初始化时滚动至y
+					indicators: true, //是否显示滚动条
+					deceleration: 0.0006, //阻尼系数,系数越小滑动越灵敏
+					bounce: true //是否启用回弹
+				});
+
+
+				//下拉列表
+				var salutation = new mui.PopPicker({
+					layer: 1,
+					buttons: ['cancle', 'ok']
+				});
+				salutation.setData([{
+					value: "mr",
+					text: "Mr"
+				}, {
+					value: "Mrs",
+					text: "Mrs"
+				}]);
+				document.getElementById("salutationMsg").addEventListener('tap', function(event) {
+					var result = document.getElementById('salutation')
+					// 默认显示第1项
+					salutation.pickers[0].setSelectedIndex(0, 2000);
+					salutation.show(function(selectItems) {
+						result.setAttribute('value', selectItems[0].text)
+					});
+				});
+
+
+				var code = new mui.PopPicker({
+					layer: 1,
+					buttons: ['cancle', 'ok']
+				});
+				code.setData([{
+					value: "852",
+					text: "852"
+				}, {
+					value: "853",
+					text: "853"
+				}, {
+					value: "86",
+					text: "86"
+				}]);
+				document.getElementById("CodeMsg").addEventListener('tap', function(event) {
+					var result = document.getElementById('code')
+					// 默认显示第1项
+					code.pickers[0].setSelectedIndex(0, 2000);
+					code.show(function(selectItems) {
+						result.setAttribute('value', selectItems[0].text)
+					});
+				});
+
+				//日期选择器
+				document.getElementById("birthMsg").addEventListener('tap', function(event) {
+					var dtPicker = new mui.DtPicker({
+						type: 'date'
+					});
+					/*参数：'datetime'-完整日期视图(年月日时分)
+					        'date'--年视图(年月日)
+					        'time' --时间视图(时分)
+					        'month'--月视图(年月)
+					        'hour'--时视图(年月日时)
+					*/
+					var result = document.getElementById('birth')
+					dtPicker.show(function(selectItems) {
+						var y = selectItems.y.text; //获取选择的年
+						var m = selectItems.m.text; //获取选择的月
+						var d = selectItems.d.text; //获取选择的日
+						var date = y + "-" + m + "-" + d;
+						result.setAttribute('value', date)
+					})
+				});
+
+
+				var area = new mui.PopPicker({
+					layer: 1,
+					buttons: ['cancle', 'ok']
+				});
+				area.setData([{
+					value: "广州",
+					text: "广州"
+				}, {
+					value: "深圳",
+					text: "深圳"
+				}]);
+				document.getElementById("areaMsg").addEventListener('tap', function(event) {
+					var result = document.getElementById('area')
+					// 默认显示第1项
+					area.pickers[0].setSelectedIndex(0, 2000);
+					area.show(function(selectItems) {
+						result.setAttribute('value', selectItems[0].text)
+					});
+				});
+
+
+				var district = new mui.PopPicker({
+					layer: 1,
+					buttons: ['cancle', 'ok']
+				});
+				district.setData([{
+					value: "南沙区",
+					text: "南沙区"
+				}, {
+					value: "天河区",
+					text: "天河区"
+				}]);
+				document.getElementById("districtMsg").addEventListener('tap', function(event) {
+					var result = document.getElementById('district')
+					// 默认显示第1项
+					district.pickers[0].setSelectedIndex(0, 2000);
+					district.show(function(selectItems) {
+						result.setAttribute('value', selectItems[0].text)
+					});
+				});
+
+
+
+			})
+		</script>
+		<header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow:0px 1px 5px #B6B6B6">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">Personal Information</h1>
+		</header>
+
+		<div class="mui-content" style="background-color: #FFFFFF;">
+
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll" style="margin-top: 40px;display: flex;flex-direction: column;justify-content: flex-start;align-items: center;padding-bottom: 60px;">
+					<div style="width: 95%;">
+						<div class="text">
+							Salutation*
+							<div class="selectDiv">
+								<input type="text" class="mui-input-clear" style="border: none;flex: 1;height: 38px;padding: 0px;color: #333333;"
+								 readonly="readonly" id="salutation">
+								<button id='salutationMsg' type='button' style="border: none;flex: 0 0 3.75rem;border-radius: 0px;color: #B6B6B6;font-weight: bold;"
+								 class="mui-icon mui-icon-arrowdown"></button>
+							</div>
+						</div>
+						<div class="text">
+							Family Name*
+							<input type="text" class="mui-input-clear" style="border-top-width: 0px;border-left-width: 0px;border-right-width: 0px;border-radius: 0px;padding: 0px;color: #333333;margin: 0px;">
+						</div>
+
+						<div class="text">
+							Given Name*
+							<input type="text" class="mui-input-clear" style="border-top-width: 0px;border-left-width: 0px;border-right-width: 0px;border-radius: 0px;padding: 0px;color: #333333;margin: 0px;">
+						</div>
+
+						<div style="width: 100%;display: flex;flex-direction: row;justify-content: space-between;" class="text">
+							<div style="width: 48%;">
+								Country/Area Code*
+								<div class="selectDiv">
+									<input type="text" class="mui-input-clear" style="border: none;flex: 1;height: 38px;padding: 0px;color: #333333;"
+									 readonly="readonly" id="code">
+									<button id='CodeMsg' type='button' style="border: none;flex: 0 0 3.75rem;border-radius: 0px;color: #B6B6B6;font-weight: bold;"
+									 class="mui-icon mui-icon-arrowdown"></button>
+								</div>
+							</div>
+							<div style="width: 48%;">
+								Mobile No.*
+								<input type="text" class="mui-input-clear" style="border-top-width: 0px;border-left-width: 0px;border-right-width: 0px;border-radius: 0px;padding: 0px;color: #333333;margin: 0px;">
+							</div>
+						</div>
+
+
+						<div class="text">
+							Date of Birth*
+							<div class="selectDiv">
+								<input type="text" class="mui-input-clear" style="border: none;flex: 1;height: 38px;padding: 0px;color: #333333;"
+								 readonly="readonly" id="birth">
+								<button id='birthMsg' type='button' style="border: none;flex: 0 0 3.75rem;border-radius: 0px;color: #B6B6B6;font-weight: bold;"
+								 class="mui-icon mui-icon-arrowdown"></button>
+							</div>
+						</div>
+
+						<div class="text">
+							Email
+							<input type="text" class="mui-input-clear" style="border-top-width: 0px;border-left-width: 0px;border-right-width: 0px;border-radius: 0px;padding: 0px;color: #333333;margin: 0px;">
+						</div>
+
+						<div style="width: 100%;display: flex;flex-direction: row;justify-content: space-between;" class="text">
+							<div style="width: 48%;">
+								Area^
+								<div class="selectDiv">
+									<input type="text" class="mui-input-clear" style="border: none;flex: 1;height: 38px;padding: 0px;color: #333333;"
+									 readonly="readonly" id="area">
+									<button type='button' style="border: none;flex: 0 0 3.75rem;border-radius: 0px;color: #B6B6B6;font-weight: bold;"
+									 class="mui-icon mui-icon-arrowdown" id="areaMsg"></button>
+								</div>
+							</div>
+							<div style="width: 48%;">
+								District
+								<div class="selectDiv">
+									<input type="text" class="mui-input-clear" style="border: none;flex: 1;height: 38px;padding: 0px;color: #333333;"
+									 readonly="readonly" id="district">
+									<button type='button' style="border: none;flex: 0 0 3.75rem;border-radius: 0px;color: #B6B6B6;font-weight: bold;"
+									 class="mui-icon mui-icon-arrowdown" id="districtMsg"></button>
+								</div>
+							</div>
+						</div>
+
+						<div class="text">
+							Estate or Street
+							<input type="text" class="mui-input-clear" style="border-top-width: 0px;border-left-width: 0px;border-right-width: 0px;border-radius: 0px;padding: 0px;color: #333333;margin: 0px;">
+						</div>
+
+						<div style="width: 100%;display: flex;flex-direction: row;justify-content: space-between;" class="text">
+							<div style="width: 30%;">
+								Block
+								<input type="text" class="mui-input-clear" style="border-top-width: 0px;border-left-width: 0px;border-right-width: 0px;border-radius: 0px;padding: 0px;color: #333333;margin: 0px;">
+							</div>
+							<div style="width: 30%;">
+								Floor
+								<input type="text" class="mui-input-clear" style="border-top-width: 0px;border-left-width: 0px;border-right-width: 0px;border-radius: 0px;padding: 0px;color: #333333;margin: 0px;">
+							</div>
+							<div style="width: 30%;">
+								Unit
+								<input type="text" class="mui-input-clear" style="border-top-width: 0px;border-left-width: 0px;border-right-width: 0px;border-radius: 0px;padding: 0px;color: #333333;margin: 0px;">
+							</div>
+						</div>
+
+						<span style="display: block;color: #333333;" class="text">^Only applicable to Hong Kong address</span>
+						<span style="display: block;color: #333333;" class="text">*Mandatroy Fields</span>
+
+						<div style="display: flex;flex-direction: row;justify-content: flex-start;align-items: center;margin-top: 15px;color: #333333;">
+							<input type="checkbox" style="width: 35px;height: 35px;margin-right: 10px;">
+							<div > applicable to Hong Kong address Only applicable to Hong Kong address</div>
+						</div>
+						
+						<div style="display: flex;flex-direction: row;justify-content: flex-start;align-items: center;margin-top: 15px;color: #333333;">
+							<input type="checkbox" style="width: 35px;height: 35px;margin-right: 10px;">
+							<div > applicable to Hong Kong address Only applicable to Hong Kong address</div>
+						</div>
+						
+						<div style="display: flex;flex-direction: row;justify-content: flex-start;align-items: center;margin-top: 15px;color: #333333;">
+							<input type="checkbox" style="width: 35px;height: 35px;margin-right: 10px;">
+							<div > applicable to Hong Kong address Only applicable to Hong Kong address</div>
+						</div>
+						
+					</div>
+
+
+
+				</div>
+			</div>
+
+		</div>
+	</body>
+</html>

@@ -336,12 +336,19 @@
 					id: 'location.html'
 				});
 			}
+
+			function toMessage() {
+				mui.openWindow({
+					url: './message.html',
+					id: 'message.html'
+				});
+			}
 		</script>
 
 		<header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow: 0px 0px 0px #413D4A;">
 			<img src="../../img/topbar_locator.png" class="mui-icon  mui-icon-bars" onclick="toLocation()" />
 			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">WingOn Reward</h1>
-			<img src="../../img/topbar_inbox.png" class="mui-pull-right mui-icon mui-icon-bars" />
+			<img src="../../img/topbar_inbox.png" class="mui-pull-right mui-icon mui-icon-bars" onclick="toMessage()" />
 			<img src="../../img/set.png" class="mui-pull-right mui-icon mui-icon-bars" onclick="toSetting()" style="margin-right: 5px;width: 41px;height: 41px;" />
 		</header>
 
