@@ -31,13 +31,39 @@
 		<script src="../../js/mui.js"></script>
 		<script type="text/javascript">
 			mui.init()
+			
+			
+		
+			  function toNewPw() {
+				mui.openWindow({
+					url: './newPassword.html',
+					id: 'newPassword.html'
+				});
 
-			function toNewPw() {
-				mui.openWindow('./newPassword.html', 'newPassword.html')
 			}
 
 			function toAboutUs() {
-				mui.openWindow('./aboutUs.html', 'aboutUs.html')
+				// mui.openWindow('./aboutUs.html', 'aboutUs.html')
+				mui.openWindow({
+					url: './aboutUs.html',
+					id: 'aboutUs.html'
+				});
+			}
+
+			function toTerms() {
+				// mui.openWindow('./terms.html', 'terms.html')
+				mui.openWindow({
+					url: './terms.html',
+					id: 'terms.html'
+				});
+			}
+
+			function toLanguage() {
+				// mui.openWindow('./language.html', 'language.html')
+				mui.openWindow({
+					url: './language.html',
+					id: 'language.html'
+				});
 			}
 		</script>
 		<header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow:0px 1px 5px #B6B6B6">
@@ -45,9 +71,9 @@
 			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">Setting</h1>
 		</header>
 
-		<div class="mui-content" style="margin: 5px;">
+		<div class="mui-content" style="padding-top: 45px;">
 			<ul class="mui-table-view" style="background-color: #FFFFFF;margin-top: 5px;">
-				<li class="mui-table-view-cell">Language</li>
+				<li class="mui-table-view-cell" onclick="toLanguage()">Language</li>
 				<li class="mui-table-view-cell" onclick="toNewPw()">Change Password</li>
 			</ul>
 
@@ -55,7 +81,7 @@
 				<li class="mui-table-view-cell">Store Locator</li>
 				<li class="mui-table-view-cell" onclick="toAboutUs()">About Us</li>
 				<li class="mui-table-view-cell">Feedback</li>
-				<li class="mui-table-view-cell">Terms & Conditions</li>
+				<li class="mui-table-view-cell" onclick="toTerms()">Terms & Conditions</li>
 				<li class="mui-table-view-cell">Privacy Policy</li>
 				<li class="mui-table-view-cell">FAQ</li>
 			</ul>
