@@ -32,13 +32,13 @@
 		<script type="text/javascript">
 			mui.init()
 
-// 			function toNewPw() {
-// 				mui.openWindow('./newPassword.html', 'newPassword.html')
-// 			}
-// 
-// 			function toAboutUs() {
-// 				mui.openWindow('./aboutUs.html', 'aboutUs.html')
-// 			}
+			function toNewPw() {
+				mui.openWindow('./newPassword.html', 'newPassword.html')
+			}
+
+			function toAboutUs() {
+				mui.openWindow('./aboutUs.html', 'aboutUs.html')
+			}
 		</script>
 		<header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow:0px 1px 5px #B6B6B6">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
@@ -48,12 +48,12 @@
 		<div class="mui-content" style="margin: 5px;">
 			<ul class="mui-table-view" style="background-color: #FFFFFF;margin-top: 5px;">
 				<li class="mui-table-view-cell">Language</li>
-				<li class="mui-table-view-cell" >Change Password</li>
+				<li class="mui-table-view-cell" onclick="toNewPw()">Change Password</li>
 			</ul>
 
 			<ul class="mui-table-view" style="background-color: #FFFFFF;margin-top: 15px;">
 				<li class="mui-table-view-cell">Store Locator</li>
-				<li class="mui-table-view-cell" >About Us</li>
+				<li class="mui-table-view-cell" onclick="toAboutUs()">About Us</li>
 				<li class="mui-table-view-cell">Feedback</li>
 				<li class="mui-table-view-cell">Terms & Conditions</li>
 				<li class="mui-table-view-cell">Privacy Policy</li>
