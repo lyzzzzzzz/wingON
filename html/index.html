@@ -58,10 +58,12 @@
 			var defaultpage = "./home/home.html"; // 定义默认选项卡子页面
 			//定义所有子页面   './home/qrCode.html'
 			var subpages = ['./home/home.html', './home/coupon.html', './home/promotion.html', './home/my.html'];
-
+			var first = null;
 			// 页面加载完成后加载子页面
 			mui.plusReady(function() {
+
 				var current = plus.webview.currentWebview(); //获取当前页面的窗口对象
+
 				current.setStyle({
 					zindex: 10000
 				})
@@ -102,6 +104,7 @@
 					qrCode.children[0].setAttribute('src', '../img/toolbar_passport.png')
 					plus.webview.hide(defaultpage);
 					plus.webview.show("./home/home.html")
+					// plus.webview.currentWebview().append('./home/home.html')
 					defaultpage = "./home/home.html";
 				})
 
@@ -134,6 +137,7 @@
 					qrCode.children[0].setAttribute('src', '../img/toolbar_passport.png')
 					plus.webview.hide(defaultpage);
 					plus.webview.show("./home/coupon.html")
+
 					defaultpage = "./home/coupon.html";
 				})
 
