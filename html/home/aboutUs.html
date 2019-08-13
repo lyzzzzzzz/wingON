@@ -13,7 +13,8 @@
 				width: 100%;
 				touch-action: pan-y;
 				background-color: #FFFFFF;
-				display: flex;justify-content: center;
+				display: flex;
+				justify-content: center;
 			}
 		</style>
 	</head>
@@ -22,18 +23,28 @@
 		<script src="../../js/mui.js"></script>
 		<script type="text/javascript">
 			mui.init()
-	
-			
+
+			function toSet() {
+				mui.openWindow({
+					url: './homeSet.html',
+					id: 'homeSet.html',
+					show: {
+						autoShow: true, //页面loaded事件发生后自动显示，默认为true
+						aniShow: 'none' //关闭页面显示动画，默认为”slide-in-right“；
+					}
+				})
+			}
 		</script>
 		<header class="mui-bar mui-bar-nav" style="background-color: red;">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<a class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;" onclick="toSet()"></a>
 			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">About Us</h1>
 		</header>
 		<div class="mui-content" style="background-color: #FFFFFF;width: 93%;margin-top: 5%;">
-			
-			<img src="../../img/tmp_logo1.jpg" style="width: 100%;height:30% ;margin-bottom: 5px;"/>
+
+			<img src="../../img/tmp_logo1.jpg" style="width: 100%;height:30% ;margin-bottom: 5px;" />
 			<span>About us</span>
-			<p style="margin-top: 10px;color: #555555;">Create uniform curly noodles from a variety of vegetables and fruits, includes coarse and fine spiralizer blades plus rotary grating blade</p>
+			<p style="margin-top: 10px;color: #555555;">Create uniform curly noodles from a variety of vegetables and fruits,
+				includes coarse and fine spiralizer blades plus rotary grating blade</p>
 		</div>
 	</body>
 
