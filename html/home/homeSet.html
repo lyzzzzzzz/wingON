@@ -39,6 +39,10 @@
 			function toAboutUs() {
 				mui.openWindow('./aboutUs.html', 'aboutUs.html')
 			}
+			function toLogout() {
+				plus.storage.removeItem('customerId')
+				mui.openWindow('./home.html', 'home.html')
+			}
 		</script>
 		<header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow:0px 1px 5px #B6B6B6">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
@@ -61,7 +65,7 @@
 			</ul>
 
 			<ul class="mui-table-view" style="background-color: #FFFFFF;margin-top: 15px;">
-				<li class="mui-table-view-cell" style="text-align: center;color: #D82A2A;font-weight: bold;font-size: 18px;">Logout</li>
+				<li class="mui-table-view-cell" style="text-align: center;color: #D82A2A;font-weight: bold;font-size: 18px;" onclick="toLogout()">Logout</li>
 			</ul>
 
 		</div>

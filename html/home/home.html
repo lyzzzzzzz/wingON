@@ -75,47 +75,28 @@
 					backbutton: false, //Boolean(默认true)关闭back按键监听
 					menubutton: false //Boolean(默认true)关闭menu按键监听
 				},
-				swipeBack: true
+				swipeBack: false
 			})
 
 
-
+			var customerId = null;
 			mui.plusReady(function() {
 
-				//获得slider插件对象   轮播
-				var gallery = mui('#slider');
-				gallery.slider({
-					interval: 1000 //自动轮播周期，若为0则不自动播放，默认为0；
-				});
-
-				var customerId = plus.storage.getItem('customerId');
-				//getCustomerInfo(customerId);
-				//getNewsInfo();
-
-				var userName = document.getElementById('userName');
-				userName.innerHTML = 'Hi, ' + 'Stan';
-
-				var points = document.getElementById('points');
-				points.innerHTML = '2,500';
-
-				notifiPromotionList([{
-					thumbnailImage: "../../img/tmp_logo1.jpg",
-					titleEn: "Meriton Jacq.Curtain Waffle 180x180cm",
-					descriptionEn: "Measure: Body Weight, % Body Fat, % Total Body Water, Muscle Mass/Physique Rating, Bone Mass, BMR/Metabolic Age, Visceral Fat, BMI"
-				}, {
-					thumbnailImage: "../../img/tmp_logo2.jpg",
-					titleEn: "TANITA Body Fat Scale BC-313 (red)",
-					descriptionEn: "Create uniform curly noodles from a variety of vegetables and fruits, includes coarse and fine spiralizer blades plus rotary grating blade."
-				}]);
-				notifiInboxList([{
-					image: "../../img/tmp_logo3.jpg",
-					titleEn: "Meriton Jacq.Curtain Waffle 180x180cm",
-					subtitleEn: "Measure: Body Weight, % Body Fat, % Total Body Water, Muscle Mass/Physique Rating, Bone Mass, BMR/Metabolic Age, Visceral Fat, BMI"
-				}, {
-					image: "../../img/tmp_logo4.png",
-					titleEn: "Meriton Jacq.Curtain Waffle 180x180cm",
-					subtitleEn: "Measure: Body Weight, % Body Fat, % Total Body Water, Muscle Mass/Physique Rating, Bone Mass, BMR/Metabolic Age, Visceral Fat, BMI"
-				}]);
+				customerId = plus.storage.getItem('customerId');
+				if(customerId!=null){
+					getCustomerInfo(customerId);
+				}else{
+					var userName = document.getElementById('userName');
+					userName.innerHTML = '';
+					
+					var points = document.getElementById('points');
+					points.innerHTML = 'Login';
+					
+					var pointsTips = document.getElementById('pointsTips');
+					pointsTips.innerHTML = 'Reward App';
+				}
+				
+				getNewsInfo();
 
 				var detailPage = null;
 				//添加列表项的点击事件
@@ -139,7 +120,6 @@
 
 
 			})
-
 
 
 			function getCustomerInfo(customerId) {
@@ -207,7 +187,7 @@
 
 					}
 				});
-				mui.ajax(baseUrl + '/inbox/list/' + 1 + "/" + 2, {
+				mui.ajax(baseUrl + '/inbox/list/' + 1 + "/" + 5, {
 					data: {
 
 					},
@@ -236,6 +216,8 @@
 
 				var points = document.getElementById('points');
 				points.innerHTML = balanceVo.balance;
+				var pointsTips = document.getElementById('pointsTips');
+				pointsTips.innerHTML = 'ePonit';
 			}
 
 			function notifiPromotionList(data) {
@@ -271,35 +253,57 @@
 			}
 
 			function notifiInboxList(data) {
-				plus.nativeUI.closeWaiting();
+
 				var doc = document,
 					fragment = doc.createDocumentFragment(),
-					container = doc.getElementById("inbox");
+					container = doc.getElementById("slider-loop");
 				//遍历数组
-				mui.each(data, function(i, item) {
+				for(var i = -1; i <= data.length; i++){
 					var doc = document,
 						li = doc.createElement("li"),
 						a = doc.createElement("a"),
 						img = doc.createElement("img"),
 						div = doc.createElement("div"),
 						p = doc.createElement("p");
-					li.setAttribute("class", "mui-table-view-cell mui-media");
-					//把对象的ID赋给li的属性id,以便点击每个li的时候可以获取对象的id作为参数传到详情页,然后根据id查询
-					li.setAttribute("id", item.id)
+					if(i==-1){
+						li.setAttribute("class", "mui-slider-item mui-slider-item-duplicate");
+						li.setAttribute("id", data[data.length-1].id)
+						img.setAttribute("src", data[data.length-1].image);
+						div.innerText = data[data.length-1].titleEn;
+						p.innerHTML = data[data.length-1].subtitleEn;
+						
+					}else if(i== data.length){
+						li.setAttribute("class", "mui-slider-item mui-slider-item-duplicate");
+						li.setAttribute("id", data[0].id)
+						img.setAttribute("src", data[0].image);
+						div.innerText = data[0].titleEn;
+						p.innerHTML = data[0].subtitleEn;
+					}else{
+						var item = data[i];
+						li.setAttribute("class", "mui-slider-item");
+						li.setAttribute("id", item.id)
+						img.setAttribute("src", item.image);
+						div.innerText = item.titleEn;
+						p.innerHTML = item.subtitleEn;
+					}
 					img.setAttribute("style", "width: 100%;height: 160px;background-size: cover;")
-					img.setAttribute("src", item.image);
 					div.setAttribute("class", "mui-media-body");
+					div.setAttribute("style", "margin-top:20px;");
 					p.setAttribute("class", ".mui-ellipsis");
-					p.setAttribute("style", "white-space: normal;")
-					div.innerText = item.titleEn;
-					p.innerHTML = item.subtitleEn;
+					p.setAttribute("style", "margin-top:20px;white-space: normal;")
 					li.appendChild(a);
 					a.appendChild(img);
 					a.appendChild(div);
 					div.appendChild(p);
 					fragment.appendChild(li);
-				});
+				}
 				container.appendChild(fragment);
+				
+				//获得slider插件对象   轮播
+				var gallery = mui('#slider');
+				gallery.slider({
+					interval: 3000 //自动轮播周期，若为0则不自动播放，默认为0；
+				});
 			}
 
 			function toSetting() {
@@ -317,17 +321,33 @@
 			// }
 
 			function toQRCode() {
-				mui.openWindow({
-					url: './qrCode.html',
-					id: 'qrCode.html'
-				});
+				
+				if(customerId!=null){
+					mui.openWindow({
+						url: './qrCode.html',
+						id: 'qrCode.html'
+					});
+				}else{
+					mui.openWindow({
+						url: './login.html',
+						id: 'login.html'
+					});
+				}
 			}
 
 			function toEPointBalance() {
-				mui.openWindow({
-					url: './pointBalance.html',
-					id: 'pointBalance.html'
-				});
+				if(customerId!=null){
+					mui.openWindow({
+						url: './pointBalance.html',
+						id: 'pointBalance.html'
+					});
+				}else{
+					mui.openWindow({
+						url: './login.html',
+						id: 'login.html'
+					});
+				}
+				
 			}
 
 			function toLocation() {
@@ -338,10 +358,18 @@
 			}
 
 			function toMessage() {
-				mui.openWindow({
-					url: './message.html',
-					id: 'message.html'
-				});
+				
+				if(customerId!=null){
+					mui.openWindow({
+						url: './message.html',
+						id: 'message.html'
+					});
+				}else{
+					mui.openWindow({
+						url: './login.html',
+						id: 'login.html'
+					});
+				}
 			}
 		</script>
 
@@ -358,48 +386,27 @@
 					<a style="font-size: 18px;color: #FFFFFF;" id="userName"></a>
 					<!-- <span class="mui-icon mui-icon-forward" ></span> -->
 				</div>
-
+				
 				<div style="margin-top:20px;touch-action: none;" onclick="toEPointBalance()">
 					<a style="font-size: 20px;font-weight: bold;color: #FFFFFF;" id="points"></a>
-					<a style="font-size: 20px;color: #FFFFFF;font-weight: bold;">ePoints </a>
+					<a style="font-size: 20px;color: #FFFFFF;font-weight: bold;" id="pointsTips">ePoints </a>
 					<span class="mui-icon mui-icon-forward"></span>
 				</div>
 			</div>
 
-			<!--  <div id="btns">
-        <button type="button" class="mui-btn-blue" onclick="toReward()">Rewards<br />Wallet</button>
-        <button type="button" class="mui-btn-blue">Transaction<br />History</button>
-        <button type="button" class="mui-btn-blue">Lucky Draw</button>
-      </div>
- -->
+			<div style="margin-top: 1%;width: 100%;background-color: #FFFFFF;">
+				<h4 style="margin-bottom: 3%;margin-left: 12px;">Lastest Offers</h4>
 
 			<!-- 轮播 -->
 			<div class="mui-slider" id="slider">
-				<div class="mui-slider-group mui-slider-loop">
-					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
-					<div class="mui-slider-item mui-slider-item-duplicate"><a href="#">
-							<img src="../../img/tmp_logo3.jpg" />
-						</a>
-						Create uniform curly noodles from a variety of vegetables and fruits, includes
-						coarse and fine spiralizer blades plus
-					</div>
-					<div class="mui-slider-item"><a href="#"><img src="../../img/tmp_logo1.jpg" />
-						</a>Create uniform curly noodles from a variety of vegetables and fruits, includes
-						coarse and fine spiralizer blades plus
-					</div>
-					<div class="mui-slider-item"><a href="#"><img src="../../img/tmp_logo3.jpg" />
-						</a>Create uniform curly noodles from a variety of vegetables and fruits, includes
-						coarse and fine spiralizer blades plus</div>
-					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
-					<div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="../../img/tmp_logo1.jpg" />
-						</a>Create uniform curly noodles from a variety of vegetables and fruits, includes
-						coarse and fine spiralizer blades plus</div>
+				<div class="mui-slider-group mui-slider-loop" id="slider-loop">
+
 				</div>
 			</div>
-
-
+			</div>
+			
 			<div style="margin-top: 5%;width: 100%;background-color: #FFFFFF;">
-				<h4 style="margin-bottom: 3%;margin-left: 12px;">News / Lastest Offers</h4>
+				<h4 style="margin-bottom: 3%;margin-left: 12px;">Lastest Promotion</h4>
 				<ul class="mui-table-view" id="promotion" style="margin-bottom: 5%;">
 				</ul>
 				<ul class="mui-table-view" id="inbox" style="margin-bottom: 5%;">
