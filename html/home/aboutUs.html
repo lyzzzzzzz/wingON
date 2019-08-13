@@ -23,20 +23,17 @@
 		<script src="../../js/mui.js"></script>
 		<script type="text/javascript">
 			mui.init()
-
-			function toSet() {
-				mui.openWindow({
-					url: './homeSet.html',
-					id: 'homeSet.html',
-					show: {
-						autoShow: true, //页面loaded事件发生后自动显示，默认为true
-						aniShow: 'none' //关闭页面显示动画，默认为”slide-in-right“；
-					}
+			mui.plusReady(function() {
+				mui('.mui-action-back')[0].addEventListener('tap', function() { // 绑定返回按钮事件
+					plus.webview.show(plus.webview.currentWebview().opener());
 				})
-			}
+				plus.key.addEventListener('backbutton', function() {
+					plus.webview.show(plus.webview.currentWebview().opener());
+				})
+			})
 		</script>
 		<header class="mui-bar mui-bar-nav" style="background-color: red;">
-			<a class="mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;" onclick="toSet()"></a>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
 			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">About Us</h1>
 		</header>
 		<div class="mui-content" style="background-color: #FFFFFF;width: 93%;margin-top: 5%;">
