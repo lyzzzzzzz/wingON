@@ -95,7 +95,14 @@
 				
 				var customerId = plus.storage.getItem('customerId');
 				getGeneralCouponList(1,20);
-				getCustomerCouponList(customerId,1,20);
+				var loginTips = document.getElementById('loginTips');
+				if(customerId!=null){
+					getCustomerCouponList(customerId,1,20);
+					loginTips.innerHTML = "";
+				}else{
+					loginTips.innerHTML = "Login";
+				}
+				
 			})
 			
 			function getGeneralCouponList(pageNum,pageSize) {
@@ -210,7 +217,9 @@
  -->
 			<div class="mui-scroll-wrapper" style="margin-top: 130px;z-index: -1;background-color: #EFF0F5;">
 				<div class="mui-scroll">
-					<div id="item1" class="mui-control-content mui-active" style="width: 100%;"></div>
+					<div id="item1" class="mui-control-content mui-active" style="width: 100%;">
+						<h1 style="color: #FF0000;font-weight: bold;font-size: 20px;" id="loginTips"></h1>
+					</div>
 					<div id="item2" class="mui-control-content"></div>
 				</div>
 			</div>
