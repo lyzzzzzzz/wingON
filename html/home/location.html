@@ -48,6 +48,7 @@
 
 	<body>
 		<script src="../../js/mui.js"></script>
+		<script src="../../js/environment.js"></script>
 		<script type="text/javascript">
 			mui.init()
 			mui.plusReady(function() {
@@ -128,7 +129,7 @@
 				location.setAttribute("style", "margin-top: 10px;");
 				locationIcon.setAttribute("src", '../../img/location.png');
 				locationIcon.setAttribute("class", "icon");
-				locationText.innerText = item.nameEn;
+				locationText.innerText = item.addressEn;
 				locationText.setAttribute("class", "text");
 				phone.setAttribute("class", "item");
 				phoneIcon.setAttribute('src', "../../img/phone.png");
@@ -153,7 +154,7 @@
 				taxiText.innerText =item.addressEn;
 				taxiText.setAttribute("class", "text");
 
-				div.innerText = item.title;
+				div.innerText = item.nameEn;
 				// p.innerHTML = item.content;
 				li.appendChild(a);
 				a.appendChild(img);
