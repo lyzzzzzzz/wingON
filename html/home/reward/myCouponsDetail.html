@@ -8,62 +8,122 @@
 		<link href="../../../css/mui.css" rel="stylesheet" />
 		<style>
 			body,html{
-				background-color: #FFFFFF;
 				height: 100%;
 				width: 100%;
-				display: flex;
-				flex-direction: column;
-				justify-content: space-between ;
-				align-items: center;
+				touch-action: pan-y;
+				background-color:#FFFFFF;
 			}
 			.mui-content{
-				display: flex;
-                flex-direction: column;
-                justify-content: space-between ;
-                align-items: center;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				margin: auto;
 				background-color:#FFFFFF;
 				width: 90%;
-				height: 100%;
-				margin-top: 20px;
 			}
 		</style>
 	</head>
 
 	<body>
 		<script src="../../../js/mui.js"></script>
+		<script src="../../../js/JsBarcode.all.js"></script>
 		<script type="text/javascript">
 			mui.init()
-			//添加itemId自定义事件监听
-			window.addEventListener('itemId', function(event) {
-				//获得事件参数
-				var id = event.detail.id;
-				console.log(id);
-			});
+			//添加couponId自定义事件监听
+
 
 
 			mui.plusReady(function() {
+				mui('.mui-scroll-wrapper').scroll({
+					scrollY: true, //是否竖向滚动
+					scrollX: false, //是否横向滚动
+					startX: 0, //初始化时滚动至x
+					startY: 0, //初始化时滚动至y
+					indicators: false, //是否显示滚动条
+					deceleration: 0.0006, //阻尼系数,系数越小滑动越灵敏
+					// bounce: true //是否启用回弹
+				});
+
+				//不显示滚动条
+				plus.webview.currentWebview().setStyle({
+					scrollIndicator: 'none'
+				});
+
+				var barcode = document.getElementById('barcode'),
+					str = "16620902551",
+					options = {
+						format: "CODE128",
+						displayValue: true,
+						fontSize: 18,
+						height: 90
+					};
+				JsBarcode(barcode, str, options); //原生
+
+
+
+				//获得传过来的ID
+				window.addEventListener('couponId', function(event) {
+					var id = event.detail.id;
+					console.log(id);
+				});
+
+				//模拟数据
+				var obj = {
+					offerContent: 'Create uniform curly noodles from a variety of vegetables and fruits, includes coarse and fine spiralizer blades plus rotary grating blade，easy-to-use, self-aligning design keeps food',
+					termsContent: '<div><span style="font-weight: bold;">1.Special Discount on Seclected Regular-priced Items</span></div><div><span style="font-weight: bold;">2.Special Discount on Seclected Regular-priced Items</span></div><div><span style="font-weight: bold;">3.Special Discount on Seclected Regular-priced Items</span></div>',
+					date: '21/10/2019'
+				}
+
+
 				var offerContent = document.getElementById('offerContent')
-				offerContent.innerText='“Create uniform curly noodles from a variety of vegetables and fruits, includes coarse and fine spiralizer blades plus rotary grating blade，easy-to-use, self-aligning design keeps food straight as you twist the soft grip handle'
+				offerContent.innerText = 'Member Offer: ' + obj.offerContent
+
+				var termsContent = document.getElementById('termsContent')
+				termsContent.innerHTML = obj.termsContent
+
+				var date = document.getElementById('date')
+				date.innerText = 'Expiry Date:' + obj.date
 			})
 		</script>
 		<header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow:0px 1px 5px #B6B6B6">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
 			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">e-Coupon</h1>
 		</header>
-		<div class="mui-content">
-			<div>
-				<img src='../../../img/one.jpg' style="width: 100%;" />
-				<div>
-					<span style="font-weight: bold;">Special Discount on Seclected Regular-priced Items</span>
-				</div>
-				<div>
-					<span>Member Offer:</span>
-					<!-- <p ></p> -->
-					<p id="offerContent" ></p>
+		<div class="mui-content mui-scroll-wrapper" >
+
+
+			<!-- <div class="mui-scroll-wrapper" style="width: 90%;"> -->
+				<div class="mui-scroll" style="width: 100%;display: flex;flex-direction: column;justify-content: space-between;align-items: center;">
+					
+
+
+					<div>
+						<img src='../../../img/one.jpg' style="width: 100%;" />
+						<div>
+							<span style="font-weight: bold;">Special Discount on Seclected Regular-priced Items</span>
+						</div>
+						<div style="margin-top: 3%;">
+							<p id="offerContent" style="color: #080505;font-size: 15px;"></p>
+						</div>
+						<div style="margin-top: 10%;">
+							<span style="font-weight: bold;">Terms & Conditions:</span>
+						</div>
+						<div style="margin-top: 3%;" id="termsContent"></div>
+					</div>
+
+					<div style="display: flex;flex-direction: column;justify-content: center;align-items: center;margin-top: 20%;bottom: 0;">
+						<div style="margin-bottom: 5px;">
+							<span style="font-weight: bold;color: red;" id="date"></span>
+						</div>
+						<div class="box">
+							<img id="barcode" />
+						</div>
+					</div>
+
 				</div>
 			</div>
-
-		</div>
+		<!-- </div> -->
 	</body>
 
 </html>
