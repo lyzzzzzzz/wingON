@@ -74,8 +74,37 @@
 					backbutton: false, //Boolean(默认true)关闭back按键监听
 					menubutton: false //Boolean(默认true)关闭menu按键监听
 				},
+				preloadPages: [{
+					id: 'myCouponsDetail.html',
+					url: './reward/myCouponsDetail.html'
+				}],
 			})
 			mui.plusReady(function() {
+
+
+				var couponDetailPage = null;
+				//添加列表项的点击事件
+				mui("#item2").on('tap', '.coupon', function() {
+					
+					//获取id
+					var id = this.getAttribute("id")
+					
+					// 获得详情页面
+					if (!couponDetailPage) {
+						couponDetailPage = plus.webview.getWebviewById('myCouponsDetail.html')
+					}
+				
+					//触发详情页面的couponId事件
+					mui.fire(couponDetailPage, 'couponId', {
+						id: id
+					});
+					//打开详情页面          
+					mui.openWindow({
+						id: 'myCouponsDetail.html',
+						url: './reward/myCouponsDetail.html'
+					});
+				});
+
 
 				mui('.mui-scroll-wrapper').scroll({
 					scrollY: true, //是否竖向滚动
@@ -92,23 +121,23 @@
 				plus.webview.currentWebview().setStyle({
 					scrollIndicator: 'none'
 				});
-				
+
 				var customerId = plus.storage.getItem('customerId');
-				getGeneralCouponList(1,20);
+				getGeneralCouponList(1, 20);
 				var loginTips = document.getElementById('loginTips');
-				if(customerId!=null){
-					getCustomerCouponList(customerId,1,20);
+				if (customerId != null) {
+					getCustomerCouponList(customerId, 1, 20);
 					loginTips.innerHTML = "";
-				}else{
+				} else {
 					loginTips.innerHTML = "Login";
 				}
-				
+
 			})
-			
-			function getGeneralCouponList(pageNum,pageSize) {
+
+			function getGeneralCouponList(pageNum, pageSize) {
 				mui.ajax(baseUrl + 'coupon/general/list/' + pageNum + "/" + pageSize, {
 					data: {
-			
+
 					},
 					headers: {
 						'Accept-Language': "en",
@@ -118,30 +147,32 @@
 					success: function(result) {
 						if (result.code == 200) {
 							var data = result.data;
-							var item2=document.getElementById('item2')
-							var span=document.createElement('span')
-							var img=document.createElement('img')
-							if(data.list==[]){
-								img.setAttribute('src','../../img/nodata-search.png')
-								span.innerText='No Coupons'
-								item2.setAttribute('style','display: flex;flex-direction: column;justify-content: center;align-items: center;font-weight: bold;margin-top: 100px;')
+							var item2 = document.getElementById('item2')
+							var span = document.createElement('span')
+							var img = document.createElement('img')
+							if (data.list == []) {
+								img.setAttribute('src', '../../img/nodata-search.png')
+								span.innerText = 'No Coupons'
+								item2.setAttribute('style',
+									'display: flex;flex-direction: column;justify-content: center;align-items: center;font-weight: bold;margin-top: 100px;'
+								)
 								item2.appendChild(img)
 								item2.appendChild(span)
-							}else{
-							notifiULList(data.list,"item2");	
+							} else {
+								notifiULList(data.list, "item2");
 							}
 						}
-			
+
 					}
 				});
-				
+
 			}
-			
+
 			function getCustomerCouponList(customerId, pageNum, pageSize) {
 
-				mui.ajax(baseUrl + 'customer/couponList/'+ customerId + "/" + pageNum + "/" + pageSize, {
+				mui.ajax(baseUrl + 'customer/couponList/' + customerId + "/" + pageNum + "/" + pageSize, {
 					data: {
-							
+
 					},
 					headers: {
 						'Accept-Language': "en",
@@ -152,21 +183,23 @@
 					success: function(result) {
 						if (result.code == 200) {
 							var data = result.data;
-							var item1=document.getElementById('item1')
-						    var span=document.createElement('span')
-							var img=document.createElement('img')
-							if(data.list==[]){
-							img.setAttribute('src','../../img/nodata-search.png')
-							span.innerText='No Rewards'
-							item1.setAttribute('style','display: flex;flex-direction: column;justify-content: center;align-items: center;font-weight: bold;margin-top: 100px;')
-							item1.appendChild(img)
-							item1.appendChild(span)
-							}else{
-							notifiULList(data.list,"item1");
+							var item1 = document.getElementById('item1')
+							var span = document.createElement('span')
+							var img = document.createElement('img')
+							if (data.list == []) {
+								img.setAttribute('src', '../../img/nodata-search.png')
+								span.innerText = 'No Rewards'
+								item1.setAttribute('style',
+									'display: flex;flex-direction: column;justify-content: center;align-items: center;font-weight: bold;margin-top: 100px;'
+								)
+								item1.appendChild(img)
+								item1.appendChild(span)
+							} else {
+								notifiULList(data.list, "item1");
 							}
-							
+
 						}
-							
+
 					}
 				});
 			}
@@ -197,20 +230,23 @@
 				span1.setAttribute('style', 'color: #D04431;font-weight: bold;');
 				p.setAttribute('style', 'margin-top: 10px;font-size: 16px;color: #242424;margin-bottom: 20px;');
 				span2.setAttribute('style', 'color: #888888;');
-				
-				if(elm == 'item1'){
+
+				if (elm == 'item1') {
 					img.setAttribute('src', item.image);
 					span1.innerText = item.title
 					p.innerHTML = 'Member Offer: ' + item.description;
 					span2.innerText = 'Expired date:' + item.expiryDate
-				}else{
+				} else {
 					img.setAttribute('src', item.image);
 					span1.innerText = item.titleEn
 					p.innerHTML = 'Member Offer: ' + item.descriptionEn;
-					span2.innerText = 'Expired date:' + item.endDate
+					span2.innerText = 'Expired date:' + item.endDate;
+					//设置id,以便把id传到详情页
+					div1.setAttribute('id', item.id)
+					div1.setAttribute('class', 'coupon')
 				}
-				
-				
+
+
 				div1.appendChild(div2)
 				div1.appendChild(p)
 				div1.appendChild(span2)
@@ -230,7 +266,7 @@
 				</div>
 			</div>
 
-<!-- 
+			<!-- 
 			<div class="mui-scroll-wrapper" style="margin-top: 130px;z-index: 1;background-color: #EFF0F5;" >
 				<div class="mui-scroll">
 					

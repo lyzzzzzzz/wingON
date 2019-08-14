@@ -1,15 +1,15 @@
 <!doctype html>
 <html>
 
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <link href="../../css/mui.css" rel="stylesheet" />
-    <style>
-      html,body,.mui-scroll{
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.css" rel="stylesheet" />
+		<style>
+			html,body,.mui-scroll{
         width: 100%;
-        /* height: 100%; */
+        height: 100%;
          display: flex;
         flex-direction: column;
         justify-content:  flex-start;
@@ -19,18 +19,18 @@
       .mui-content{
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
+        justify-content: space-between;
         background-color: #FFFFFF;
         width: 95%;
+		height: 100%;
       }
       #img{
         width: 100%;
         height: 300px;
-        
       }
       footer{
         width: 100%;
-        bottom: 0;
+        /* bottom: 0; */
       }
       td{
         height: 50px;
@@ -43,112 +43,122 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
+		font-size: 14px;
       }
       #bottomContent span{
-        margin-left: 5px;
+        margin-left: 3px;
       }
       table td{border:2px solid #E5E5E5}
     </style>
 
-  </head>
+	</head>
 
-  <body>
-    <script src="../../js/mui.js"></script>
-    <script type="text/javascript">
-      mui.init()
-      mui.plusReady(function() {
-        mui('.mui-scroll-wrapper').scroll({
-          scrollY: true, //是否竖向滚动
-          scrollX: false, //是否横向滚动
-          startX: 0, //初始化时滚动至x
-          startY: 0, //初始化时滚动至y
-          indicators: false, //是否显示滚动条
-          deceleration: 0.0006, //阻尼系数,系数越小滑动越灵敏
-          // bounce: true //是否启用回弹
-        });
-		
-		var obj = {
-		  // id: i,
-		  img: '../../img/tmp_logo1.jpg',
-		  title: 'Meriton Jacq.Curtain Waffle 180x180cm',
-		  content: 'Create uniform curly noodles from a variety of vegetables and fruits,includes coarse and fine spiralizer blades plus rotary grating blade.Measure: Body Weight, % Body Fat, % Total Body Water, Muscle Mass/Physique Rating, Bone Mass, BMR/Metabolic Age, Visceral Fat, BMI',
-		  rules: 'Measure: Body Weight, % Body Fat, % Total Body Water, Muscle Mass/Physique Rating, Bone Mass, BMR/Metabolic Age, Visceral Fat, BMI,Measure: Body Weight, % Body Fat, % Total Body Water, Muscle Mass/Physique Rating, Bone Mass, BMR/Metabolic Age, Visceral Fat, BMI'
-		}
-		
-		var img = document.getElementById("img")
-		var title = document.getElementById('title')
-		var content = document.getElementById("p")
-		var rules = document.getElementById("rule")
-		img.setAttribute("src", obj.img)
-		title.innerText = obj.title
-		content.innerText = obj.content
-		rules.innerText = obj.content
-      })
+	<body>
+		<script src="../../js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui.plusReady(function() {
+				// mui('.mui-scroll-wrapper').scroll({
+				// 	scrollY: true, //是否竖向滚动
+				// 	scrollX: false, //是否横向滚动
+				// 	startX: 0, //初始化时滚动至x
+				// 	startY: 0, //初始化时滚动至y
+				// 	indicators: false, //是否显示滚动条
+				// 	deceleration: 0.0006, //阻尼系数,系数越小滑动越灵敏
+				// 	// bounce: true //是否启用回弹
+				// });
 
-      //添加newId自定义事件监听
-      window.addEventListener('newsId', function(event) {
-        //获得事件参数
-        var id = event.detail.id;
-        console.log(id);
-        //模拟根据id查询出来的对象
-        var obj = {
-          // id: i,
-          img: '../../img/one.jpg',
-          title: '我爱芭比现金券推广活动',
-          content: '“北理工1号”卫星的总体研制机构北京理工大学介绍说，这颗科学技术验证卫星的个头很小，直径为500毫米，质量只有3公斤。但它将对创新性的“帆球技术”进行科研验证。？',
-          rules: 'ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd'
-        }
+				var obj = {
+					// id: i,
+					img: '../../img/tmp_logo1.jpg',
+					title: 'Meriton Jacq.Curtain Waffle 180x180cm',
+					content: 'Create uniform curly noodles from a variety of vegetables and fruits,includes coarse and fine spiralizer blades plus rotary grating blade.Measure: Body Weight, % Body Fat, % Total Body Water, Muscle Mass/Physique Rating, Bone Mass, BMR/Metabolic Age, Visceral Fat, BMI',
+					rules: 'Measure: Body Weight, % Body Fat, % Total Body Water, Muscle Mass/Physique Rating, Bone Mass, BMR/Metabolic Age, Visceral Fat, BMI,Measure: Body Weight, % Body Fat, % Total Body Water, Muscle Mass/Physique Rating, Bone Mass, BMR/Metabolic Age, Visceral Fat, BMI'
+				}
 
-        var img = document.getElementById("img")
-        var title = document.getElementById('title')
-        var content = document.getElementById("p")
-        var rules = document.getElementById("rule")
-        img.setAttribute("src", obj.img)
-        title.innerText = obj.title
-        content.innerText = obj.content
-        rules.innerText = obj.content
-      });
-    </script>
+				var img = document.getElementById("img")
+				var title = document.getElementById('title')
+				var content = document.getElementById("p")
+				var rules = document.getElementById("rule")
+				img.setAttribute("src", obj.img)
+				title.innerText = obj.title
+				content.innerText = obj.content
+				rules.innerText = obj.content
+			})
 
-    <header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow:0px 1px 5px #B6B6B6">
-      <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="touch-action: none;color: #FFFFFF;"></a>
-      <h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">Detail</h1>
-    </header>
+			//添加newId自定义事件监听
+			window.addEventListener('newsId', function(event) {
+				//获得事件参数
+				var id = event.detail.id;
+				console.log(id);
+				//模拟根据id查询出来的对象
+				var obj = {
+					// id: i,
+					img: '../../img/one.jpg',
+					title: '我爱芭比现金券推广活动',
+					content: '“北理工1号”卫星的总体研制机构北京理工大学介绍说，这颗科学技术验证卫星的个头很小，直径为500毫米，质量只有3公斤。但它将对创新性的“帆球技术”进行科研验证。？',
+					rules: 'ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd'
+				}
 
-    <div class="mui-scroll-wrapper">
-      <div class="mui-scroll">
-        <div class="mui-content">
-          <div>
-            <img id="img" />
-          </div>
-          <div style="margin-top: 5px;">
-            <span id="title" style="font-weight: bold;"></span>
-            <p id="p" style="margin-bottom: 40px;margin-top: 5px;"></p>
-            <span style="font-weight: bold;">Terms & Conditions</span>
-            <p id="rule" style="margin-top: 5px;"></p>
-          </div>
-        </div>
-        <footer>
-          <span style="text-align: center;display: block;font-weight: bold;margin-bottom: 3px;">Share the offer to you friend</span>
-          <table  width="100%" style="text-align: center;">
-            <tr>
-              <td style="border-left-width: 0;">
-                <div id="bottomContent">
-                  <img src="../../img/Facebook.png" style="width: 30px;height: 30px;" />
-                  <span>Facebook</span>
-                </div>
-              </td>
-              <td style="border-right-width: 0;">
-                <div id="bottomContent">
-                  <img src="../../img/copy.png" style="width: 30px;height: 30px;" />
-                  <span>Copy link for share</span>
-                </div>
-              </td>
-            </tr>
-          </table>
-        </footer>
-      </div>
-    </div>
-  </body>
+				var img = document.getElementById("img")
+				var title = document.getElementById('title')
+				var content = document.getElementById("p")
+				var rules = document.getElementById("rule")
+				img.setAttribute("src", obj.img)
+				title.innerText = obj.title
+				content.innerText = obj.content
+				rules.innerText = obj.content
+			});
+		</script>
+
+		<header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow:0px 1px 5px #B6B6B6">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="touch-action: none;color: #FFFFFF;"></a>
+			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">Detail</h1>
+		</header>
+
+		<!-- <div class="mui-scroll-wrapper"> -->
+		<!-- <div class="mui-scroll"> -->
+		<div class="mui-content">
+
+			<div>
+				<div>
+					<img id="img" />
+				</div>
+				<div>
+					<span id="title" style="font-weight: bold;"></span>
+					<p id="p" style="margin-bottom: 40px;margin-top: 5px;"></p>
+					<span style="font-weight: bold;">Terms & Conditions</span>
+					<p id="rule" style="margin-top: 5px;"></p>
+				</div>
+			</div>
+
+
+
+
+			<footer>
+				<span style="text-align: center;display: block;font-weight: bold;margin-bottom: 3px;">Share the offer to you
+					friend</span>
+				<table width="100%" style="text-align: center;">
+					<tr>
+						<td style="border-left-width: 0;">
+							<div id="bottomContent">
+								<img src="../../img/Facebook.png" style="width: 30px;height: 30px;" />
+								<span>Facebook</span>
+							</div>
+						</td>
+						<td style="border-right-width: 0;">
+							<div id="bottomContent">
+								<img src="../../img/copy.png" style="width: 30px;height: 30px;" />
+								<span>Copy link for share</span>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</footer>
+		</div>
+
+		<!-- </div> -->
+		<!-- </div> -->
+	</body>
 
 </html>
