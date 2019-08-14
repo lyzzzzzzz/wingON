@@ -41,7 +41,7 @@
 			}
 			.text{
 				white-space: normal;
-				font-weight: 300;
+				font-size: 18px;
 			}
 		</style>
 	</head>
@@ -105,19 +105,19 @@
 					div2 = doc.createElement("div"),
 					location = doc.createElement("div"),
 					locationIcon = doc.createElement("img"),
-					locationText = doc.createElement("span"),
+					locationText = doc.createElement("div"),
 					phone = doc.createElement("div"),
 					phoneIcon = doc.createElement("img"),
-					phoneText = doc.createElement("span"),
+					phoneText = doc.createElement("div"),
 					sendPhone = doc.createElement("div"),
 					sendPhoneIcon = doc.createElement("img"),
-					sendPhoneText = doc.createElement("span"),
+					sendPhoneText = doc.createElement("div"),
 					time = doc.createElement("div"),
 					timeIcon = doc.createElement("img"),
-					timeText = doc.createElement("span"),
+					timeText = doc.createElement("div"),
 					taxi = doc.createElement("div"),
 					taxiIcon = doc.createElement("img"),
-					taxiText = doc.createElement("span");
+					taxiText = doc.createElement("div");
 				// p = doc.createElement("p");
 				li.setAttribute("class", "mui-table-view-cell mui-media");
 				img.setAttribute("style", "width: 100%;height: 200px;");
@@ -129,29 +129,34 @@
 				location.setAttribute("style", "margin-top: 10px;");
 				locationIcon.setAttribute("src", '../../img/location.png');
 				locationIcon.setAttribute("class", "icon");
-				locationText.innerText = item.addressEn;
+				locationText.innerHTML=item.addressEn;
+				// locationText.innerText = item.addressEn;
 				locationText.setAttribute("class", "text");
 				phone.setAttribute("class", "item");
 				phoneIcon.setAttribute('src', "../../img/phone.png");
 				phoneIcon.setAttribute("class", "icon");
-				phoneText.innerText =item.tel;
+				phoneText.innerHTML=item.tel;
+				// phoneText.innerText =item.tel;
 				phoneText.setAttribute("class", "text");
 				sendPhone.setAttribute("class", "item");
 				sendPhoneIcon.setAttribute('src', "../../img/sendIcon.png");
 				sendPhoneIcon.setAttribute("class", "icon");
-				sendPhoneText.innerText = item.fax;
+				sendPhoneText.innerHTML=item.fax;
+				// sendPhoneText.innerText = item.fax;
 				sendPhoneText.setAttribute("class", "text");
 
 				time.setAttribute("class", "item");
 				timeIcon.setAttribute('src', "../../img/time_fill.png");
 				timeIcon.setAttribute("class", "icon");
-				timeText.innerText = item.businessHourEn;
+				timeText.innerHTML=item.businessHourEn;
+				// timeText.innerText = item.businessHourEn;
 				timeText.setAttribute("class", "text");
 
 				taxi.setAttribute("class", "item");
 				taxiIcon.setAttribute('src', "../../img/taxi.png");
 				taxiIcon.setAttribute("class", "icon");
-				taxiText.innerText =item.addressEn;
+				taxiText.innerHTML=item.addressEn;
+				//taxiText.innerText =item.addressEn;
 				taxiText.setAttribute("class", "text");
 
 				div.innerText = item.nameEn;
