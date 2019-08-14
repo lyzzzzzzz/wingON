@@ -13,6 +13,7 @@
 				width: 100%;
 				padding: 0px;
 				margin: 0px;
+				touch-action: pan-y;
 			}
 			/* #btns{
 				display: flex;
@@ -83,22 +84,28 @@
 			var customerId = null;
 			mui.plusReady(function() {
 
+
+				//不显示滚动条
+				plus.webview.currentWebview().setStyle({
+					scrollIndicator: 'none'
+				});
+
 				customerId = plus.storage.getItem('customerId');
-				if(customerId!=null){
+				if (customerId != null) {
 					getCustomerInfo(customerId);
-				}else{
+				} else {
 					var userName = document.getElementById('userName');
 					userName.innerHTML = '';
-					
+
 					var points = document.getElementById('points');
 					points.innerHTML = 'Login';
-					
+
 					var pointsTips = document.getElementById('pointsTips');
 					pointsTips.innerHTML = 'Reward App';
 				}
-				
+
 				getNewsInfo();
-				
+
 				var detailPage = null;
 				//添加列表项的点击事件
 				mui(".mui-table-view").on('tap', 'li', function() {
@@ -259,27 +266,27 @@
 					fragment = doc.createDocumentFragment(),
 					container = doc.getElementById("slider-loop");
 				//遍历数组
-				for(var i = -1; i <= data.length; i++){
+				for (var i = -1; i <= data.length; i++) {
 					var doc = document,
 						li = doc.createElement("li"),
 						a = doc.createElement("a"),
 						img = doc.createElement("img"),
 						div = doc.createElement("div"),
 						p = doc.createElement("p");
-					if(i==-1){
+					if (i == -1) {
 						li.setAttribute("class", "mui-slider-item mui-slider-item-duplicate");
-						li.setAttribute("id", data[data.length-1].id)
-						img.setAttribute("src", data[data.length-1].image);
-						div.innerText = data[data.length-1].titleEn;
-						p.innerHTML = data[data.length-1].subtitleEn;
-						
-					}else if(i== data.length){
+						li.setAttribute("id", data[data.length - 1].id)
+						img.setAttribute("src", data[data.length - 1].image);
+						div.innerText = data[data.length - 1].titleEn;
+						p.innerHTML = data[data.length - 1].subtitleEn;
+
+					} else if (i == data.length) {
 						li.setAttribute("class", "mui-slider-item mui-slider-item-duplicate");
 						li.setAttribute("id", data[0].id)
 						img.setAttribute("src", data[0].image);
 						div.innerText = data[0].titleEn;
 						p.innerHTML = data[0].subtitleEn;
-					}else{
+					} else {
 						var item = data[i];
 						li.setAttribute("class", "mui-slider-item");
 						li.setAttribute("id", item.id)
@@ -299,7 +306,7 @@
 					fragment.appendChild(li);
 				}
 				container.appendChild(fragment);
-				
+
 				//获得slider插件对象   轮播
 				var gallery = mui('#slider');
 				gallery.slider({
@@ -322,13 +329,13 @@
 			// }
 
 			function toQRCode() {
-				
-				if(customerId!=null){
+
+				if (customerId != null) {
 					mui.openWindow({
 						url: './qrCode.html',
 						id: 'qrCode.html'
 					});
-				}else{
+				} else {
 					mui.openWindow({
 						url: '..//login.html',
 						id: 'login.html'
@@ -337,18 +344,18 @@
 			}
 
 			function toEPointBalance() {
-				if(customerId!=null){
+				if (customerId != null) {
 					mui.openWindow({
 						url: './pointBalance.html',
 						id: 'pointBalance.html'
 					});
-				}else{
+				} else {
 					mui.openWindow({
 						url: '../login/login.html',
 						id: 'login.html'
 					});
 				}
-				
+
 			}
 
 			function toLocation() {
@@ -359,13 +366,13 @@
 			}
 
 			function toMessage() {
-				
-				if(customerId!=null){
+
+				if (customerId != null) {
 					mui.openWindow({
 						url: './message.html',
 						id: 'message.html'
 					});
-				}else{
+				} else {
 					mui.openWindow({
 						url: '../login/login.html',
 						id: 'login.html'
@@ -374,7 +381,7 @@
 			}
 		</script>
 
-		<header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow: 0px 0px 0px #413D4A;">
+		<header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow: 0px 0px 0px #413D4A;border-color:red;border-width: 1px;border-style: solid;">
 			<img src="../../img/topbar_locator.png" class="mui-icon  mui-icon-bars" onclick="toLocation()" />
 			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">WingOn Reward</h1>
 			<img src="../../img/topbar_inbox.png" class="mui-pull-right mui-icon mui-icon-bars" onclick="toMessage()" />
@@ -387,7 +394,7 @@
 					<a style="font-size: 18px;color: #FFFFFF;" id="userName"></a>
 					<!-- <span class="mui-icon mui-icon-forward" ></span> -->
 				</div>
-				
+
 				<div style="margin-top:20px;touch-action: none;" onclick="toEPointBalance()">
 					<a style="font-size: 20px;font-weight: bold;color: #FFFFFF;" id="points"></a>
 					<a style="font-size: 20px;color: #FFFFFF;font-weight: bold;" id="pointsTips">ePoints </a>
@@ -398,14 +405,14 @@
 			<div style="margin-top: 1%;width: 100%;background-color: #FFFFFF;">
 				<h4 style="margin-bottom: 3%;margin-left: 12px;">Lastest Offers</h4>
 
-			<!-- 轮播 -->
-			<div class="mui-slider" id="slider">
-				<div class="mui-slider-group mui-slider-loop" id="slider-loop">
+				<!-- 轮播 -->
+				<div class="mui-slider" id="slider">
+					<div class="mui-slider-group mui-slider-loop" id="slider-loop">
 
+					</div>
 				</div>
 			</div>
-			</div>
-			
+
 			<div style="margin-top: 5%;width: 100%;background-color: #FFFFFF;">
 				<h4 style="margin-bottom: 3%;margin-left: 12px;">Lastest Promotion</h4>
 				<ul class="mui-table-view" id="promotion" style="margin-bottom: 5%;">
