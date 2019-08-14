@@ -36,19 +36,21 @@
 				var valueUrl = null;
 				var title = null;
 				window.addEventListener('mapURL', function(event) {
-				  //获得事件参数
-				  valueUrl = event.detail.value;	
-				  title = event.detail.title;				  
+
+					//获得事件参数
+					title = event.detail.title;
+					console.log('title' + title)
+					valueUrl = event.detail.value;
+
 				});
-	
+
 				var titleDoc = document.getElementById('title');
 				titleDoc.innerHTML = title;
-				
+
 				var div = document.getElementById('content');
 
 				mui.ajax(valueUrl, {
-					data: {
-					},
+					data: {},
 					dataType: 'html', //服务器返回html
 					type: 'get', //HTTP请求类型
 					success: function(data) {
