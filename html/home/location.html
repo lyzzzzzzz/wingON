@@ -57,6 +57,13 @@
 				// 	scrollIndicator: 'none'
 				// });
 
+				mui('.mui-action-back')[0].addEventListener('tap', function() { // 绑定返回按钮事件
+					plus.webview.show(plus.webview.currentWebview().opener());
+				})
+				plus.key.addEventListener('backbutton', function() {
+					plus.webview.show(plus.webview.currentWebview().opener());
+				})
+				
 				
 				getShopInfo();
 			})
