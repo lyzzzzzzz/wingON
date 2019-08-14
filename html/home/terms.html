@@ -36,7 +36,7 @@
 				var title = null;
 				window.addEventListener('mapURL', function(event) {
 				  //获得事件参数
-				  valueUrl = event.detail.value;	
+				  valueUrl = JSON.parse(event.detail.value);	
 				  title = event.detail.title;				  
 				});
 	

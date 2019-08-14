@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.css" rel="stylesheet" />
+		<style>
+			html,body{
+				height: 100%;
+				width: 100%;
+				margin: 0px;
+				padding: 0px;
+				touch-action: none;
+			}
+		.mui-content{
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			align-items: center;
+			height: 100%;
+		}
+		#footer{
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+			align-items: center;
+			width: 90%;
+			height: 20%;
+		}
+		
+		#numberBox{
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+			width: 100%;
+		}
+		.mui-numbox-btn-minus{
+			border-bottom-left-radius: 25px;
+			border-top-left-radius: 25px;
+			width: 40px;
+			background-color: #FAC3C3;
+		}
+		
+		.mui-numbox-btn-plus{
+			border-bottom-right-radius: 25px;
+			border-top-right-radius: 25px;
+			width: 40px;
+			background-color: #FAC3C3;
+		}
+		.mui-btn{
+			color: #FFFFFF;
+			border-color: pink;
+			font-weight: bold;
+			font-size: 16px;
+		}
+		#topContent{
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: flex-start;
+			height: 75%;
+		}
+		
+		</style>
+	</head>
+
+	<body>
+		<script src="../../../js/mui.js"></script>
+		<script src="../../../js/environment.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				keyEventBind: {
+					backbutton: false, //Boolean(默认true)关闭back按键监听
+					menubutton: false //Boolean(默认true)关闭menu按键监听
+				},
+			})
+			mui.plusReady(function() {
+
+				mui('.mui-scroll-wrapper').scroll({
+					scrollY: true, //是否竖向滚动
+					scrollX: false, //是否横向滚动
+					startX: 0, //初始化时滚动至x
+					startY: 0, //初始化时滚动至y
+					indicators: false, //是否显示滚动条
+					deceleration: 0.0006, //阻尼系数,系数越小滑动越灵敏
+					bounce: false //是否启用回弹
+				});
+
+
+				//不显示滚动条
+				plus.webview.currentWebview().setStyle({
+					scrollIndicator: 'none'
+				});
+				
+				getRewardCouponList(1,20);
+			})
+			
+			function getRewardCouponList(pageNum,pageSize) {
+				mui.ajax(baseUrl + 'coupon/reward/list/' + pageNum + "/" + pageSize, {
+					data: {
+			
+					},
+					headers: {
+						'Accept-Language': "en",
+					},
+					dataType: 'json',
+					type: 'get',
+					success: function(result) {
+						if (result.code == 200) {
+							var data = result.data;
+							var item=document.getElementById('item')
+							var span=document.createElement('span')
+							var img=document.createElement('img')
+							if(data.list==[]){
+								img.setAttribute('src','../../img/nodata-search.png')
+								span.innerText='No Coupons'
+								item.setAttribute('style','display: flex;flex-direction: column;justify-content: center;align-items: center;font-weight: bold;margin-top: 100px;')
+								item.appendChild(img)
+								item.appendChild(span)
+							}else{
+								notifiULList(data.list,"item");	
+							}
+						}
+			
+					}
+				});
+				
+			}
+			
+			function notifiULList(data, elm) {
+				//plus.nativeUI.closeWaiting();
+				var doc = document,
+					fragment = doc.createDocumentFragment(),
+					container = doc.getElementById(elm);
+				//遍历数组
+				mui.each(data, function(i, item) {
+					notifiAndSetLiDetail(fragment, item, elm);
+				});
+				container.appendChild(fragment);
+			}
+
+
+			function notifiAndSetLiDetail(fragment, item, elm) {
+				var div1 = document.createElement('div')
+				var div2 = document.createElement('div')
+				var p = document.createElement('p')
+				var span1 = document.createElement('span')
+				var span2 = document.createElement('span')
+				var img = document.createElement('img')
+				div2.setAttribute('id', 'card');
+				div1.setAttribute('style', 'margin-bottom: 10px;background-color: #FFFFFF;padding: 5px;')
+				img.setAttribute('style', 'width: 100px;height: 70px;margin-right: 6px;');
+				span1.setAttribute('style', 'color: #D04431;font-weight: bold;');
+				p.setAttribute('style', 'margin-top: 10px;font-size: 16px;color: #242424;margin-bottom: 20px;');
+				span2.setAttribute('style', 'color: #888888;');
+				
+				img.setAttribute('src', item.image);
+				span1.innerText = item.title
+				p.innerHTML = 'Member Offer: ' + item.description;
+				span2.innerText = 'Expired date:' + item.expiryDate
+				
+				
+				div1.appendChild(div2)
+				div1.appendChild(p)
+				div1.appendChild(span2)
+				div2.appendChild(img)
+				div2.appendChild(span1)
+				fragment.appendChild(div1)
+			}
+		</script>
+		<header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow:0px 1px 5px #B6B6B6" >
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title" style="font-size: 20px;font-weight: bold;color: #FFFFFF;">Reward Coupons</h1>
+		</header>
+		<div class="mui-content" style="background-color: #EFF0F5;">
+
+			<div id="item" class="mui-control-content"></div>
+
+		</div>
+	</body>
+
+</html>

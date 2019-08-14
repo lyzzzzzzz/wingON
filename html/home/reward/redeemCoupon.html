@@ -78,22 +78,21 @@
 
 	<body>
 		<script src="../../../js/mui.js"></script>
+		<script src="../../../js/environment.js"></script>
 		<script type="text/javascript">
 			mui.init()
 			mui.plusReady(function() {
 
+				var balanceVo =	JSON.parse(plus.storage.getItem('balanceVo'));
 				var ePoint = document.getElementById('ePoint')
-				ePoint.innerHTML = '2,500'
+				ePoint.innerHTML = balanceVo.balance;
 
-				var couponPoint = document.getElementById('couponPoint')
-				couponPoint.innerHTML = '5,000' + ' Points'
-
-				var content = document.getElementById('content')
-				content.innerHTML = '“Create uniform curly noodles from a variety of vegetables and fruits, includes coarse and fine spiralizer blades plus rotary grating blade，easy-to-use, self-aligning design keeps food straight as you twist the soft grip handle.'
-
-				var tips = document.getElementById('tips')
-				tips.innerHTML = '*“Create uniform curly noodles from a variety of vegetables and fruits, includes coarse and fine spiralizer blades plus rotary grating blade，easy-to-use, self-aligning design keeps food straight as you twist the soft grip handle.'
-				//mui('#bottomNum').numbox().getValue()
+				window.addEventListener('couponId', function(event) {
+				//获得事件参数
+				var id = event.detail.id;
+				getCouponInfo(id);
+				});
+				
 
 				var bottomNum = document.getElementById('bottomNum')
 				bottomNum.innerText = 0
@@ -111,6 +110,52 @@
 					bottomNum.innerText = parseInt(bottomNum.innerText) + 1
 				});
 			});
+			function getCouponInfo(couponId) {
+			
+				var url = baseUrl + 'coupon/reward/info/' + couponId;
+				mui.ajax(url, {
+					data: {
+			
+					},
+					headers: {
+						'Accept-Language': "en",
+						'Authentication': plus.storage.getItem('Authentication'),
+					},
+					dataType: 'json',
+					type: 'get',
+					timeout: 10000,
+					success: function(result) {
+						if (result.code == 200) {
+							var data = result.data;
+							notifiUL(data.data);
+							
+			
+						} else {
+							mui.toast(result.msg);
+						}
+			
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast("error, type=" + type + " " + xhr);
+					}
+				});
+			}
+			function notifiUL(data) {
+				plus.nativeUI.closeWaiting();
+				
+				
+				var couponTitle = document.getElementById('couponTitle')
+				couponTitle.innerHTML = data.titleEn;
+				
+				var couponPoint = document.getElementById('couponPoint')
+				couponPoint.innerHTML = data.redeemPoint + ' Points';
+				
+				var content = document.getElementById('content')
+				content.innerHTML = data.descriptionEn;
+				
+				var tips = document.getElementById('tips')
+				tips.innerHTML = data.tncEn;
+			}
 		</script>
 		<header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow:0px 1px 5px #B6B6B6" >
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
@@ -126,12 +171,8 @@
 
 				<div style="width: 90%;padding-top: 20px;">
 					<div style="font-size: 15px;">
-						<span style="font-weight: bold;color: #333333;">HK$25 Wing On e-Cash CouPon</span>
+						<span id="couponTitle" style="font-weight: bold;color: #333333;"></span>
 						<span id="couponPoint" style="color: #6D6D72;font-weight: bold;"></span>
-					</div>
-
-					<div style="margin-top: 20px;">
-						<span style="font-weight: bold;text-decoration: underline;">CouPon will be expired in 14 days</span>
 					</div>
 
 					<div style="margin-top: 20px;">
