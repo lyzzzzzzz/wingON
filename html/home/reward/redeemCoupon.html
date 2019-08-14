@@ -86,7 +86,7 @@
 				var balanceVo =	JSON.parse(plus.storage.getItem('balanceVo'));
 				var ePoint = document.getElementById('ePoint')
 				ePoint.innerHTML = balanceVo.balance;
-
+				
 				window.addEventListener('couponId', function(event) {
 				//获得事件参数
 				var id = event.detail.id;
