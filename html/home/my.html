@@ -23,7 +23,11 @@
 			
 				customerId = plus.storage.getItem('customerId');
 				if(customerId!=null){
-					getCustomerInfo(customerId);
+
+					var customer = JSON.parse(plus.storage.getItem('customer'));
+					var balanceVo = JSON.parse(plus.storage.getItem('balanceVo'));
+					notifiUL(customer, balanceVo);
+					
 				}else{
 					var userName = document.getElementById('userName');
 					userName.innerHTML = 'Login';
@@ -32,49 +36,6 @@
 					}
 				});
 
-				function getCustomerInfo(customerId) {
-
-				var url = baseUrl + '/customer/info/' + customerId;
-				mui.ajax(url, {
-					data: {
-
-					},
-					headers: {
-						'Accept-Language': "en",
-						'Authentication': plus.storage.getItem('Authentication'),
-					},
-					dataType: 'json',
-					type: 'get',
-					timeout: 10000,
-					success: function(result) {
-						if (result.code == 200) {
-							var data = result.data;
-
-							var accessToken = data.accessToken;
-							if (accessToken.bearerToken == plus.storage.getItem('Authentication')) {
-								var customer = data.customer;
-								var balanceVo = data.balanceVo;
-								notifiUL(customer, balanceVo);
-							} else {
-								mui.toast("accessToken not match,login again");
-								mui.openWindow({
-									url: '../login/login.html',
-									id: 'login.html'
-								});
-							}
-
-
-
-						} else {
-							mui.toast(result.msg);
-						}
-
-					},
-					error: function(xhr, type, errorThrown) {
-						mui.toast("error, type=" + type + " " + xhr);
-					}
-				});
-			}
 			
 			function notifiUL(customer, balanceVo) {
 				plus.nativeUI.closeWaiting();
@@ -83,6 +44,7 @@
 			
 				var points = document.getElementById('points');
 				points.innerHTML = balanceVo.balance;
+
 				var pointsTips = document.getElementById('pointsTips');
 				pointsTips.innerHTML = 'ePonit';
 				var moneyTips = document.getElementById('moneyTips');
@@ -98,11 +60,22 @@
 				});
 			}
 
+			var page = null;
 			function toCashCoupon() {
+				var id = '88'
+				// 获得详情页面
+				if (!page) {
+					page = plus.webview.getWebviewById('redeemCoupon.html');
+				}
+				//触发详情页面的couponId事件
+				mui.fire(page, 'couponId', {
+					id: id
+				});
+				
 				if(customerId!=null){
 					mui.openWindow({
-						url: './reward/coupons.html',
-						id: 'coupons.html'
+						url: './reward/redeemCoupon.html',
+						id: 'redeemCoupon.html'
 					});
 				}else{
 					mui.openWindow({

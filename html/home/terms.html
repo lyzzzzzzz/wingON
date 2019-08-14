@@ -33,13 +33,21 @@
 					plus.webview.show(plus.webview.currentWebview().opener());
 				})
 
+				var valueUrl = null;
+				var title = null;
+				window.addEventListener('mapURL', function(event) {
+				  //获得事件参数
+				  valueUrl = JSON.parse(event.detail.value);	
+				  title = event.detail.title;				  
+				});
+	
+				var titleDoc = document.getElementById('title');
+				titleDoc.innerHTML = title;
+				
+				var div = document.getElementById('content');
 
-
-				var div = document.getElementById('content')
-
-				mui.ajax('https://www.wingonet.com/property.php', {
+				mui.ajax(valueUrl, {
 					data: {
-						l: 'tc'
 					},
 					dataType: 'html', //服务器返回html
 					type: 'get', //HTTP请求类型
@@ -56,11 +64,10 @@
 
 		<header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow:0px 1px 5px #B6B6B6">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
-			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">Terms and Conditions</h1>
+			<h1 id="title" class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">Terms and Conditions</h1>
 		</header>
 
 		<div id="content" class="mui-content" style="width: 90%;display: flex;flex-direction: column;align-items: center;justify-content: flex-start;">
-			主体内容
 		</div>
 
 	</body>

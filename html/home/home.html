@@ -64,8 +64,9 @@
 
 	<body>
 		<script src="../../js/mui.js"></script>
-		<!-- <script src="../../js/mui.min.js"></script> -->
+		<script src="../../js/download.utils.js"></script>
 		<script src="../../js/environment.js"></script>
+		<script src="../../js/common.js"></script>
 		<script type="text/javascript">
 			mui.init({
 				preloadPages: [{
@@ -83,7 +84,8 @@
 			var first = null;
 			var customerId = null;
 			mui.plusReady(function() {
-
+				
+				
 
 				//不显示滚动条
 				plus.webview.currentWebview().setStyle({
@@ -152,8 +154,13 @@
 							var accessToken = data.accessToken;
 							if (accessToken.bearerToken == plus.storage.getItem('Authentication')) {
 								var customer = data.customer;
+								plus.storage.setItem('customer',JSON.stringify(customer));
+								
 								var address = data.address;
+								
 								var balanceVo = data.balanceVo;
+								plus.storage.setItem('balanceVo',JSON.stringify(balanceVo));
+								
 								notifiUL(customer, address, balanceVo);
 							} else {
 								mui.toast("accessToken not match,login again");
@@ -177,7 +184,7 @@
 			}
 
 			function getNewsInfo() {
-				mui.ajax(baseUrl + '/promotion/list/' + 1 + "/" + 2, {
+				mui.ajax(baseUrl + 'promotion/list/' + 1 + "/" + 2, {
 					data: {
 
 					},
@@ -190,13 +197,14 @@
 						if (result.code == 200) {
 							var data = result.data;
 							notifiPromotionList(data.list);
+
 						} else {
 							mui.toast(result.msg);
 						}
 
 					}
 				});
-				mui.ajax(baseUrl + '/inbox/list/' + 1 + "/" + 5, {
+				mui.ajax(baseUrl + 'inbox/list/' + 1 + "/" + 5, {
 					data: {
 
 					},
@@ -209,6 +217,7 @@
 						if (result.code == 200) {
 							var data = result.data;
 							notifiInboxList(data.list);
+							
 						} else {
 							mui.toast(result.msg);
 						}
@@ -245,8 +254,11 @@
 					li.setAttribute("class", "mui-table-view-cell mui-media");
 					//把对象的ID赋给li的属性id,以便点击每个li的时候可以获取对象的id作为参数传到详情页,然后根据id查询
 					li.setAttribute("id", item.id)
-					img.setAttribute("style", "width: 100%;height: 160px;background-size: cover;")
-					img.setAttribute("src", item.thumbnailImage);
+					img.setAttribute("style", "width: 100%;height: 220px;background-size: cover;")
+					img.setAttribute("src", '../../img/default.png');
+					img.setAttribute("data-src", item.thumbnailImage);
+					img.setAttribute("class", "lazy");
+
 					div.setAttribute("class", "mui-media-body");
 					p.setAttribute("class", ".mui-ellipsis");
 					p.setAttribute("style", "white-space: normal;")
@@ -259,6 +271,7 @@
 					fragment.appendChild(li);
 				});
 				container.appendChild(fragment);
+				lazyImg.lazyLoad();
 			}
 
 			function notifiInboxList(data) {
