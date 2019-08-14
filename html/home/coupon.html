@@ -118,7 +118,18 @@
 					success: function(result) {
 						if (result.code == 200) {
 							var data = result.data;
-							notifiULList(data.list,"item2");
+							var item2=document.getElementById('item2')
+							var span=document.createElement('span')
+							var img=document.createElement('img')
+							if(data.list==[]){
+								img.setAttribute('src','../../img/nodata-search.png')
+								span.innerText='No Coupons'
+								item2.setAttribute('style','display: flex;flex-direction: column;justify-content: center;align-items: center;font-weight: bold;margin-top: 100px;')
+								item2.appendChild(img)
+								item2.appendChild(span)
+							}else{
+							notifiULList(data.list,"item2");	
+							}
 						}
 			
 					}
@@ -141,7 +152,19 @@
 					success: function(result) {
 						if (result.code == 200) {
 							var data = result.data;
+							var item1=document.getElementById('item1')
+						    var span=document.createElement('span')
+							var img=document.createElement('img')
+							if(data.list==[]){
+							img.setAttribute('src','../../img/nodata-search.png')
+							span.innerText='No Rewards'
+							item1.setAttribute('style','display: flex;flex-direction: column;justify-content: center;align-items: center;font-weight: bold;margin-top: 100px;')
+							item1.appendChild(img)
+							item1.appendChild(span)
+							}else{
 							notifiULList(data.list,"item1");
+							}
+							
 						}
 							
 					}
