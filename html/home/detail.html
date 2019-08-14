@@ -7,30 +7,30 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../../css/mui.css" rel="stylesheet" />
 		<style>
-			html,body,.mui-scroll{
+		html,body{
         width: 100%;
         height: 100%;
-         display: flex;
-        flex-direction: column;
-        justify-content:  flex-start;
-        align-items: center;
         background-color: #FFFFFF;
+		padding: 0;
+		margin: 0;
       }
       .mui-content{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
         background-color: #FFFFFF;
-        width: 95%;
-		height: 100%;
+        width: 92%;
+		margin: auto;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		padding: 0;
       }
       #img{
         width: 100%;
-        height: 300px;
+        height: 20%;
       }
       footer{
         width: 100%;
-        /* bottom: 0; */
+        bottom: 0;
       }
       td{
         height: 50px;
@@ -58,15 +58,15 @@
 		<script type="text/javascript">
 			mui.init()
 			mui.plusReady(function() {
-				// mui('.mui-scroll-wrapper').scroll({
-				// 	scrollY: true, //是否竖向滚动
-				// 	scrollX: false, //是否横向滚动
-				// 	startX: 0, //初始化时滚动至x
-				// 	startY: 0, //初始化时滚动至y
-				// 	indicators: false, //是否显示滚动条
-				// 	deceleration: 0.0006, //阻尼系数,系数越小滑动越灵敏
-				// 	// bounce: true //是否启用回弹
-				// });
+				mui('.mui-scroll-wrapper').scroll({
+					scrollY: true, //是否竖向滚动
+					scrollX: false, //是否横向滚动
+					startX: 0, //初始化时滚动至x
+					startY: 0, //初始化时滚动至y
+					indicators: false, //是否显示滚动条
+					deceleration: 0.0006, //阻尼系数,系数越小滑动越灵敏
+					bounce: false //是否启用回弹
+				});
 
 				var obj = {
 					// id: i,
@@ -116,10 +116,10 @@
 			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">Detail</h1>
 		</header>
 
-		<!-- <div class="mui-scroll-wrapper"> -->
-		<!-- <div class="mui-scroll"> -->
-		<div class="mui-content">
-
+	<!-- 	<div class="mui-scroll-wrapper">
+		<div class="mui-scroll"> -->
+		<div class="mui-content mui-scroll-wrapper">
+	<div class="mui-scroll" style="display: flex;flex-direction: column;justify-content: space-between;height: 94%;">
 			<div>
 				<div>
 					<img id="img" />
@@ -131,10 +131,6 @@
 					<p id="rule" style="margin-top: 5px;"></p>
 				</div>
 			</div>
-
-
-
-
 			<footer>
 				<span style="text-align: center;display: block;font-weight: bold;margin-bottom: 3px;">Share the offer to you
 					friend</span>
@@ -157,7 +153,7 @@
 			</footer>
 		</div>
 
-		<!-- </div> -->
+		</div>
 		<!-- </div> -->
 	</body>
 
