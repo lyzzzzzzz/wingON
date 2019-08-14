@@ -30,7 +30,13 @@
 	<body>
 		<script src="../../js/mui.js"></script>
 		<script type="text/javascript">
-			mui.init()
+			mui.init({
+			  preloadPages:[{
+			    id:'terms.html',
+			    url:'terms.html'           
+			  }
+			  ]
+			});
 			
 			var customerId = null;
 			mui.plusReady(function() {
@@ -78,23 +84,63 @@
 					id: 'home.html'
 				});
 			}
-
+			
+			var page = null;
+			
 			function toTerms() {
-				// mui.openWindow('./terms.html', 'terms.html')
+				if (!page) {
+					page = plus.webview.getWebviewById('terms.html');
+				}
+				mui.fire(page, 'mapURL', {
+					'title': 'Terms & Conditions',
+					'valueUrl': plus.storage.getItem('terms')
+				});
 				mui.openWindow({
 					url: './terms.html',
 					id: 'terms.html'
 				});
 			}
 
+			function toPrivacy() {
+				if (!page) {
+					page = plus.webview.getWebviewById('terms.html');
+				}
+				mui.fire(page, 'mapURL', {
+					'title': 'Privacy Policy',
+					'valueUrl': plus.storage.getItem('privacy')
+				});
+				mui.openWindow({
+					url: './terms.html',
+					id: 'terms.html'
+				});
+			}
+			
+			function toFAQ() {
+				if (!page) {
+					page = plus.webview.getWebviewById('terms.html');
+				}
+				mui.fire(page, 'mapURL', {
+					'title': 'FAQ',
+					'valueUrl': plus.storage.getItem('faq')
+				});
+				mui.openWindow({
+					url: './terms.html',
+					id: 'terms.html'
+				});
+			
+			}
+			
 			function toLanguage() {
 				// mui.openWindow('./language.html', 'language.html')
 				mui.openWindow({
 					url: './language.html',
 					id: 'language.html'
 				});
-
+			
 			}
+
+			
+			
 		</script>
 		<header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow:0px 1px 5px #B6B6B6">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
@@ -112,8 +158,8 @@
 				<li class="mui-table-view-cell" onclick="toAboutUs()">About Us</li>
 				<li id="cellFeedback" class="mui-table-view-cell">Feedback</li>
 				<li class="mui-table-view-cell" onclick="toTerms()">Terms & Conditions</li>
-				<li class="mui-table-view-cell">Privacy Policy</li>
-				<li class="mui-table-view-cell">FAQ</li>
+				<li class="mui-table-view-cell" onclick="toPrivacy()">Privacy Policy</li>
+				<li class="mui-table-view-cell" onclick="toFAQ()">FAQ</li>
 			</ul>
 
 			<ul id="cellLogout" class="mui-table-view" style="background-color: #FFFFFF;margin-top: 15px;">

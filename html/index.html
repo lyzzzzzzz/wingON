@@ -47,6 +47,7 @@
 
 	<body>
 		<script src="../js/mui.js"></script>
+		<script src="../js/environment.js"></script>
 		<script type="text/javascript">
 			mui.init({
 				keyEventBind: {
@@ -54,6 +55,7 @@
 					menubutton: false //Boolean(默认true)关闭menu按键监听
 				},
 			})
+			
 			// 
 			var defaultpage = "./home/home.html"; // 定义默认选项卡子页面
 			//定义所有子页面   './home/qrCode.html'
@@ -62,6 +64,10 @@
 			// 页面加载完成后加载子页面
 			mui.plusReady(function() {
 
+				var noticeTime = plus.storage.getItem('noticeTime');
+				if(noticeTime==null) noticeTime = '0';
+				getConfigData(noticeTime);
+				
 				var current = plus.webview.currentWebview(); //获取当前页面的窗口对象
 
 				current.setStyle({
@@ -180,6 +186,41 @@
 				})
 
 			});
+			
+			function getConfigData(noticeTime) {
+				var osName = plus.os.name.toLocaleLowerCase();
+				
+				var url = baseUrl + '/config/info/' + noticeTime;
+				mui.ajax(url, {
+					data: {
+			
+					},
+					headers: {
+						'Accept-Language': "en",
+						'deviceOS': osName,
+					},
+					dataType: 'json',
+					type: 'get',
+					timeout: 10000,
+					success: function(result) {
+						if (result.code == 200) {
+							var data = result.data;
+							plus.storage.setItem('terms', data.terms.value.toString());
+							plus.storage.setItem('faq', data.faq.value.toString());
+							plus.storage.setItem('privacy', data.privacy.value.toString());
+							plus.storage.setItem('title', data.title.toString());
+							
+							plus.storage.setItem('noticeTime', data.serverTime.toString());
+						} else {
+							mui.toast(result.msg);
+						}
+			
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast("error, type=" + type + " " + xhr);
+					}
+				});
+			}
 		</script>
 		<!-- <div class="mui-content"> -->
 		<div id="footer">
