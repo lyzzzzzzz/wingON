@@ -29,6 +29,7 @@
 
 	<body>
 		<script src="../../js/mui.js"></script>
+		<script src="../../js/environment.js"></script>
 		<script type="text/javascript">
 			mui.init({
 				keyEventBind: {
@@ -42,18 +43,50 @@
 					scrollIndicator: 'none'
 				});
 
-				//模拟列表数据
-				var data = []
-				var obj = {
-					img: '../../img/tmp_logo1.jpg',
-					title: 'Chocolate Mould (Winter stars)',
-					content: '“Create uniform curly noodles from a variety of vegetables and fruits, includes coarse and fine spiralizer blades plus rotary grating blade，easy-to-use, self-aligning design keeps food straight as you twist the soft grip handle，Container base collects food as you cut. '
-				}
-				for (var i = 0; i < 3; i++) {
-					data.push(obj)
-				}
-				notifiULList(data)
+				getPromotionInfo(1,20);
+				
+				var detailPage = null;
+				//添加列表项的点击事件
+				mui(".mui-table-view").on('tap', 'li', function() {
+					//获取id
+					var id = this.getAttribute("id")
+					// 获得详情页面
+					if (!detailPage) {
+						detailPage = plus.webview.getWebviewById('detail.html');
+					}
+					//触发详情页面的newsId事件
+					mui.fire(detailPage, 'newsId', {
+						id: id
+					});
+					//打开详情页面          
+					mui.openWindow({
+						id: 'detail.html',
+						url: './detail.html'
+					});
+				});
 			})
+			
+			function getPromotionInfo(pageNum,pageSize) {
+				mui.ajax(baseUrl + '/promotion/list/' + pageNum + "/" + pageSize,  {
+					data: {
+			
+					},
+					headers: {
+						'Accept-Language': "en",
+					},
+					dataType: 'json',
+					type: 'get',
+					success: function(result) {
+						if (result.code == 200) {
+							var data = result.data;
+							notifiULList(data.list);
+						} else {
+							mui.toast(result.msg);
+						}
+			
+					}
+				});
+			}
 
 			function notifiULList(data) {
 				//plus.nativeUI.closeWaiting();
@@ -76,13 +109,14 @@
 					div = doc.createElement("div"),
 					p = doc.createElement("p");
 				li.setAttribute("class", "mui-table-view-cell mui-media");
+				li.setAttribute("id", item.id)
 				img.setAttribute("style", "width: 100%;height: 200px;");
-				img.setAttribute("src", item.img);
+				img.setAttribute("src", item.thumbnailImage);
 				div.setAttribute("class", "mui-media-body");
 				p.setAttribute("class", "mui-ellipsis");
 				p.setAttribute("style", "white-space: normal;")
-				div.innerText = item.title;
-				p.innerHTML = item.content;
+				div.innerText = item.titleEn;
+				p.innerHTML = item.descriptionEn;
 				li.appendChild(a);
 				a.appendChild(img);
 				a.appendChild(div);

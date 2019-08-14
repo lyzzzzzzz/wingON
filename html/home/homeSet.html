@@ -32,7 +32,23 @@
 		<script type="text/javascript">
 			mui.init()
 			
+			var customerId = null;
+			mui.plusReady(function() {
 			
+				customerId = plus.storage.getItem('customerId');
+				if(customerId!=null){
+
+				}else{
+
+					var cellPassword = document.getElementById('cellPassword');
+					cellPassword.classList.add('mui-hidden');
+					var cellFeedback = document.getElementById('cellFeedback');
+					cellFeedback.classList.add('mui-hidden');
+					var cellLogout = document.getElementById('cellLogout');
+					cellLogout.classList.add('mui-hidden');
+					
+					}
+					});
 		
 			  function toNewPw() {
 				mui.openWindow({
@@ -82,19 +98,19 @@
 		<div class="mui-content" style="padding-top: 45px;">
 			<ul class="mui-table-view" style="background-color: #FFFFFF;margin-top: 5px;">
 				<li class="mui-table-view-cell" onclick="toLanguage()">Language</li>
-				<li class="mui-table-view-cell" onclick="toNewPw()">Change Password</li>
+				<li id="cellPassword" class="mui-table-view-cell" onclick="toNewPw()">Change Password</li>
 			</ul>
 
 			<ul class="mui-table-view" style="background-color: #FFFFFF;margin-top: 15px;">
 				<li class="mui-table-view-cell">Store Locator</li>
 				<li class="mui-table-view-cell" onclick="toAboutUs()">About Us</li>
-				<li class="mui-table-view-cell">Feedback</li>
+				<li id="cellFeedback" class="mui-table-view-cell">Feedback</li>
 				<li class="mui-table-view-cell" onclick="toTerms()">Terms & Conditions</li>
 				<li class="mui-table-view-cell">Privacy Policy</li>
 				<li class="mui-table-view-cell">FAQ</li>
 			</ul>
 
-			<ul class="mui-table-view" style="background-color: #FFFFFF;margin-top: 15px;">
+			<ul id="cellLogout" class="mui-table-view" style="background-color: #FFFFFF;margin-top: 15px;">
 				<li class="mui-table-view-cell" style="text-align: center;color: #D82A2A;font-weight: bold;font-size: 18px;" onclick="toLogout()">Logout</li>
 			</ul>
 

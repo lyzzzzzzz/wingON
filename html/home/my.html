@@ -18,7 +18,78 @@
 					menubutton: false //Boolean(默认true)关闭menu按键监听
 				},
 			})
+			var customerId = null;
+			mui.plusReady(function() {
+			
+				customerId = plus.storage.getItem('customerId');
+				if(customerId!=null){
+					getCustomerInfo(customerId);
+				}else{
+					var userName = document.getElementById('userName');
+					userName.innerHTML = 'Login';
+					var pointsTips = document.getElementById('pointsTips');
+					pointsTips.innerHTML = '';
+					}
+				});
 
+				function getCustomerInfo(customerId) {
+
+				var url = baseUrl + '/customer/info/' + customerId;
+				mui.ajax(url, {
+					data: {
+
+					},
+					headers: {
+						'Accept-Language': "en",
+						'Authentication': plus.storage.getItem('Authentication'),
+					},
+					dataType: 'json',
+					type: 'get',
+					timeout: 10000,
+					success: function(result) {
+						if (result.code == 200) {
+							var data = result.data;
+
+							var accessToken = data.accessToken;
+							if (accessToken.bearerToken == plus.storage.getItem('Authentication')) {
+								var customer = data.customer;
+								var balanceVo = data.balanceVo;
+								notifiUL(customer, balanceVo);
+							} else {
+								mui.toast("accessToken not match,login again");
+								mui.openWindow({
+									url: '../login/login.html',
+									id: 'login.html'
+								});
+							}
+
+
+
+						} else {
+							mui.toast(result.msg);
+						}
+
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast("error, type=" + type + " " + xhr);
+					}
+				});
+			}
+			
+			function notifiUL(customer, balanceVo) {
+				plus.nativeUI.closeWaiting();
+				var userName = document.getElementById('userName');
+				userName.innerHTML = customer.firstName;
+			
+				var points = document.getElementById('points');
+				points.innerHTML = balanceVo.balance;
+				var pointsTips = document.getElementById('pointsTips');
+				pointsTips.innerHTML = 'ePonit';
+				var moneyTips = document.getElementById('moneyTips');
+				moneyTips.innerHTML = "Euivalent to $ " + balanceVo.balance/100;
+				var head = document.getElementById('head');
+
+			}
 
 			function toSetting() {
 				mui.openWindow({
@@ -28,17 +99,33 @@
 			}
 
 			function toCashCoupon() {
-				mui.openWindow({
-					url: './reward/coupons.html',
-					id: 'coupons.html'
-				});
+				if(customerId!=null){
+					mui.openWindow({
+						url: './reward/coupons.html',
+						id: 'coupons.html'
+					});
+				}else{
+					mui.openWindow({
+						url: './login.html',
+						id: 'login.html'
+					});
+				}
+				
 			}
 			
 			function toPersonal(){
-				mui.openWindow({
-					url: './personalMsg.html',
-					id: 'personalMsg.html'
-				});
+				
+				if(customerId!=null){
+					mui.openWindow({
+						url: './personalMsg.html',
+						id: 'personalMsg.html'
+					});
+				}else{
+					mui.openWindow({
+						url: './login.html',
+						id: 'login.html'
+					});
+				}
 			}
 			
 		</script>
@@ -53,16 +140,16 @@
 				<div class="mui-card-content" style="padding: 15px;">
 					<!-- 头部 -->
 					<div style="height: 80px;width: 100%;display: flex;flex-direction: row;align-items: center;">
-						<img src="../../img/one.jpg" style="width: 80px; height: 80px;border-radius: 80px;" onclick="toPersonal()" />
+						<img src="../../img/one.jpg" id="head" style="width: 80px; height: 80px;border-radius: 80px;" onclick="toPersonal()" />
 						<div style="flex: 1;padding: 15px;">
-							<span style="font-size: 20px;color: #6D6D72;font-weight: bold;">Stan</span>
+							<span style="font-size: 20px;color: #6D6D72;font-weight: bold;" id="userName"></span>
 						</div>
 						<img src="../../img/my_setting.png" style="width: 30px; height: 30px;" onclick="toSetting()" />
 					</div>
 					<!-- 内容 -->
 					<div style="height: 80px;width: 100%;padding: 15px;">
-						<p style="font-size: 20px;padding-left: 10px;font-weight: bold;"><span style="color: #D44A38;font-size: 26px;padding-right: 10px;font-weight: bold;">2,500</span>ePoint</p>
-						<p style="font-size: 18px;">Euivalent to $ 25</p>
+						<p style="font-size: 20px;padding-left: 10px;font-weight: bold;" id="pointsTips"><span style="color: #D44A38;font-size: 26px;padding-right: 10px;font-weight: bold;" id="points"></span>ePoint</p>
+						<p style="font-size: 18px;" id="moneyTips"></p>
 					</div>
 				</div>
 			</div>
