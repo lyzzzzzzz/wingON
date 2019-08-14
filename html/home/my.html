@@ -17,38 +17,42 @@
 					backbutton: false, //Boolean(默认true)关闭back按键监听
 					menubutton: false //Boolean(默认true)关闭menu按键监听
 				},
+				preloadPages: [{
+					id: 'redeemCoupon.html',
+					url: './reward/redeemCoupon.html'
+				}],
 			})
 			var customerId = null;
 			mui.plusReady(function() {
-			
+
 				customerId = plus.storage.getItem('customerId');
-				if(customerId!=null){
+				if (customerId != null) {
 
 					var customer = JSON.parse(plus.storage.getItem('customer'));
 					var balanceVo = JSON.parse(plus.storage.getItem('balanceVo'));
 					notifiUL(customer, balanceVo);
-					
-				}else{
+
+				} else {
 					var userName = document.getElementById('userName');
 					userName.innerHTML = 'Login';
 					var pointsTips = document.getElementById('pointsTips');
 					pointsTips.innerHTML = '';
-					}
-				});
+				}
+			});
 
-			
+
 			function notifiUL(customer, balanceVo) {
 				plus.nativeUI.closeWaiting();
 				var userName = document.getElementById('userName');
 				userName.innerHTML = customer.firstName;
-			
+
 				var points = document.getElementById('points');
 				points.innerHTML = balanceVo.balance;
 
 				var pointsTips = document.getElementById('pointsTips');
 				pointsTips.innerHTML = 'ePonit';
 				var moneyTips = document.getElementById('moneyTips');
-				moneyTips.innerHTML = "Euivalent to $ " + balanceVo.balance/100;
+				moneyTips.innerHTML = "Euivalent to $ " + balanceVo.balance / 100;
 				var head = document.getElementById('head');
 
 			}
@@ -61,6 +65,7 @@
 			}
 
 			var page = null;
+
 			function toCashCoupon() {
 				var id = '88'
 				// 获得详情页面
@@ -71,36 +76,35 @@
 				mui.fire(page, 'couponId', {
 					id: id
 				});
-				
-				if(customerId!=null){
+
+				if (customerId != null) {
 					mui.openWindow({
 						url: './reward/redeemCoupon.html',
 						id: 'redeemCoupon.html'
 					});
-				}else{
+				} else {
 					mui.openWindow({
 						url: '../login/login.html',
 						id: 'login.html'
 					});
 				}
-				
+
 			}
-			
-			function toPersonal(){
-				
-				if(customerId!=null){
+
+			function toPersonal() {
+
+				if (customerId != null) {
 					mui.openWindow({
 						url: './personalMsg.html',
 						id: 'personalMsg.html'
 					});
-				}else{
+				} else {
 					mui.openWindow({
 						url: '../login/login.html',
 						id: 'login.html'
 					});
 				}
 			}
-			
 		</script>
 
 		<!-- <header class="mui-bar mui-bar-nav">
@@ -121,7 +125,8 @@
 					</div>
 					<!-- 内容 -->
 					<div style="height: 80px;width: 100%;padding: 15px;">
-						<p style="font-size: 20px;padding-left: 10px;font-weight: bold;" id="pointsTips"><span style="color: #D44A38;font-size: 26px;padding-right: 10px;font-weight: bold;" id="points"></span>ePoint</p>
+						<p style="font-size: 20px;padding-left: 10px;font-weight: bold;" id="pointsTips"><span style="color: #D44A38;font-size: 26px;padding-right: 10px;font-weight: bold;"
+							 id="points"></span>ePoint</p>
 						<p style="font-size: 18px;" id="moneyTips"></p>
 					</div>
 				</div>
