@@ -48,6 +48,7 @@
 
 	<body>
 		<script src="../../js/mui.js"></script>
+		<script src="../../js/environment.js"></script>
 		<script type="text/javascript">
 			mui.init()
 			mui.plusReady(function() {
@@ -56,22 +57,31 @@
 				// 	scrollIndicator: 'none'
 				// });
 
-				//模拟列表数据
-				var data = []
-				var obj = {
-					img: '../../img/tmp_logo1.jpg',
-					title: 'Sheung Wan Main Store',
-					location: 'Create uniform curly noodles from a variety of vegetables and fruits',
-					phone:'2852 1888',
-					sendPhone:'1475 2365',
-					time:'10:00am-7:20pm',
-					taxi:'MTR Sheung Wan Station Exit E5'
-				}
-				for (var i = 0; i < 3; i++) {
-					data.push(obj)
-				}
-				notifiULList(data)
+				
+				getShopInfo();
 			})
+			
+			function getShopInfo() {
+				mui.ajax(baseUrl + '/shop/list', {
+					data: {
+			
+					},
+					headers: {
+						'Accept-Language': "en",
+					},
+					dataType: 'json',
+					type: 'get',
+					success: function(result) {
+						if (result.code == 200) {
+							var data = result.data;
+							notifiULList(data.list);
+						} else {
+							mui.toast(result.msg);
+						}
+			
+					}
+				});
+				}
 
 			function notifiULList(data) {
 				//plus.nativeUI.closeWaiting();
@@ -111,7 +121,7 @@
 				// p = doc.createElement("p");
 				li.setAttribute("class", "mui-table-view-cell mui-media");
 				img.setAttribute("style", "width: 100%;height: 200px;");
-				img.setAttribute("src", item.img);
+				img.setAttribute("src", item.image);
 				div.setAttribute("class", "mui-media-body");
 				div2.setAttribute("style",
 					"display: flex;flex-direction: column;justify-content: space-around;align-items: flex-start;height:10rem;");
@@ -119,32 +129,32 @@
 				location.setAttribute("style", "margin-top: 10px;");
 				locationIcon.setAttribute("src", '../../img/location.png');
 				locationIcon.setAttribute("class", "icon");
-				locationText.innerText = item.location;
+				locationText.innerText = item.addressEn;
 				locationText.setAttribute("class", "text");
 				phone.setAttribute("class", "item");
 				phoneIcon.setAttribute('src', "../../img/phone.png");
 				phoneIcon.setAttribute("class", "icon");
-				phoneText.innerText =item.phone;
+				phoneText.innerText =item.tel;
 				phoneText.setAttribute("class", "text");
 				sendPhone.setAttribute("class", "item");
 				sendPhoneIcon.setAttribute('src', "../../img/sendIcon.png");
 				sendPhoneIcon.setAttribute("class", "icon");
-				sendPhoneText.innerText = item.sendPhone;
+				sendPhoneText.innerText = item.fax;
 				sendPhoneText.setAttribute("class", "text");
 
 				time.setAttribute("class", "item");
 				timeIcon.setAttribute('src', "../../img/time_fill.png");
 				timeIcon.setAttribute("class", "icon");
-				timeText.innerText = item.time;
+				timeText.innerText = item.businessHourEn;
 				timeText.setAttribute("class", "text");
 
 				taxi.setAttribute("class", "item");
 				taxiIcon.setAttribute('src', "../../img/taxi.png");
 				taxiIcon.setAttribute("class", "icon");
-				taxiText.innerText =item.taxi;
+				taxiText.innerText =item.addressEn;
 				taxiText.setAttribute("class", "text");
 
-				div.innerText = item.title;
+				div.innerText = item.nameEn;
 				// p.innerHTML = item.content;
 				li.appendChild(a);
 				a.appendChild(img);
