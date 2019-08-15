@@ -5,7 +5,7 @@
 		<meta charset="utf-8">
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<link href="../../../css/mui.css" rel="stylesheet" />
+		<link href="../../css/mui.css" rel="stylesheet" />
 		<style>
 			html,body{
 				height: 100%;
@@ -77,16 +77,18 @@
 	</head>
 
 	<body>
-		<script src="../../../js/mui.js"></script>
-		<script src="../../../js/environment.js"></script>
+		<script src="../../js/mui.js"></script>
+		<script src="../../js/environment.js"></script>
 		<script type="text/javascript">
 			mui.init()
 			mui.plusReady(function() {
 
 				var balanceVo =	JSON.parse(plus.storage.getItem('balanceVo'));
-				var ePoint = document.getElementById('ePoint')
-				ePoint.innerHTML = balanceVo.balance;
-				
+				if(balanceVo!=null){
+					var ePoint = document.getElementById('ePoint')
+					ePoint.innerHTML = balanceVo.balance;
+				}
+				getCouponInfo('88');
 				window.addEventListener('couponId', function(event) {
 				//获得事件参数
 				var id = event.detail.id;
@@ -96,7 +98,7 @@
 				getCouponInfo(id);
 				});
 				
-
+				var coupon = null;
 				var bottomNum = document.getElementById('bottomNum')
 				bottomNum.innerText = 0
 
@@ -110,7 +112,7 @@
 				})
 
 				mui('#numberBox').on('tap', '.mui-numbox-btn-plus', function() {
-					bottomNum.innerText = parseInt(bottomNum.innerText) + 1
+					bottomNum.innerText = parseInt(bottomNum.innerText) + 1;
 				});
 			});
 			function getCouponInfo(couponId) {
@@ -130,9 +132,8 @@
 					success: function(result) {
 						if (result.code == 200) {
 							var data = result.data;
-							notifiUL(data.data);
-							
-			
+							coupon = data.data;
+							notifiUL(coupon);
 						} else {
 							mui.toast(result.msg);
 						}
@@ -159,6 +160,78 @@
 				var tips = document.getElementById('tips')
 				tips.innerHTML = data.tncEn;
 			}
+			
+			function earnCoupon(customerId,couponId,count) {
+			
+				var url = baseUrl + 'customer/earnCoupon/' + customerId  + "/" + couponId  + "/" + count;
+				mui.ajax(url, {
+					data: {
+			
+					},
+					headers: {
+						'Accept-Language': "en",
+						'Authentication': plus.storage.getItem('Authentication'),
+					},
+					dataType: 'json',
+					type: 'post',
+					timeout: 10000,
+					success: function(result) {
+						if (result.code == 200) {
+							var data = result.data;
+							var customerId = data.data.customerId;
+							mui.ajax(baseUrl + 'customer/pointsBalance/' + customerId,{
+								data: {
+											
+								},
+								headers: {
+									'Accept-Language': "en",
+									'Authentication': plus.storage.getItem('Authentication'),
+								},
+								dataType: 'json',
+								type: 'get',
+								timeout: 10000,
+								success: function(resultBalance){
+									if (resultBalance.code == 200) {
+										plus.storage.removeItem('balanceVo');
+										
+										var balanceVo = resultBalance.data.balanceVo;
+										plus.storage.setItem('balanceVo',JSON.stringify(balanceVo));
+									}
+								}
+							});
+						} else {
+							mui.toast(result.msg);
+						}
+			
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast("error, type=" + type + " " + xhr);
+					}
+				});
+			}
+			
+			function toEarnCoupon() {
+				
+				var bottomNum = document.getElementById('bottomNum')
+				var num = bottomNum.innerText;
+				if(num<=0){
+					mui.toast("coupon number is wrong");
+					return;
+				}
+				document.getElementById("confirmBtn").addEventListener('tap', function() {
+				    var btnArray = ['No', 'Yes'];
+				    mui.confirm('Do you exchange reward coupon?', 'WingOn', btnArray, function(e) {
+				        if (e.index == 1) {
+				            
+				            var customerId = plus.storage.getItem('customerId');
+				            if(num>0 && coupon!=null && customerId!=null){
+				            	 earnCoupon(customerId,coupon.id,num);
+				            }
+				        }
+				    })
+				});
+			}
+			
 		</script>
 		<header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow:0px 1px 5px #B6B6B6" >
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
@@ -173,17 +246,17 @@
 				</div>
 
 				<div style="width: 90%;padding-top: 20px;">
-					<div style="font-size: 15px;">
+					<div style="font-size: 17px;">
 						<span id="couponTitle" style="font-weight: bold;color: #333333;"></span>
 						<span id="couponPoint" style="color: #6D6D72;font-weight: bold;"></span>
 					</div>
 
-					<div style="margin-top: 20px;">
-						<p id="content" style="word-wrap: break-word;font-size: 16px;color: #000000;color: #333333;"></p>
+					<div style="margin-top: 20px;font-size: 16px;">
+						<p id="content" style="word-wrap: break-word;color: #000000;color: #333333;"></p>
 					</div>
 
-					<div style="margin-top: 20px;">
-						<p id="tips" style="word-wrap: break-word;font-size: 16px;color: #000000;color: #333333;"></p>
+					<div style="margin-top: 20px;font-size: 16px;">
+						<p id="tips" style="word-wrap: break-word;color: #000000;color: #333333;"></p>
 					</div>
 				</div>
 			</div>
@@ -203,7 +276,7 @@
 						<button class="mui-btn mui-numbox-btn-minus" type="button">-</button>
 						<button class="mui-btn mui-numbox-btn-plus" type="button">+</button>
 					</div>
-					<button class="mui-btn" type="button" style="background-color:#ECB0C1 ;height: 45px;width: 50%;font-size: 18px;text-align: center;">Redeem</button>
+					<button id="confirmBtn" class="mui-btn" type="button" style="background-color:#FF5053 ;height: 45px;width: 50%;font-size: 18px;text-align: center;" onclick="toEarnCoupon()">Redeem</button>
 				</div>
 
 			</div>

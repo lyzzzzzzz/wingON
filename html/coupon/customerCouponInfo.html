@@ -5,7 +5,7 @@
 		<meta charset="utf-8">
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<link href="../../../css/mui.css" rel="stylesheet" />
+		<link href="../../css/mui.css" rel="stylesheet" />
 		<style>
 			body,html{
 				height: 100%;
@@ -26,14 +26,15 @@
 	</head>
 
 	<body>
-		<script src="../../../js/mui.js"></script>
-		<script src="../../../js/JsBarcode.all.js"></script>
+		<script src="../../js/mui.js"></script>
+		<script src="../../js/JsBarcode.all.js"></script>
+		<script src="../../js/environment.js"></script>
 		<script type="text/javascript">
 			mui.init()
 			//添加couponId自定义事件监听
 
 
-
+			var coupon = null;
 			mui.plusReady(function() {
 				mui('.mui-scroll-wrapper').scroll({
 					scrollY: true, //是否竖向滚动
@@ -50,8 +51,60 @@
 					scrollIndicator: 'none'
 				});
 
+				//获得传过来的ID
+				window.addEventListener('couponId', function(event) {
+					var id = event.detail.id;
+					getCouponInfo(id);
+				});
+			})
+			function getCouponInfo(couponId) {
+			
+				var url = baseUrl + 'coupon/reward/info/' + couponId;
+				mui.ajax(url, {
+					data: {
+			
+					},
+					headers: {
+						'Accept-Language': "en",
+					},
+					dataType: 'json',
+					type: 'get',
+					timeout: 10000,
+					success: function(result) {
+						if (result.code == 200) {
+							var data = result.data;
+							coupon = data.data;
+							notifiUL(coupon);
+						} else {
+							mui.toast(result.msg);
+						}
+			
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast("error, type=" + type + " " + xhr);
+					}
+				});
+			}
+			function notifiUL(data) {
+				plus.nativeUI.closeWaiting();
+				
+				var title = document.getElementById('title')
+				title.innerHTML = data.titleEn
+				
+				var offerContent = document.getElementById('offerContent')
+				offerContent.innerHTML = data.descriptionEn
+				
+				var termsContent = document.getElementById('termsContent')
+				termsContent.innerHTML = data.tncEn
+				
+				var date = document.getElementById('date')
+				date.innerText = 'Expiry Date:' + data.endDate
+				
+				var img = document.getElementById("img")
+				img.setAttribute("src", data.image)
+				
 				var barcode = document.getElementById('barcode'),
-					str = "16620902551",
+					str = data.barCode,
 					options = {
 						format: "CODE128",
 						displayValue: true,
@@ -59,49 +112,20 @@
 						height: 90
 					};
 				JsBarcode(barcode, str, options); //原生
-
-
-
-				//获得传过来的ID
-				window.addEventListener('couponId', function(event) {
-					var id = event.detail.id;
-					console.log(id);
-				});
-
-				//模拟数据
-				var obj = {
-					offerContent: 'Create uniform curly noodles from a variety of vegetables and fruits, includes coarse and fine spiralizer blades plus rotary grating blade，easy-to-use, self-aligning design keeps food',
-					termsContent: '<div><span style="font-weight: bold;">1.Special Discount on Seclected Regular-priced Items</span></div><div><span style="font-weight: bold;">2.Special Discount on Seclected Regular-priced Items</span></div><div><span style="font-weight: bold;">3.Special Discount on Seclected Regular-priced Items</span></div>',
-					date: '21/10/2019'
-				}
-
-
-				var offerContent = document.getElementById('offerContent')
-				offerContent.innerText = 'Member Offer: ' + obj.offerContent
-
-				var termsContent = document.getElementById('termsContent')
-				termsContent.innerHTML = obj.termsContent
-
-				var date = document.getElementById('date')
-				date.innerText = 'Expiry Date:' + obj.date
-			})
+			}
 		</script>
 		<header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow:0px 1px 5px #B6B6B6">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
-			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">e-Coupon</h1>
+			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">My Reward Coupon</h1>
 		</header>
 		<div class="mui-content mui-scroll-wrapper" >
 
-
-			<!-- <div class="mui-scroll-wrapper" style="width: 90%;"> -->
-				<div class="mui-scroll" style="width: 100%;display: flex;flex-direction: column;justify-content: space-between;align-items: center;">
+				<div class="mui-scroll" style="margin-top: 3%;width: 100%;display: flex;flex-direction: column;justify-content: space-between;align-items: center;">
 					
-
-
 					<div>
-						<img src='../../../img/one.jpg' style="width: 100%;" />
+						<img id="img" style="width: 100%;" />
 						<div>
-							<span style="font-weight: bold;">Special Discount on Seclected Regular-priced Items</span>
+							<span style="font-weight: bold;margin-top: 3%;" id="title"></span>
 						</div>
 						<div style="margin-top: 3%;">
 							<p id="offerContent" style="color: #080505;font-size: 15px;"></p>
@@ -123,7 +147,6 @@
 
 				</div>
 			</div>
-		<!-- </div> -->
 	</body>
 
 </html>

@@ -59,7 +59,7 @@
 			// 
 			var defaultpage = "./home/home.html"; // 定义默认选项卡子页面
 			//定义所有子页面   './home/qrCode.html'
-			var subpages = ['./home/home.html', './home/coupon.html', './home/promotion.html', './home/my.html'];
+			var subpages = ['./home/home.html', './coupon/coupon.html', './promotion/promotion.html', './account/my.html'];
 			var first = null;
 			// 页面加载完成后加载子页面
 			mui.plusReady(function() {
@@ -126,8 +126,8 @@
 					qrCode.setAttribute('style', 'color: #FFFFFF;')
 					qrCode.children[0].setAttribute('src', '../img/toolbar_passport.png')
 					plus.webview.hide(defaultpage);
-					plus.webview.show("./home/promotion.html")
-					defaultpage = "./home/promotion.html";
+					plus.webview.show("./promotion/promotion.html")
+					defaultpage = "./promotion/promotion.html";
 				})
 
 				document.getElementById('coupon').addEventListener("click", function() {
@@ -142,9 +142,9 @@
 					qrCode.setAttribute('style', 'color: #FFFFFF;')
 					qrCode.children[0].setAttribute('src', '../img/toolbar_passport.png')
 					plus.webview.hide(defaultpage);
-					plus.webview.show("./home/coupon.html")
+					plus.webview.show("./coupon/coupon.html")
 
-					defaultpage = "./home/coupon.html";
+					defaultpage = "./coupon/coupon.html";
 				})
 
 
@@ -160,8 +160,8 @@
 					qrCode.setAttribute('style', 'color: #FFFFFF;')
 					qrCode.children[0].setAttribute('src', '../img/toolbar_passport.png')
 					plus.webview.hide(defaultpage);
-					plus.webview.show("./home/my.html")
-					defaultpage = "./home/my.html";
+					plus.webview.show("./account/my.html")
+					defaultpage = "./account/my.html";
 				})
 
 
@@ -177,12 +177,20 @@
 					// my.setAttribute('style', 'color: #FFFFFF;')
 					// my.children[0].setAttribute('src', '../img/toolbar_my.png')
 					// plus.webview.hide(defaultpage);
-					mui.openWindow({
-						url: './home/qrCode.html',
-						id: 'qrCode.html'
-					});
 					//	plus.webview.show("./home/qrCode.html")
 					// defaultpage = "./home/qrCode.html";
+					var customerId = plus.storage.getItem('customerId');
+					if (customerId != null) {
+						mui.openWindow({
+							url: './passport/qrCode.html',
+							id: 'qrCode.html'
+						});
+					} else {
+						mui.openWindow({
+							url: './login/login.html',
+							id: 'login.html'
+						});
+					}
 				})
 
 			});

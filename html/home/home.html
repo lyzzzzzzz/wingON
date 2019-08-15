@@ -71,7 +71,7 @@
 			mui.init({
 				preloadPages: [{
 					id: 'detail.html',
-					url: './detail.html'
+					url: '../promotion/detail.html'
 				}],
 				keyEventBind: {
 					backbutton: false, //Boolean(默认true)关闭back按键监听
@@ -103,7 +103,7 @@
 					points.innerHTML = 'Login';
 
 					var pointsTips = document.getElementById('pointsTips');
-					pointsTips.innerHTML = 'Reward App';
+					pointsTips.innerHTML = 'WingOn Reward';
 				}
 
 				getNewsInfo();
@@ -119,13 +119,13 @@
 					}
 					
 					//触发详情页面的newsId事件
-					mui.fire(detailPage, 'newsId', {
+					mui.fire(detailPage, 'promotionId', {
 						id: id
 					});
 					//打开详情页面          
 					mui.openWindow({
 						id: 'detail.html',
-						url: './detail.html'
+						url: '../promotion/detail.html'
 					});
 				});
 
@@ -346,12 +346,12 @@
 
 				if (customerId != null) {
 					mui.openWindow({
-						url: './qrCode.html',
+						url: '../passport/qrCode.html',
 						id: 'qrCode.html'
 					});
 				} else {
 					mui.openWindow({
-						url: '..//login.html',
+						url: '../login/login.html',
 						id: 'login.html'
 					});
 				}
@@ -374,7 +374,7 @@
 
 			function toLocation() {
 				mui.openWindow({
-					url: './location.html',
+					url: '../setting/location.html',
 					id: 'location.html'
 				});
 			}
