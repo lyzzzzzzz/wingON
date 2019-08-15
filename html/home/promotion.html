@@ -33,6 +33,10 @@
 		<script src="../../js/mui.pullToRefresh.material.js"></script>
 		<script src="../../js/environment.js"></script>
 		<script type="text/javascript">
+			var page = 1; //当前页
+			var pageSize = 10; //每页显示条数  
+			var isOver = false; //是否加载完 
+
 			mui.init({
 				keyEventBind: {
 					backbutton: false, //Boolean(默认true)关闭back按键监听
@@ -42,23 +46,43 @@
 					container: '#content', //待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
 					up: {
 						height: 50, //可选.默认50.触发上拉加载拖动距离
-						auto: true, //可选,默认false.自动上拉加载一次
+						auto: false, //可选,默认false.自动上拉加载一次
 						contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
 						contentnomore: '没有更多数据了', //可选，请求完毕若没有更多数据时显示的提醒内容；
 						callback: pullupRefresh //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					},
+					down: {
+						height: 50,
+						auto: false,
+						contentdown: "下拉可以刷新", //可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
+						contentover: "释放立即刷新", //可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
+						contentrefresh: "正在刷新...", //可选，正在刷新状态时，下拉刷新控件上显示的标题内容
+						callback: function() { //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+							window.setTimeout(function() {
+
+								//刷新要先清空父节点里面的子节点
+								var f = document.getElementById("ul");
+								var childs = f.childNodes;
+								for (var i = childs.length - 1; i >= 0; i--) {
+									f.removeChild(childs[i]);
+								}
+								getPromotionInfo(1, 10, true)
+							}, 500);
+						}
+
+
 					}
 				}
-
-
-
 			})
+
+
 			mui.plusReady(function() {
 				//不显示滚动条
 				plus.webview.currentWebview().setStyle({
 					scrollIndicator: 'none'
 				});
 
-				// getPromotionInfo(1, 5);
+				getPromotionInfo(1, 10);
 
 				var detailPage = null;
 				//添加列表项的点击事件
@@ -81,11 +105,8 @@
 				});
 			})
 
-			var pageStart = 0; //开始数据条数 
-			var page = 1; //当前页
-			var pageSize = 10; //每页显示条数  
-			var isOver = false; //是否加载完 
-		
+
+
 
 			function pullupRefresh() {
 				setTimeout(function() {
@@ -96,7 +117,7 @@
 
 
 
-			function getPromotionInfo(pageNum, pageSize) {
+			function getPromotionInfo(pageNum, pageSize, isFresh) {
 				mui.ajax(baseUrl + '/promotion/list/' + pageNum + "/" + pageSize, {
 					data: {
 
@@ -107,9 +128,15 @@
 					dataType: 'json',
 					type: 'get',
 					success: function(result) {
+
 						if (result.code == 200) {
 							var data = result.data;
-							notifiULList(data.list);
+							if (isFresh) {
+								freshList(data.list);
+							} else {
+								notifiULList(data.list);
+							}
+
 						} else {
 							mui.toast(result.msg);
 						}
@@ -119,7 +146,6 @@
 			}
 
 			function notifiULList(data) {
-				//plus.nativeUI.closeWaiting();
 				var doc = document,
 					fragment = doc.createDocumentFragment(),
 					container = doc.getElementById("ul");
@@ -141,7 +167,7 @@
 						page++;
 						mui('#content').pullRefresh().endPullupToRefresh(true);
 						mui('#content').pullRefresh().enablePullupToRefresh();
-						// setTimeout(nextRefresh, 1000); //停止正在加载
+
 						//显示上拉加载文字
 					}
 					container.appendChild(fragment);
@@ -149,6 +175,31 @@
 					mui('#content').pullRefresh().endPullupToRefresh(true); //停止下拉显示暂无数据
 				}
 			}
+
+
+
+
+			function freshList(data) {
+				var doc = document,
+					fragment = doc.createDocumentFragment(),
+					container = doc.getElementById("ul");
+
+				if (data != []) {
+					//遍历数组
+					mui.each(data, function(i, item) {
+						notifiAndSetLiDetail(fragment, item);
+					});
+
+					container.appendChild(fragment);
+				}
+				mui('#content').pullRefresh().endPulldown();
+				page = 2; //当前页
+				pageSize = 10; //每页显示条数  
+				isOver = false;
+				mui('#content').pullRefresh().endPullupToRefresh(false);
+				pullupRefresh()
+			}
+
 
 
 			function notifiAndSetLiDetail(fragment, item) {
