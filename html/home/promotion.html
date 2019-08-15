@@ -29,6 +29,8 @@
 
 	<body>
 		<script src="../../js/mui.js"></script>
+		<script src="../../js/mui.pullToRefresh.js"></script>
+		<script src="../../js/mui.pullToRefresh.material.js"></script>
 		<script src="../../js/environment.js"></script>
 		<script type="text/javascript">
 			mui.init({
@@ -36,6 +38,19 @@
 					backbutton: false, //Boolean(默认true)关闭back按键监听
 					menubutton: false //Boolean(默认true)关闭menu按键监听
 				},
+				pullRefresh: {
+					container: '#content', //待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
+					up: {
+						height: 50, //可选.默认50.触发上拉加载拖动距离
+						auto: true, //可选,默认false.自动上拉加载一次
+						contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+						contentnomore: '没有更多数据了', //可选，请求完毕若没有更多数据时显示的提醒内容；
+						callback: pullupRefresh //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					}
+				}
+
+
+
 			})
 			mui.plusReady(function() {
 				//不显示滚动条
@@ -43,8 +58,8 @@
 					scrollIndicator: 'none'
 				});
 
-				getPromotionInfo(1,20);
-				
+				// getPromotionInfo(1, 5);
+
 				var detailPage = null;
 				//添加列表项的点击事件
 				mui(".mui-table-view").on('tap', 'li', function() {
@@ -65,11 +80,26 @@
 					});
 				});
 			})
-			
-			function getPromotionInfo(pageNum,pageSize) {
-				mui.ajax(baseUrl + '/promotion/list/' + pageNum + "/" + pageSize,  {
+
+			var pageStart = 0; //开始数据条数 
+			var page = 1; //当前页
+			var pageSize = 10; //每页显示条数  
+			var isOver = false; //是否加载完 
+		
+
+			function pullupRefresh() {
+				setTimeout(function() {
+					mui('#content').pullRefresh().endPullupToRefresh((isOver)); //参数为true代表没有更多数据了。
+					getPromotionInfo(page, pageSize)
+				}, 1500);
+			}
+
+
+
+			function getPromotionInfo(pageNum, pageSize) {
+				mui.ajax(baseUrl + '/promotion/list/' + pageNum + "/" + pageSize, {
 					data: {
-			
+
 					},
 					headers: {
 						'Accept-Language': "en",
@@ -83,7 +113,7 @@
 						} else {
 							mui.toast(result.msg);
 						}
-			
+
 					}
 				});
 			}
@@ -93,11 +123,31 @@
 				var doc = document,
 					fragment = doc.createDocumentFragment(),
 					container = doc.getElementById("ul");
-				//遍历数组
-				mui.each(data, function(i, item) {
-					notifiAndSetLiDetail(fragment, item);
-				});
-				container.appendChild(fragment);
+
+				if (data != []) {
+					//遍历数组
+					mui.each(data, function(i, item) {
+						notifiAndSetLiDetail(fragment, item);
+					});
+
+					//判断是否还有数据,若小于每次加载条数,结束  
+					if (data.length < pageSize) {
+						isOver = true;
+						mui('#content').pullRefresh().endPullupToRefresh(true); //停止下拉显示暂无数据
+					}
+
+					//每次加载结束之后，如果还有数据则++  
+					if (isOver == false) {
+						page++;
+						mui('#content').pullRefresh().endPullupToRefresh(true);
+						mui('#content').pullRefresh().enablePullupToRefresh();
+						// setTimeout(nextRefresh, 1000); //停止正在加载
+						//显示上拉加载文字
+					}
+					container.appendChild(fragment);
+				} else {
+					mui('#content').pullRefresh().endPullupToRefresh(true); //停止下拉显示暂无数据
+				}
 			}
 
 
@@ -128,7 +178,7 @@
 			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">Promotion</h1>
 		</header>
 
-		<div class="mui-content">
+		<div class="mui-content" id="content">
 			<ul class="mui-table-view" id="ul" style="width: 95%;"></ul>
 			<div style="height: 70px;width: 70px;position: fixed;bottom: -56px;left: calc(50% - 35px);background: #EE5B5B;border-radius: 50%;"></div>
 		</div>
