@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.css" rel="stylesheet" />
+		<style>
+			body,html{
+				height: 100%;
+				width: 100%;
+				touch-action: pan-y;
+				background-color:#FFFFFF;
+			}
+			.mui-content{
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				margin: auto;
+				background-color:#FFFFFF;
+				width: 90%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<script src="../../js/mui.js"></script>
+		<script src="../../js/JsBarcode.all.js"></script>
+		<script src="../../js/environment.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			//添加couponId自定义事件监听
+
+
+			var coupon = null;
+			mui.plusReady(function() {
+				mui('.mui-scroll-wrapper').scroll({
+					scrollY: true, //是否竖向滚动
+					scrollX: false, //是否横向滚动
+					startX: 0, //初始化时滚动至x
+					startY: 0, //初始化时滚动至y
+					indicators: false, //是否显示滚动条
+					deceleration: 0.0006, //阻尼系数,系数越小滑动越灵敏
+					// bounce: true //是否启用回弹
+				});
+
+				//不显示滚动条
+				plus.webview.currentWebview().setStyle({
+					scrollIndicator: 'none'
+				});
+
+				//获得传过来的ID
+				window.addEventListener('couponId', function(event) {
+					var id = event.detail.id;
+					getCouponInfo(id);
+				});
+			})
+			function getCouponInfo(couponId) {
+			
+				var url = baseUrl + 'coupon/general/info/' + couponId;
+				mui.ajax(url, {
+					data: {
+			
+					},
+					headers: {
+						'Accept-Language': "en",
+					},
+					dataType: 'json',
+					type: 'get',
+					timeout: 10000,
+					success: function(result) {
+						if (result.code == 200) {
+							var data = result.data;
+							coupon = data.data;
+							notifiUL(coupon);
+						} else {
+							mui.toast(result.msg);
+						}
+			
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast("error, type=" + type + " " + xhr);
+					}
+				});
+			}
+			function notifiUL(data) {
+				plus.nativeUI.closeWaiting();
+				
+				var title = document.getElementById('title')
+				title.innerHTML = data.titleEn
+				
+				var offerContent = document.getElementById('offerContent')
+				offerContent.innerHTML = data.descriptionEn
+				
+				var termsContent = document.getElementById('termsContent')
+				termsContent.innerHTML = data.tncEn
+				
+				var date = document.getElementById('date')
+				date.innerText = 'Expiry Date:' + data.endDate
+				
+				var img = document.getElementById("img")
+				img.setAttribute("src", data.image)
+				
+				var barcode = document.getElementById('barcode'),
+					str = data.barCode,
+					options = {
+						format: "CODE128",
+						displayValue: true,
+						fontSize: 18,
+						height: 90
+					};
+				JsBarcode(barcode, str, options); //原生
+			}
+		</script>
+		<header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow:0px 1px 5px #B6B6B6">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
+			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">e-Coupon</h1>
+		</header>
+		<div class="mui-content mui-scroll-wrapper" >
+
+				<div class="mui-scroll" style="margin-top: 3%;width: 100%;display: flex;flex-direction: column;justify-content: space-between;align-items: center;">
+					
+					<div>
+						<img id="img" style="width: 100%;" />
+						<div>
+							<span style="font-weight: bold;margin-top: 3%;" id="title"></span>
+						</div>
+						<div style="margin-top: 3%;">
+							<p id="offerContent" style="color: #080505;font-size: 15px;"></p>
+						</div>
+						<div style="margin-top: 10%;">
+							<span style="font-weight: bold;">Terms & Conditions:</span>
+						</div>
+						<div style="margin-top: 3%;" id="termsContent"></div>
+					</div>
+
+					<div style="display: flex;flex-direction: column;justify-content: center;align-items: center;margin-top: 20%;bottom: 0;">
+						<div style="margin-bottom: 5px;">
+							<span style="font-weight: bold;color: red;" id="date"></span>
+						</div>
+						<div class="box">
+							<img id="barcode" />
+						</div>
+					</div>
+
+				</div>
+			</div>
+	</body>
+
+</html>

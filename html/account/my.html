@@ -18,7 +18,7 @@
 					menubutton: false //Boolean(默认true)关闭menu按键监听
 				},
 				preloadPages: [{
-					url: './reward/redeemCoupon.html',
+					url: '../coupon/redeemCoupon.html',
 					id: 'redeemCoupon.html'
 				}],
 			})
@@ -60,7 +60,7 @@
 
 			function toSetting() {
 				mui.openWindow({
-					url: './homeSet.html',
+					url: '../home/homeSet.html',
 					id: 'setting.html'
 				});
 			}
@@ -80,7 +80,7 @@
 
 				if (customerId != null) {
 					mui.openWindow({
-						url: './reward/redeemCoupon.html',
+						url: '../coupon/redeemCoupon.html',
 						id: 'redeemCoupon.html'
 					});
 				} else {
@@ -96,7 +96,7 @@
 
 				if (customerId != null) {
 					mui.openWindow({
-						url: './personalMsg.html',
+						url: '../home/personalMsg.html',
 						id: 'personalMsg.html'
 					});
 				} else {

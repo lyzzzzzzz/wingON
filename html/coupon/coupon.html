@@ -75,14 +75,18 @@
 					menubutton: false //Boolean(默认true)关闭menu按键监听
 				},
 				preloadPages: [{
-					id: 'myCouponsDetail.html',
-					url: './reward/myCouponsDetail.html'
+					id: 'generalCouponInfo.html',
+					url: './generalCouponInfo.html'
+				},
+				{  
+				    id:'customerCouponInfo.html',  
+				    url:'./customerCouponInfo.html'
 				}],
 			})
 			mui.plusReady(function() {
 
 
-				var couponDetailPage = null;
+				var generalCouponInfo = null;
 				//添加列表项的点击事件
 				mui("#item2").on('tap', '.coupon', function() {
 					
@@ -90,18 +94,41 @@
 					var id = this.getAttribute("id")
 					
 					// 获得详情页面
-					if (!couponDetailPage) {
-						couponDetailPage = plus.webview.getWebviewById('myCouponsDetail.html')
+					if (!generalCouponInfo) {
+						generalCouponInfo = plus.webview.getWebviewById('generalCouponInfo.html')
 					}
 				
 					//触发详情页面的couponId事件
-					mui.fire(couponDetailPage, 'couponId', {
+					mui.fire(generalCouponInfo, 'couponId', {
 						id: id
 					});
 					//打开详情页面          
 					mui.openWindow({
-						id: 'myCouponsDetail.html',
-						url: './reward/myCouponsDetail.html'
+						id: 'generalCouponInfo.html',
+						url: './generalCouponInfo.html'
+					});
+				});
+				
+				var customerCouponInfo = null;
+				//添加列表项的点击事件
+				mui("#item1").on('tap', '.coupon', function() {
+					
+					//获取id
+					var id = this.getAttribute("rewardCouponId")
+					
+					// 获得详情页面
+					if (!customerCouponInfo) {
+						customerCouponInfo = plus.webview.getWebviewById('customerCouponInfo.html')
+					}
+				
+					//触发详情页面的couponId事件
+					mui.fire(customerCouponInfo, 'couponId', {
+						id: id
+					});
+					//打开详情页面          
+					mui.openWindow({
+						id: 'customerCouponInfo.html',
+						url: './customerCouponInfo.html'
 					});
 				});
 
@@ -236,15 +263,18 @@
 					img.setAttribute('src', item.image);
 					span1.innerText = item.title
 					p.innerHTML = 'Member Offer: ' + item.description;
-					span2.innerText = 'Expired date:' + item.expiryDate
+					span2.innerText = 'Expired date:' + item.expiryDate;
+					
+					div1.setAttribute('rewardCouponId', item.rewardCouponId);
+					div1.setAttribute('class', 'coupon');
 				} else {
 					img.setAttribute('src', item.image);
 					span1.innerText = item.titleEn
 					p.innerHTML = 'Member Offer: ' + item.descriptionEn;
 					span2.innerText = 'Expired date:' + item.endDate;
 					//设置id,以便把id传到详情页
-					div1.setAttribute('id', item.id)
-					div1.setAttribute('class', 'coupon')
+					div1.setAttribute('id', item.id);
+					div1.setAttribute('class', 'coupon');
 				}
 
 

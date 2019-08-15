@@ -33,7 +33,7 @@
 			mui.init({
 			  preloadPages:[{
 			    id:'terms.html',
-			    url:'./terms.html'           
+			    url:'../setting/terms.html'           
 			  }
 			  ]
 			});
@@ -57,7 +57,7 @@
 		
 			  function toNewPw() {
 				mui.openWindow({
-					url: './newPassword.html',
+					url: '../setting/newPassword.html',
 					id: 'newPassword.html'
 				});
 
@@ -65,13 +65,13 @@
 
 			function toLocation() {
 				mui.openWindow({
-					url: './location.html',
+					url: '../setting/location.html',
 					id: 'location.html'
 				});
 			}
 			function toAboutUs() {
 				mui.openWindow({
-					url: './aboutUs.html',
+					url: '../setting/aboutUs.html',
 					id: 'aboutUs.html'
 				});
 			}
@@ -79,7 +79,7 @@
 				plus.storage.removeItem('customerId');
 
 				mui.openWindow({
-					url: './home.html',
+					url: '../home/home.html',
 					id: 'home.html'
 				});
 			}
@@ -109,7 +109,7 @@
 					'valueUrl': plus.storage.getItem('privacy')
 				});
 				mui.openWindow({
-					url: './terms.html',
+					url: '../setting/terms.html',
 					id: 'terms.html'
 				});
 			}
@@ -123,7 +123,7 @@
 					'valueUrl': plus.storage.getItem('faq')
 				});
 				mui.openWindow({
-					url: './terms.html',
+					url: '../setting/terms.html',
 					id: 'terms.html'
 				});
 			
@@ -132,7 +132,7 @@
 			function toLanguage() {
 				// mui.openWindow('./language.html', 'language.html')
 				mui.openWindow({
-					url: './language.html',
+					url: '../setting/language.html',
 					id: 'language.html'
 				});
 			
