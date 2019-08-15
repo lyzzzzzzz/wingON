@@ -8,7 +8,7 @@
 		<link href="../../css/mui.css" rel="stylesheet" />
 		<style>
 			html,body{
-				height: 100%;
+				height: 90%;
 				width: 100%;
 				touch-action: pan-y;
 			}
@@ -19,17 +19,89 @@
 		<script src="../../js/mui.js"></script>
 		<script type="text/javascript">
 			mui.init()
+
+			mui.plusReady(function() {
+
+
+				//不显示滚动条
+				plus.webview.currentWebview().setStyle({
+					scrollIndicator: 'none'
+				});
+
+
+				var list = []
+				var obj = {
+					img: '../../HBuilder-Reward/app/src/res/drawable-xxhdpi/icon.png',
+					title: 'ePonit redeem',
+					date: '15/02/2019'
+				}
+				for (var i = 0; i < 5; i++) {
+					list.push(obj)
+				}
+				if (list.length > 0) {
+					notifiPromotionList(list);
+				}
+			})
+
+			function notifiPromotionList(data) {
+				var doc = document,
+					fragment = doc.createDocumentFragment(),
+					container = doc.getElementById("container");
+				//遍历数组
+				mui.each(data, function(i, item) {
+					var doc = document,
+						div1 = doc.createElement("div"),
+						div2 = doc.createElement("div"),
+						img = doc.createElement("img"),
+						span1 = doc.createElement("span"),
+						span2 = doc.createElement("span"),
+						div3 = doc.createElement("div");
+					div1.setAttribute('style', 'width: 100%;background:#FFFFFF;padding: 8px;padding-top: 0px;margin-bottom: 20px;')
+					div2.setAttribute('style',
+						'display: flex;flex-direction: row;justify-content: flex-start;align-items: center;border-bottom-width: 1px;border-bottom-style: solid;height: 50px;border-bottom-color: #E5E5E5;'
+					)
+					img.setAttribute('style', 'width: 25px;width: 25px;margin-right: 10px;')
+					img.setAttribute('src', item.img)
+					span1.innerText = item.title
+					div3.setAttribute('style',
+						'display: flex;flex-direction: column;justify-content: space-between;align-items: flex-start;border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #E5E5E5;padding-top: 20px;padding-bottom: 20px;margin-bottom: 10px;'
+					)
+					div3.innerHTML =
+						'<span style="display: block;padding-bottom: 20px;">ePonit redeem</span><span>ePonit redeem fsags egsegweg </span>'
+					span2.innerText = item.date
+					span2.setAttribute('style', 'color: #C1C1C3;')
+					div1.appendChild(div2);
+					div1.appendChild(div3);
+					div1.appendChild(span2);
+					div2.appendChild(img);
+					div2.appendChild(span1);
+					fragment.appendChild(div1);
+				});
+				container.appendChild(fragment);
+			}
 		</script>
-			<header class="mui-bar mui-bar-nav" style="background-color: red;">
+		<header class="mui-bar mui-bar-nav" style="background-color: red;">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>
 			<h1 class="mui-title" style="color: #FFFFFF;font-weight: bold;font-size: 20px;">Inbox Message</h1>
 		</header>
-		<div class="mui-content" style="height: 100%;margin: 5%;">
-		
-		   <div style="width: 100%;height: 20%;background:#FFFFFF"></div>
-		
+		<div class="mui-content" style="margin: 3%;" id="container">
+
+			<!-- <div style="width: 100%;background:#FFFFFF;padding: 8px;padding-top: 0px;margin-bottom: 20px;">
+				<div style="display: flex;flex-direction: row;justify-content: flex-start;align-items: center;border-bottom-width: 1px;border-bottom-style: solid;height: 50px;border-bottom-color: #E5E5E5;">
+					<img src="../../HBuilder-Reward/app/src/res/drawable-xxhdpi/icon.png" style="width: 25px;width: 25px;margin-right: 10px;" />
+					<span>ePonit redeem</span>
+				</div>
+
+				<div style="display: flex;flex-direction: column;justify-content: space-between;align-items: flex-start;border-bottom-width: 1px;border-bottom-style: solid;border-bottom-color: #E5E5E5;padding-top: 20px;padding-bottom: 20px;margin-bottom: 10px;">
+					<span style="display: block;padding-bottom: 20px;">ePonit redeem</span><span>ePonit redeem fsags egsegweg </span>
+				</div>
+
+				<span style="color: #C1C1C3;">15/02/2019</span>
+
+			</div> -->
+
 		</div>
-		
+
 	</body>
 
 </html>
