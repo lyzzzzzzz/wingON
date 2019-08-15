@@ -65,26 +65,50 @@
 				//获得传过来的ID
 				window.addEventListener('couponId', function(event) {
 					var id = event.detail.id;
-					console.log(id);
+					getCouponInfo(id);
 				});
-
-				//模拟数据
-				var obj = {
-					offerContent: 'Create uniform curly noodles from a variety of vegetables and fruits, includes coarse and fine spiralizer blades plus rotary grating blade，easy-to-use, self-aligning design keeps food',
-					termsContent: '<div><span style="font-weight: bold;">1.Special Discount on Seclected Regular-priced Items</span></div><div><span style="font-weight: bold;">2.Special Discount on Seclected Regular-priced Items</span></div><div><span style="font-weight: bold;">3.Special Discount on Seclected Regular-priced Items</span></div>',
-					date: '21/10/2019'
-				}
-
-
+			})
+			function getCouponInfo(couponId) {
+			
+				var url = baseUrl + 'coupon/general/info/' + couponId;
+				mui.ajax(url, {
+					data: {
+			
+					},
+					headers: {
+						'Accept-Language': "en",
+					},
+					dataType: 'json',
+					type: 'get',
+					timeout: 10000,
+					success: function(result) {
+						if (result.code == 200) {
+							var data = result.data;
+							coupon = data.data;
+							notifiUL(coupon);
+						} else {
+							mui.toast(result.msg);
+						}
+			
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.toast("error, type=" + type + " " + xhr);
+					}
+				});
+			}
+			function notifiUL(data) {
+				plus.nativeUI.closeWaiting();
+				
+				
 				var offerContent = document.getElementById('offerContent')
 				offerContent.innerText = 'Member Offer: ' + obj.offerContent
-
+				
 				var termsContent = document.getElementById('termsContent')
 				termsContent.innerHTML = obj.termsContent
-
+				
 				var date = document.getElementById('date')
 				date.innerText = 'Expiry Date:' + obj.date
-			})
+			}
 		</script>
 		<header class="mui-bar mui-bar-nav" style="background-color: red;box-shadow:0px 1px 5px #B6B6B6">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color: #FFFFFF;"></a>

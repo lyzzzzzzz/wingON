@@ -23,10 +23,12 @@
 		<script src="../../js/mui.js"></script>
 		<script src="../../js/mui.min.js"></script>
 		<script src="../../js/pointBalance.js"></script>
+		<script src="../../js/environment.js"></script>
 	</head>
 
 	<body>
 		<script type="text/javascript">
+			
 			mui.init();
 			mui.plusReady(function() {
 
@@ -41,26 +43,46 @@
 						plus.webview.currentWebview().close();
 					})
 
-				//模拟数据
-				var list = []
-				var obj = {
-					date: '15/07/2019 18:00',
-					content: 'Customer Service Adjustment',
-					epoint: '2,500'
-				}
-
-				for (var i = 0; i < 12; i++) {
-					list.push(obj)
-				}
-
-				if (list.length > 0) {
-					notifiPromotionList(list);
-				}
-
+				var customer = JSON.parse(plus.storage.getItem('customer'));
+				var balanceVo = JSON.parse(plus.storage.getItem('balanceVo'));
+				notifiUL(customer, balanceVo);
+				
+				getCustomerBalance(customer.id,1,100);
 			})
 
+			function notifiUL(customer, balanceVo) {
+				plus.nativeUI.closeWaiting();
+				var updateTime = document.getElementById('updateTime');
+				updateTime.innerText = balanceVo.updatedAt;
 
-			function notifiPromotionList(data) {
+				//drawProgressbar(balanceVo.balance, 5000);
+
+			}
+			
+			function getCustomerBalance(customerId, pageNum, pageSize) {
+			
+				mui.ajax(baseUrl + 'customer/transactionList/' + customerId + "/" + pageNum + "/" + pageSize, {
+					data: {
+			
+					},
+					headers: {
+						'Accept-Language': "en",
+						'Authentication': plus.storage.getItem('Authentication'),
+					},
+					dataType: 'json',
+					type: 'get',
+					success: function(result) {
+						if (result.code == 200) {
+							var data = result.data;
+							notifiULList(data.list);
+			
+						}
+			
+					}
+				});
+			}
+
+			function notifiULList(data) {
 				var doc = document,
 					fragment = doc.createDocumentFragment(),
 					container = doc.getElementById("card");
@@ -77,11 +99,13 @@
 						div2 = doc.createElement("div");
 					div1.setAttribute('style', 'display: flex;flex-direction: row;height: 80px;width: 100%;')
 					div2.setAttribute('style', 'display: flex;flex-direction: column;justify-content: space-around;flex: 1;')
-					p1.innerText = item.date
-					p2.innerText =item.content
+					p1.innerText = item.transactionDate
+					p2.innerText =item.shopName
+					p2.setAttribute('style', 'font-size: 16px;color: black;')
 					div3.setAttribute('style', 'flex: 0 0 120px;display: flex;justify-content: center;align-items: center;')
-					p3.setAttribute('style', 'font-size: 16px;color: red;')
-					p3.innerText = item.epoint + ' Points'
+					p3.setAttribute('style', 'font-size: 18px;color: red;')
+					var point = (item.pointAdjustment>0)?'+'+item.pointAdjustment:item.pointAdjustment;
+					p3.innerText = point + ' Points'
 					div4.setAttribute('style', 'width: 100%;height: 1px;background: #CCCCCC;')
 					div2.appendChild(p1)
 					div2.appendChild(p2)
@@ -111,7 +135,7 @@
 				returned transactions)</p>
 			<div style="display: flex;width: 100%;flex-direction: column;align-items: center;">
 				<canvas id="progressbar" width="180" height="180"></canvas>
-				<p style="font-size: 18px;margin-top: 5px;">Last Updated at <span>15/07/2019 18:00</span></p>
+				<p style="font-size: 18px;margin-top: 5px;">Last Updated at <span id="updateTime"></span></p>
 			</div>
 			<div class="mui-card" style="flex: 1;">
 				<div class="mui-card-content" style="padding: 10px;">
