@@ -77,11 +77,11 @@
 						div2 = doc.createElement("div");
 					div1.setAttribute('style', 'display: flex;flex-direction: row;height: 80px;width: 100%;')
 					div2.setAttribute('style', 'display: flex;flex-direction: column;justify-content: space-around;flex: 1;')
-					p1.innerText = '15/07/2019 17:50'
-					p2.innerText = 'Customer Service Adjustment'
+					p1.innerText = item.date
+					p2.innerText =item.content
 					div3.setAttribute('style', 'flex: 0 0 120px;display: flex;justify-content: center;align-items: center;')
 					p3.setAttribute('style', 'font-size: 16px;color: red;')
-					p3.innerText = '' + ' Points'
+					p3.innerText = item.epoint + ' Points'
 					div4.setAttribute('style', 'width: 100%;height: 1px;background: #CCCCCC;')
 					div2.appendChild(p1)
 					div2.appendChild(p2)
