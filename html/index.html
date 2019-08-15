@@ -177,12 +177,20 @@
 					// my.setAttribute('style', 'color: #FFFFFF;')
 					// my.children[0].setAttribute('src', '../img/toolbar_my.png')
 					// plus.webview.hide(defaultpage);
-					mui.openWindow({
-						url: './home/qrCode.html',
-						id: 'qrCode.html'
-					});
 					//	plus.webview.show("./home/qrCode.html")
 					// defaultpage = "./home/qrCode.html";
+					var customerId = plus.storage.getItem('customerId');
+					if (customerId != null) {
+						mui.openWindow({
+							url: './home/qrCode.html',
+							id: 'qrCode.html'
+						});
+					} else {
+						mui.openWindow({
+							url: './login/login.html',
+							id: 'login.html'
+						});
+					}
 				})
 
 			});

@@ -124,12 +124,13 @@
 
 				var customerId = plus.storage.getItem('customerId');
 				getGeneralCouponList(1, 20);
-				var loginTips = document.getElementById('loginTips');
 				if (customerId != null) {
 					getCustomerCouponList(customerId, 1, 20);
-					loginTips.innerHTML = "";
+					document.getElementById('divContent').classList.remove('mui-hidden');
+					document.getElementById('divLogin').classList.add('mui-hidden');
 				} else {
-					loginTips.innerHTML = "Login";
+					document.getElementById('divContent').classList.add('mui-hidden');
+					document.getElementById('divLogin').classList.remove('mui-hidden');
 				}
 
 			})
@@ -254,11 +255,24 @@
 				div2.appendChild(span1)
 				fragment.appendChild(div1)
 			}
+			
+			function toLogin() {
+				var customerId = plus.storage.getItem('customerId');
+				if (customerId == null)  {
+					mui.openWindow({
+						url: '../login/login.html',
+						id: 'login.html'
+					});
+				}
+			}
 		</script>
 		<header>
 			<h1 style="color: #FFFFFF;font-weight: bold;font-size: 20px;">Coupons</h1>
 		</header>
+
 		<div class="mui-content" style="background-color: #EFF0F5;">
+
+			<div id="divContent" class="mui-hidden">
 			<div class="mui-content-padded" style="background-color: #EFF0F5;">
 				<div class="mui-segmented-control">
 					<a class="mui-control-item mui-active" href="#item1">My Rewards</a>
@@ -266,23 +280,26 @@
 				</div>
 			</div>
 
-			<!-- 
-			<div class="mui-scroll-wrapper" style="margin-top: 130px;z-index: 1;background-color: #EFF0F5;" >
-				<div class="mui-scroll">
-					
-				</div>
-			</div>
-
- -->
 			<div class="mui-scroll-wrapper" style="margin-top: 130px;z-index: -1;background-color: #EFF0F5;">
 				<div class="mui-scroll">
 					<div id="item1" class="mui-control-content mui-active" style="width: 100%;">
-						<h1 style="color: #FF0000;font-weight: bold;font-size: 20px;" id="loginTips"></h1>
 					</div>
 					<div id="item2" class="mui-control-content"></div>
 				</div>
 			</div>
-
+			</div>
+			<!-- 未登录状态  -->
+			<div id="divLogin" class="mui-card mui-hidden" style="z-index: 10;margin: 220px 20px 20px 20px;border-radius: 20px;box-shadow: 0px 0px 0px #413D4A" onclick="toLogin()" >
+				<div style="height: 80px;width: 100%;display: flex;flex-direction: row;justify-content: center;align-items: center;">
+					<img src="../../img/nodata-search.png" style="width: 80px; height: 80px;border-radius: 80px;"/>
+				</div>
+				<div style="height: 80px;width: 100%;padding: 15px;display: flex;flex-direction: column;justify-content: center;align-items: center;">
+					<div style="flex: 1;padding: 15px;">
+						<span style="font-size: 20px;color: #6D6D72;font-weight: bold;">Login WingOn Reward</span>
+					</div>
+				</div>
+				</div>
+			</div>
 
 			<div style="height: 70px;width: 70px;position: fixed;bottom: -56px;left: calc(50% - 35px);background: #EE5B5B;border-radius: 50%;z-index: 20;"></div>
 		</div>
