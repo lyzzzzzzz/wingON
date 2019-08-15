@@ -45,7 +45,7 @@
 				flex-direction: column;
 				justify-content: space-around;
 				align-items: center;
-        width: 90%;
+        width: 80%;
 				/* 	height: 50%; */
         flex: 1;
 				background-color: #FFFFFF;
@@ -81,12 +81,18 @@
 // 					})
 // 
 // 
-        var $width = document.body.clientWidth * 0.6
-        var $height = document.body.clientHeight * 0.3
+			var customer = JSON.parse(plus.storage.getItem('customer'));
+			var barCode = customer.memberCode;
+			
+			var memberCode = document.getElementById('memberCode');
+			memberCode.innerHTML = barCode;
+			
+			var $width = document.body.clientWidth * 0.6
+			var $height = document.body.clientHeight * 0.3
         
 
 				var qrcode = new QRCode(document.getElementById("qrcode"), {
-					text: "测试二维码",
+					text: barCode,
 					width: $width,
 					height: $height,
 					colorDark: "#000000",
@@ -108,7 +114,7 @@
 				<div id="qrcode"></div>
 				<div style="text-align: center;">
 					<span style="color: #BBBBBB;font-weight: bold;">My MemberShip Number</span>
-					<span style="margin-top: 20px;display: block;font-weight: bold;">17724242785</span>
+					<span id="memberCode" style="margin-top: 20px;display: block;font-weight: bold;"></span>
 				</div>
 			</div>
 			<span style="margin-top: 30px;margin-bottom: 30px;color: #FFFFFF;">Scan to Pay and Redeem epoint</span>
